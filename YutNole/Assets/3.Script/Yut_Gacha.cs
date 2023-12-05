@@ -15,12 +15,9 @@ public class Yut_Gacha : MonoBehaviour
         Yut_ani = GetComponent<Animator>();
     }
 
-    private void Update()
+    public void Throwing()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
-            Yut_ani.SetTrigger(triggers[Random.Range(0, triggers.Length)]);
-        }
+        string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
+        Yut_ani.SetTrigger(triggers[Random.Range(0, triggers.Length)]);
     }
 }
