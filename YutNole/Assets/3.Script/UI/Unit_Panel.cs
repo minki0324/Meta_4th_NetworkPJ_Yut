@@ -29,4 +29,12 @@ public class Unit_Panel : MonoBehaviour
             obj.transform.GetChild(1).gameObject.SetActive(false);      //골인 비활성화
         }
     }
+
+    private void Update()
+    {
+        
+    }
+
+    
+
 }
