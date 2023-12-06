@@ -14,12 +14,7 @@ public class Canvas_Net : MonoBehaviour
     private Slider P2_Timer_slider;
 
 
-    //던진 결과 
-    [SerializeField]
-    private Image[] Result_imgs;
 
-    [SerializeField]
-    private Sprite[] Result_sprites;
 
 
     //플레이어 말
@@ -29,22 +24,50 @@ public class Canvas_Net : MonoBehaviour
     [SerializeField]
     private GameObject[] P2_Unit;
 
-
-    private void Awake()
-    {
-    
-    }
+    //기타
+    public float ThrowTime = 0f;
+    public float SliderSpeed = 1f;
 
     private void Start()
     {
+        Init();
 
-      
+        StartCoroutine(Throw_Timer());
     }
-  
-    
-   
+
+    private void Init()
+    {
+        P1_Timer_slider.GetComponent<Slider>();
+        P2_Timer_slider.GetComponent<Slider>();
+    }
 
 
+    public IEnumerator Throw_Timer()
+    {
+
+        //턴이 1p면 조건달기
+        P1_Timer_slider.value = 0;
+
+        //턴이 2p면 조건달기
+        P2_Timer_slider.value = 0;
+
+        while (true)
+        {
+            //턴이 1p면 조건달기
+            P1_Timer_slider.value += SliderSpeed;
+
+            //턴이 2p면 조건달기
+            P2_Timer_slider.value += SliderSpeed;
+
+            if (ThrowTime > 10)
+            {
+                break;
+            }
+
+            yield return new WaitForSeconds(SliderSpeed);
+        }
+ 
+    }
 
 }
     
