@@ -34,7 +34,7 @@ public class PlayingYut : MonoBehaviour, IStateYutResult
     public int currentIndex = 0; // Button 인덱스
     public int resultIndex = 0; // 버튼 위치할 인덱스
     public List<int> yutResultIndex = new List<int>(); // yut 결과에 대한 숫자, 이동 버튼 클릭 시 Remove
-    private int[] yutArray = { 11, 12, 13, 14, 14, -1, 0 }; // 도 개 걸 윷 모 빽도 낙
+    private int[] yutArray = { 1, 2, 3, 4, 4, -1, 0 }; // 도 개 걸 윷 모 빽도 낙
 
     // 윷 결과 가져오기
     private Yut_Gacha yutGacha;
