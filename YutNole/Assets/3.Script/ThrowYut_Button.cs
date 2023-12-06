@@ -20,39 +20,35 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
      */
     [SerializeField] private Yut_Gacha Yut_Ani;
 
-    bool isMouseOn;
+
+    bool isAbleTo_Throw;
 
     void Start()
     {
+  
         ThrowYut_Btn.GetComponent<Button>();
       
-
-
         ThrowYut_Btn.onClick.AddListener(ThrowYut_Btn_Clicked);
         ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[0];
     }
 
 
-    private void Update()
-    {
-        if(!Yut_Ani.playerState.hasChance)
-        {
-            ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[0];
-            ThrowYut_Btn.enabled = false;
-        }
-       
-    }
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[2];
+        if(isAbleTo_Throw)
+        {
+            ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[2];
+        }
 
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[1];
+        if (isAbleTo_Throw)
+        {
+            ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[1];
+        }         
 
     }
 
@@ -62,6 +58,20 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[3];
         Yut_Ani.Throwing();
+
+        if (!GameManager.instance.playerState.hasChance)
+        {
+            //윷던지기 버튼 비활성화
+            ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[0];
+            ThrowYut_Btn.enabled = false;
+            isAbleTo_Throw = false;
+        }
+        else
+        {
+            ThrowYut_Btn.enabled = true;
+            isAbleTo_Throw = true;
+     
+        }
 
     }
 
