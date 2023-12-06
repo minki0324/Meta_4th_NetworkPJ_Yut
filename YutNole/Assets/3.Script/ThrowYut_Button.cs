@@ -35,7 +35,12 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private void Update()
     {
-
+        if(!Yut_Ani.playerState.hasChance)
+        {
+            ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[0];
+            ThrowYut_Btn.enabled = false;
+        }
+       
     }
 
 
@@ -59,5 +64,7 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
         Yut_Ani.Throwing();
 
     }
+
+    
 
 }

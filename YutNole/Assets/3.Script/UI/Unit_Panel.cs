@@ -19,15 +19,24 @@ public class Unit_Panel : MonoBehaviour
     {
         foreach (GameObject obj in P1_Unit)
         {
-            obj.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);      //return 버튼 비활성화
+            obj.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);      //return 버튼 비활성화
             obj.transform.GetChild(1).gameObject.SetActive(false);      //골인 비활성화
+
+            GameObject btn = obj.transform.GetChild(0).gameObject;
+            obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Character_Clicked(ref btn); });
+         
         }
 
         foreach (GameObject obj in P2_Unit)
         {
-            obj.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);      //return 버튼 비활성화
+            obj.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);      //return 버튼 비활성화
             obj.transform.GetChild(1).gameObject.SetActive(false);      //골인 비활성화
         }
+
+        //for(int i = 0; i<P1_Unit.Length; i++)
+        //{
+        //    P1_Unit[i].transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Character_Clicked(ref P1_Unit[i]);});
+        //}
     }
 
     private void Update()
@@ -35,6 +44,24 @@ public class Unit_Panel : MonoBehaviour
         
     }
 
+
+    public void asdf()
+    {
+        Debug.Log("zzzzz");
+    }
+    public void Character_Clicked(ref GameObject btn)
+    {
+        Debug.Log("ㅋㅎㅎ");
+
+        btn.SetActive(false);
+
+    }
+
+    public void Check_Goal()
+    {
+        //골인한경우
+
+    }
     
 
 }

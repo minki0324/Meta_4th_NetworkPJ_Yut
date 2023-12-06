@@ -100,33 +100,36 @@ public class Result_Panel : MonoBehaviour
 
     public void Throw_Result(ref Image img)
     {
-      
-            switch (yutGacha.ThrowResult)
-            {
-                case "Do":
-                    img.sprite = Result_sprites[0];
-                    break;
 
-                case "Gae":
-                    img.sprite = Result_sprites[1];
-                    break;
+        switch (yutGacha.ThrowResult)
+        {
 
-                case "Geol":
-                    img.sprite = Result_sprites[2];
-                    break;
+            case "Backdo":
+                img.sprite = Result_sprites[0];
+                break;
 
-                case "Yut":
-                    img.sprite = Result_sprites[3];
-                    break;
+            case "Do":
+                img.sprite = Result_sprites[1];
+                break;
 
-                case "Mo":
-                    img.sprite = Result_sprites[4];
-                    break;
+            case "Gae":
+                img.sprite = Result_sprites[2];
+                break;
 
-                case "Nack":
-                    break;
-            }
-      
+            case "Geol":
+                img.sprite = Result_sprites[3];
+                break;
+
+            case "Yut":
+                img.sprite = Result_sprites[4];
+                break;
+
+            case "Mo":
+                img.sprite = Result_sprites[5];
+                break;
+
+        }
+
 
     }
 }
