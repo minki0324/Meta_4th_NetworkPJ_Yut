@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Transform playerPos;
-    [SerializeField] private Transform currentPos;
+    [SerializeField] private Transform currentPos; // canvas에 붙어있는 말을 눌렀을 때 설정 필요... todo
     [SerializeField] private Transform targetPos;
     private Animator playerAni;
 
@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        PlayerMove();
+        // PlayerMove();
     }
 
     private void PlayerStart()
