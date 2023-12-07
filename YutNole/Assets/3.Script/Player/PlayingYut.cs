@@ -27,10 +27,11 @@ public class PlayingYut : MonoBehaviour
     public Transform[] playerArray; // player가 해당하는 pos array
     public RectTransform[] yutButton; // 도, 개, 걸, 윷, 모, 빽도 버튼
 
-    [SerializeField] private GameObject player; // 자신의 말, 4개 예정
+    // UI에서 버튼 선택할 때 달라질 예정
+    [SerializeField] private GameObject player; // 자신의 말, 4개 넣을 예정
     // 캐릭터마다 붙어있는 버튼
-    public GameObject charcterButton; // character
-    public GameObject returnButton; // return
+    public GameObject charcterButton; // character, 4개 예정
+    public GameObject returnButton; // return, 4개 예정
 
     public int currentIndex = 0; // Button 위치 시킬 기준 인덱스, player 포지션과 동일해야 함
     public int resultIndex = 0; // 버튼 위치할 인덱스

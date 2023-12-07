@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        Time.timeScale = 3; // 나중에 삭제, 빨리감기 용도
         playingYut = FindObjectOfType<PlayingYut>();
         // UI Player 선택했을 때로 나중에 이동
         playerArray = playingYut.pos1;
