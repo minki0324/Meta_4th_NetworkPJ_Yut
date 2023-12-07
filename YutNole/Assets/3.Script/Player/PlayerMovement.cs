@@ -4,45 +4,68 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Transform playerPos;
-    [SerializeField] private Transform currentPos;
-    [SerializeField] private Transform targetPos;
-    private Animator playerAni;
+    private PlayingYut playingYut;
 
-    public float speed = 0;
+    public Transform startPos; // 임시 start
+
+    public Transform[] playerArray; // player가 해당하는 pos array
+    public int currentIndex = 0; // player 현재 index
+    public int targetIndex = 0; // 버튼 클릭 시 이동할 index
+    public Transform targetPos; // 버튼 클릭 시 이동할 위치
+
+    public float speed = 2f;
 
     private void Awake()
     {
-        TryGetComponent(out playerAni);
-        TryGetComponent(out playerPos);
-        PlayerStart();
+        Time.timeScale = 3;
+        playingYut = FindObjectOfType<PlayingYut>();
+        // UI Player 선택했을 때로 나중에 이동
+        playerArray = playingYut.pos1;
+        playingYut.playerArray = playerArray;
     }
 
-    private void Update()
+    public void PlayerMove()
     {
-        PlayerMove();
+        transform.position = playerArray[currentIndex].position; // 플레이어 현재 포지션
+        targetIndex = playingYut.currentIndex; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
+        if (targetIndex >= playerArray.Length) // 현재 인덱스가 target Index보다 작으면 Backdo 아니면 기본
+        { // Goal
+            targetIndex = playerArray.Length - 1;
+        }
+        targetPos = playerArray[targetIndex];
+
+        StartCoroutine(Move_Co());
+
+        playerArray = playingYut.playerArray;
+        currentIndex = targetIndex;
+        if (targetIndex >= playerArray.Length)
+        {
+            playingYut.GoalButtonClick();
+        }
     }
 
-    private void PlayerStart()
+    private IEnumerator Move_Co()
     {
-        // Player가 판에 없을 때 포지션 지정, 말 생성은 UI에서 해야할 듯
-        playerPos.position = currentPos.position;
-    }
+        if (currentIndex > targetIndex)
+        { // Backdo
+            targetIndex = currentIndex - targetIndex;
+            Debug.Log("Backdoindex: " + targetIndex);
+        }
 
-    private void PlayerMove()
-    {
-        // Player가 판에 있을 때 포지션 지정
-        playerPos.position = Vector3.MoveTowards(playerPos.position, targetPos.position, Time.deltaTime * speed);
-    }
+        for (int i = currentIndex; i <= targetIndex; i++)
+        {
+            targetPos = playerArray[i];
+            while (transform.position != targetPos.position)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
+                yield return null;
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
 
-    private void PlayerCatch()
-    {
-        // Player가 다른 Player 위치에 도착했을 때
-    }
-
-    private void PlayerFinish()
-    {
-        // Player가 골인 시
-        gameObject.SetActive(false);
+        if (playingYut.yutGacha.isChance)
+        {
+            playingYut.playerButton[0].SetActive(true);
+        }
     }
 }
