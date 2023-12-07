@@ -32,10 +32,6 @@ public class ServerChecker : MonoBehaviour
 {
     public static ServerChecker instance;
 
-
-
-
-
     public Type type;
 
     private NetworkManager manager;
@@ -79,7 +75,7 @@ public class ServerChecker : MonoBehaviour
     {
       
         List<Item> item = new List<Item>();
-        item.Add(new Item("1", "15.164.233.124", "7777"));
+        item.Add(new Item("2", "13.124.124.144", "7777"));
 
         JsonData data = JsonMapper.ToJson(item);
         File.WriteAllText(path + "/License.json", data.ToString());
@@ -114,7 +110,6 @@ public class ServerChecker : MonoBehaviour
 
     private void Start()
     {
-       
         if (type.Equals(Type.Empty))
         {
             Debug.Log("타입없음 오류");
@@ -151,7 +146,7 @@ public class ServerChecker : MonoBehaviour
 
     public void Start_Client()
     {
-        manager.StartClient();
+        Room_Manager.singleton.StartClient();
         Debug.Log($"{manager.networkAddress} : Startclient...");
     }
 

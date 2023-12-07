@@ -5,15 +5,8 @@ using Mirror;
 
 public class Room_Player : NetworkRoomPlayer
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.Start();
     }
 }
