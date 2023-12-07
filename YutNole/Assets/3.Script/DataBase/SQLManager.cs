@@ -22,6 +22,33 @@ public class user_info
     }
 }
 
+public class server_info
+{
+    /*
+     string serverInfo =
+            $"server = {itemdata[0]["IP"]};" + $"" +
+            $" Database = {itemdata[0]["TableName"]};" +
+            $" Uid = {itemdata[0]["ID"]};" +
+            $" Pwd = {itemdata[0]["PW"]};" +
+            $" Port = {itemdata[0]["PORT"]};" +
+            $" CharSet=utf8;";
+    */
+    public string IP { get; private set; }
+    public string TableName { get; private set; }
+    public string ID { get; private set; }
+    public string PW { get; private set; }
+    public string PORT { get; private set; }
+
+    public server_info(string ip, string tableName, string id, string pw, string port)
+    {
+        IP = ip;
+        TableName = tableName;
+        ID = id;
+        PW = pw;
+        PORT = port;
+    }
+}
+
 
 public class SQLManager : MonoBehaviour
 {
@@ -66,12 +93,28 @@ public class SQLManager : MonoBehaviour
         }
     }
 
+    private void Default_Data(string path)
+    {
+
+        List<server_info> userInfo = new List<server_info>();
+        userInfo.Add(new server_info("13.124.124.144", "programming", "root", "1234", "3306"));
+
+        JsonData data = JsonMapper.ToJson(userInfo);
+        File.WriteAllText(path + "/config.json", data.ToString());
+    }
+
     private string Serverset(string path)
     {
-        if (!File.Exists(path)) // 그경로에 파일이 있나요?
+        if (!File.Exists(path)) // 경로가 있나요?
         {
             Directory.CreateDirectory(path);
         }
+
+        if (!File.Exists(path + "/config.json"))  // 파일이 있나요?
+        {
+            Default_Data(path);
+        }
+        
         string Jsonstring = File.ReadAllText(path + "/config.json");
 
         JsonData itemdata = JsonMapper.ToObject(Jsonstring);
@@ -117,6 +160,7 @@ public class SQLManager : MonoBehaviour
                 // 중복된 아이디 또는 닉네임이 있으면 가입 실패
                 return false;
             }
+
             string SQL_command =
                 string.Format(@"INSERT INTO user_info VALUE('{0}','{1}','{2}');", id, password ,nickname);
 
@@ -138,8 +182,8 @@ public class SQLManager : MonoBehaviour
         catch (Exception e)
         {
             if (!reader.IsClosed) reader.Close();
-            return false;
             Debug.Log(e.Message);
+            return false;
         }
     }
     private bool IsIdOrNicknameDuplicate(string id, string nickname)

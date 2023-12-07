@@ -125,11 +125,6 @@ public class ServerChecker : MonoBehaviour
         {
             Start_Server();
         }
-        else
-        {
-            Start_Client();
-        }
-
     }
 
     public void Start_Server()

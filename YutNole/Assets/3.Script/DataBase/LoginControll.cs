@@ -24,8 +24,6 @@ public class LoginControll : MonoBehaviour
             //로그인 성공
             user_info info = SQLManager.instance.info;
             Debug.Log(info.User_ID + " ㅣ " + info.User_Password +" l " + info.User_name);
-            SceneManager.LoadScene("Minjun");
-
         }
         else
         {
