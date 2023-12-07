@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform targetPos; // 버튼 클릭 시 이동할 위치
 
     public float speed = 2f;
+    public bool isBackdo = false;
 
     private void Awake()
     {
@@ -40,21 +41,34 @@ public class PlayerMovement : MonoBehaviour
         currentIndex = targetIndex;
         if (targetIndex >= playerArray.Length)
         {
+            Debug.Log("Goal");
             playingYut.GoalButtonClick();
         }
     }
 
     private IEnumerator Move_Co()
     {
+        int maxIndex = 0;
         if (currentIndex > targetIndex)
         { // Backdo
-            targetIndex = currentIndex - targetIndex;
+            isBackdo = true;
+            maxIndex = currentIndex + 1;
             Debug.Log("Backdoindex: " + targetIndex);
+        } else
+        {
+            maxIndex = targetIndex;
         }
 
-        for (int i = currentIndex; i <= targetIndex; i++)
+        for (int i = currentIndex; i <= maxIndex; i++)
         {
-            targetPos = playerArray[i];
+            if (isBackdo)
+            {
+                targetPos = playerArray[currentIndex - 1];
+                isBackdo = false;
+            } else
+            {
+                targetPos = playerArray[i];
+            }
             while (transform.position != targetPos.position)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
