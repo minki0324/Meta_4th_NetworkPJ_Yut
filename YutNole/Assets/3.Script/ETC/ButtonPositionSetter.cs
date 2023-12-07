@@ -16,6 +16,12 @@ public class ButtonPositionSetter : MonoBehaviour
     {
         TryGetComponent(out buttonTrans);
         buttonName = gameObject.name;
+        gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        SetUp(buttonName);
     }
 
     public void SetUp(string buttonName)

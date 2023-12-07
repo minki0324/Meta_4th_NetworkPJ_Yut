@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 3;
         playingYut = FindObjectOfType<PlayingYut>();
         // UI Player 선택했을 때로 나중에 이동
         playerArray = playingYut.pos1;
@@ -25,28 +26,33 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerMove()
     {
-        transform.position = playerArray[currentIndex].position;
-        targetIndex = playingYut.currentIndex + 1;
+        transform.position = playerArray[currentIndex].position; // 플레이어 현재 포지션
+        targetIndex = playingYut.currentIndex; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
+        if (targetIndex >= playerArray.Length) // 현재 인덱스가 target Index보다 작으면 Backdo 아니면 기본
+        { // Goal
+            targetIndex = playerArray.Length - 1;
+        }
         targetPos = playerArray[targetIndex];
-        StartCoroutine(Move_Co());
-        currentIndex += targetIndex;
 
-        // 버튼 누른 후
-        switch (currentIndex)
-        { // 현재 위치 확인 후 배열 바꿔주기
-            case 5:
-            case 10:
-            case 22:
-                playingYut.TurnPosition(playerArray, currentIndex);
-                playerArray = playingYut.playerArray;
-                playingYut.currentIndex = this.currentIndex;
-                break;
+        StartCoroutine(Move_Co());
+
+        playerArray = playingYut.playerArray;
+        currentIndex = targetIndex;
+        if (targetIndex >= playerArray.Length)
+        {
+            playingYut.GoalButtonClick();
         }
     }
 
     private IEnumerator Move_Co()
     {
-        for (int i = currentIndex; i < targetIndex; i++)
+        if (currentIndex > targetIndex)
+        { // Backdo
+            targetIndex = currentIndex - targetIndex;
+            Debug.Log("Backdoindex: " + targetIndex);
+        }
+
+        for (int i = currentIndex; i <= targetIndex; i++)
         {
             targetPos = playerArray[i];
             while (transform.position != targetPos.position)
@@ -55,6 +61,11 @@ public class PlayerMovement : MonoBehaviour
                 yield return null;
             }
             yield return new WaitForSeconds(0.2f);
+        }
+
+        if (playingYut.yutGacha.isChance)
+        {
+            playingYut.playerButton[0].SetActive(true);
         }
     }
 }

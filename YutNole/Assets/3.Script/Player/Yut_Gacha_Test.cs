@@ -12,19 +12,19 @@ public class Yut_Gacha_Test : MonoBehaviour
 
     public string ThrowResult;
 
-    public PlayerStates playerState;
+    public bool isChance;
 
     [SerializeField] Result_Panel resultPanel;
 
     private void Awake()
     {
         Yut_ani = GetComponent<Animator>();
-        playerState.hasChance = true;
+        isChance = true;
     }
 
     public void Throwing()
     {
-        if (playerState.hasChance)
+        if (isChance)
         {
             string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
             //string[] triggers = { "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
@@ -35,10 +35,10 @@ public class Yut_Gacha_Test : MonoBehaviour
 
             if (ThrowResult.Equals("Yut") || ThrowResult.Equals("Mo"))
             {
-                playerState.hasChance = false;
+                isChance = true;
             } else
             {
-                playerState.hasChance = true;
+                isChance = false;
             }
 
             resultPanel.Set_Result();
@@ -46,5 +46,11 @@ public class Yut_Gacha_Test : MonoBehaviour
 
         }
 
+    }
+
+    public void MyTurnButton()
+    {
+        Debug.Log("MyTurn");
+        isChance = true;
     }
 }

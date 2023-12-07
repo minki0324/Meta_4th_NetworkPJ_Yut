@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ThrowYut_Button : MonoBehaviour/*, IPointerEnterHandler, IPointerExitHandler*/
 {
     [SerializeField]
     private Button ThrowYut_Btn;
