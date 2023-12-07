@@ -4,45 +4,57 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Transform playerPos;
-    [SerializeField] private Transform currentPos;
-    [SerializeField] private Transform targetPos;
-    private Animator playerAni;
+    private PlayingYut playingYut;
 
-    public float speed = 0;
+    public Transform startPos; // 임시 start
+
+    public Transform[] playerArray; // player가 해당하는 pos array
+    public int currentIndex = 0; // player 현재 index
+    public int targetIndex = 0; // 버튼 클릭 시 이동할 index
+    public Transform targetPos; // 버튼 클릭 시 이동할 위치
+
+    public float speed = 2f;
 
     private void Awake()
     {
-        TryGetComponent(out playerAni);
-        TryGetComponent(out playerPos);
-        PlayerStart();
+        playingYut = FindObjectOfType<PlayingYut>();
+        // UI Player 선택했을 때로 나중에 이동
+        playerArray = playingYut.pos1;
+        playingYut.playerArray = playerArray;
     }
 
-    private void Update()
+    public void PlayerMove()
     {
-        PlayerMove();
+        transform.position = playerArray[currentIndex].position;
+        targetIndex = playingYut.currentIndex + 1;
+        targetPos = playerArray[targetIndex];
+        StartCoroutine(Move_Co());
+        currentIndex += targetIndex;
+
+        // 버튼 누른 후
+        switch (currentIndex)
+        { // 현재 위치 확인 후 배열 바꿔주기
+            case 5:
+            case 10:
+            case 22:
+                playingYut.TurnPosition(playerArray, currentIndex);
+                playerArray = playingYut.playerArray;
+                playingYut.currentIndex = this.currentIndex;
+                break;
+        }
     }
 
-    private void PlayerStart()
+    private IEnumerator Move_Co()
     {
-        // Player가 판에 없을 때 포지션 지정, 말 생성은 UI에서 해야할 듯
-        playerPos.position = currentPos.position;
-    }
-
-    private void PlayerMove()
-    {
-        // Player가 판에 있을 때 포지션 지정
-        playerPos.position = Vector3.MoveTowards(playerPos.position, targetPos.position, Time.deltaTime * speed);
-    }
-
-    private void PlayerCatch()
-    {
-        // Player가 다른 Player 위치에 도착했을 때
-    }
-
-    private void PlayerFinish()
-    {
-        // Player가 골인 시
-        gameObject.SetActive(false);
+        for (int i = currentIndex; i < targetIndex; i++)
+        {
+            targetPos = playerArray[i];
+            while (transform.position != targetPos.position)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
+                yield return null;
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }
