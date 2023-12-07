@@ -34,38 +34,68 @@ public class PlayerMovement : MonoBehaviour
         }
         targetPos = playerArray[targetIndex];
 
-        StartCoroutine(Move_Co());
-
         playerArray = playingYut.playerArray;
         currentIndex = targetIndex;
+
+
         if (targetIndex >= playerArray.Length)
         {
+            Debug.Log("일루 들어와죵..!");
+            targetPos = playerArray[playerArray.Length - 1];
             playingYut.GoalButtonClick();
+            
         }
+        StartCoroutine(Move_Co());
+
+
     }
 
-    private IEnumerator Move_Co()
+    public IEnumerator Move_Co()
     {
-        if (currentIndex > targetIndex)
-        { // Backdo
-            targetIndex = currentIndex - targetIndex;
-            Debug.Log("Backdoindex: " + targetIndex);
-        }
-
-        for (int i = currentIndex; i <= targetIndex; i++)
+        if (targetIndex >= playerArray.Length)
         {
-            targetPos = playerArray[i];
-            while (transform.position != targetPos.position)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
-                yield return null;
-            }
             yield return new WaitForSeconds(0.2f);
+            gameObject.SetActive(false);
+
+            for (int i = currentIndex; i <= targetIndex; i++)
+            {
+                targetPos = playerArray[i];
+                while (transform.position != targetPos.position)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
+                    yield return null;
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+            //player.SetActive(false);
+            //goalButton.SetActive(false);
+        }
+        else
+        {
+            if (currentIndex > targetIndex)
+            { // Backdo
+                targetIndex = currentIndex - targetIndex;
+                Debug.Log("Backdoindex: " + targetIndex);
+            }
+
+            for (int i = currentIndex; i <= targetIndex; i++)
+            {
+                targetPos = playerArray[i];
+                while (transform.position != targetPos.position)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
+                    yield return null;
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            if (playingYut.yutGacha.isChance)
+            {
+                playingYut.playerButton[0].SetActive(true);
+            }
         }
 
-        if (playingYut.yutGacha.isChance)
-        {
-            playingYut.playerButton[0].SetActive(true);
-        }
     }
+
+
 }

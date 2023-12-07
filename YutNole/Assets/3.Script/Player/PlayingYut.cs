@@ -43,8 +43,11 @@ public class PlayingYut : MonoBehaviour
 
     public GameObject goalButton; // goal button, resultIndex보다 클 때
 
+    [SerializeField] private PlayerMovement playerMovement;
+
     private void Awake()
     {
+        playerMovement = FindObjectOfType<PlayerMovement>();    //나중에 다른방법으로 참조하기
         yutGacha = FindObjectOfType<Yut_Gacha_Test>(); // 나중에 Yut_Gacha로 바꿔주기
         playerArray = pos1;
     }
@@ -134,11 +137,14 @@ public class PlayingYut : MonoBehaviour
 
     public void GoalButtonClick()
     {
+        Debug.Log("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ");
         // Goal Count++
         PositionOut();
         playerButton[0].SetActive(false);
-        playerButton[1].SetActive(false);
-        StartCoroutine(Goal_Co());
+       playerButton[1].SetActive(false);
+        StartCoroutine(playerMovement.Move_Co());
+        goalButton.SetActive(false);
+        // StartCoroutine(Goal_Co());
     }
 
     private IEnumerator Goal_Co()
@@ -180,7 +186,8 @@ public class PlayingYut : MonoBehaviour
             {
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[resultIndex].transform.position);
                 yutButton[(int)yutType].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정, Backdo = 5
-            } else if (playerArray.Length == resultIndex)
+            } 
+            else if (playerArray.Length == resultIndex)
             {
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[0].transform.position);
                 yutButton[(int)yutType].transform.position = screen;
