@@ -37,13 +37,13 @@ public class PlayingYut : MonoBehaviour, IStateYutResult
     private int[] yutArray = { 1, 2, 3, 4, 4, -1, 0 }; // 도 개 걸 윷 모 빽도 낙
 
     // 윷 결과 가져오기
-    private Yut_Gacha yutGacha;
+    private Yut_Gacha_Test yutGacha; // 나중에 Yut_Gacha로 바꿔주기
     public string yutResult;
     public YutState type;
 
     private void Awake()
     {
-        yutGacha = FindObjectOfType<Yut_Gacha>();
+        yutGacha = FindObjectOfType<Yut_Gacha_Test>(); // 나중에 Yut_Gacha로 바꿔주기
         playerArray = pos1;
     }
     
@@ -53,8 +53,17 @@ public class PlayingYut : MonoBehaviour, IStateYutResult
         type = (YutState)Enum.Parse(typeof(YutState), yutResult);
         yutResultIndex.Add(yutArray[(int)type]); // yutResult에 따라 List에 이동할 만큼의 숫자 추가
 
-        Vector3 screen = Camera.main.WorldToScreenPoint(player.transform.position);
-        playerButton[0].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
+        for (int i = 0; i < yutResultIndex.Count; i++)
+        {
+            Debug.Log($"YutResultIndex  : {yutResultIndex[i]}");
+        }
+
+        if (!yutResult.Equals("Nack"))
+        {
+            Vector3 screen = Camera.main.WorldToScreenPoint(player.transform.position);
+            playerButton[0].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
+            playerButton[0].gameObject.SetActive(true);
+        }
     }
 
     private void YutButtonPosition()
@@ -101,8 +110,11 @@ public class PlayingYut : MonoBehaviour, IStateYutResult
         GameObject btn = yutButton[(int)yutName].gameObject;
         Vector3 screen = Camera.main.WorldToScreenPoint(btn.transform.parent.position); // Canvas 밖으로
         btn.transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
-
         yutResultIndex.Remove(yutArray[(int)type]); // 리스트 삭제
+        for (int i = 0; i < yutResultIndex.Count; i++)
+        {
+            Debug.Log($"YutResultIndex Remove : {yutResultIndex[i]}");
+        }
         currentIndex += yutArray[(int)type]; // 현재 인덱스 변경
     }
 
