@@ -11,7 +11,6 @@ public enum YutState
     Yut,
     Mo,
     Backdo,
-    Nack
 }
 
 public class PlayingYut : MonoBehaviour
@@ -28,20 +27,21 @@ public class PlayingYut : MonoBehaviour
     public Transform[] playerArray; // player가 해당하는 pos array
     public RectTransform[] yutButton; // 도, 개, 걸, 윷, 모, 빽도 버튼
 
-    [SerializeField] private GameObject player; // 자신의 말
-    public GameObject[] playerButton; // character, return
-    
-    public int currentIndex = 0; // Button 인덱스
+    [SerializeField] private GameObject player; // 자신의 말, 4개 예정
+    // 캐릭터마다 붙어있는 버튼
+    public GameObject charcterButton; // character
+    public GameObject returnButton; // return
+
+    public int currentIndex = 0; // Button 위치 시킬 기준 인덱스, player 포지션과 동일해야 함
     public int resultIndex = 0; // 버튼 위치할 인덱스
     public List<int> yutResultIndex = new List<int>(); // yut 결과에 대한 숫자, 이동 버튼 클릭 시 Remove, Nack이면 Add 안함
-    private int[] yutArray = { 1, 2, 3, 4, 5, -1, 0 }; // 도 개 걸 윷 모 빽도 낙
+    private int[] yutArray = { 1, 2, 3, 4, 5, -1 }; // 도 개 걸 윷 모 빽도
 
     // 윷 결과 가져오기
     public Yut_Gacha_Test yutGacha; // 나중에 Yut_Gacha로 바꿔주기
     public string yutResult;
-    public YutState type;
 
-    public GameObject goalButton; // goal button, resultIndex보다 클 때
+    public GameObject goalButton; // goal button, resultIndex보다 클 때 SetActive(true)
 
     private void Awake()
     {
@@ -50,151 +50,109 @@ public class PlayingYut : MonoBehaviour
     }
     
     public void PlayingYutPlus()
-    { // 윷 던지기 버튼 클릭 시
+    { // 윷 던지기 버튼 event
         yutResult = yutGacha.ThrowResult; // 윷 던진 결과
-        type = (YutState)Enum.Parse(typeof(YutState), yutResult);
 
         if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
-        {
+        { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
+            YutState type = (YutState)Enum.Parse(typeof(YutState), yutResult);
             yutResultIndex.Add(yutArray[(int)type]); // yutResult에 따라 List에 이동할 만큼의 숫자 추가
-            playerButton[0].SetActive(true);
+            charcterButton.SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
         }
-
-        for (int i = 0; i < yutResultIndex.Count; i++)
-        {
-            Debug.Log($"YutResultIndex{i} : {yutResultIndex[i]}");
-        }
+        // Nack일 때, 인덱스 0일 때 빽도일 때
     }
-
-    private void YutButtonPosition()
-    {
-        // 버튼 활성화 및 위치 설정
-        playerButton[0].gameObject.SetActive(true); // 캐릭터 선택 버튼 활성화
-        for (int i = 0; i < yutResultIndex.Count; i++)
-        {  // 윷 던질 때 마다 모든 버튼 Canvas 밖으로
-            yutButton[i].transform.position = Camera.main.WorldToScreenPoint(yutButton[i].transform.parent.position);
-        }
-        if (yutResult != "Nack")
-        {
-            // 낙이 아닐 때
-            if (yutResult == "BackDo" && currentIndex == 0)
-            {
-                // 이때는 빽도가 불가능
-                return;
-            }
-            else
-            {
-                PositionIn();
-            }
-        }
-        else
-        { // Nack
-            PositionIn();
-        }
-    }
-
-    public void CharacterButtonClick()
-    { // Canvas - CharacterButton
-        YutButtonPosition();
-        playerButton[1].SetActive(true);
-        playerButton[0].SetActive(false);
-    }
-
-    public void ReturnButtonClick()
-    { // Canvas - ReturnButton
-        playerButton[0].SetActive(true);
-        playerButton[1].SetActive(false);
-        PositionOut();
-    }
-
+    
     public void YutButtonClick(string name)
-    { // Canvas - YutObject - 도개걸윷모빽도
-        playerButton[0].SetActive(false);
-        playerButton[1].SetActive(false);
+    { // Canvas - YutObject - 도, 개, 걸, 윷, 모, 빽도 event
+        charcterButton.SetActive(false);
+        returnButton.SetActive(false);
 
-        YutState yutName = (YutState)Enum.Parse(typeof(YutState), name);
-        GameObject btn = yutButton[(int)yutName].gameObject;
-        Vector3 screen = Camera.main.WorldToScreenPoint(btn.transform.parent.position); // Canvas 밖으로
-        btn.transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
+        YutState yutName = (YutState)Enum.Parse(typeof(YutState), name); // 버튼에 따라 달라짐
+        // GameObject yutObject = yutButton[(int)yutName].gameObject;
 
-        yutResultIndex.Remove(yutArray[(int)yutName]); // 리스트 삭제
-
-        Debug.Log($"YutResultIndex Remove : {yutArray[(int)yutName]}");
-
-        currentIndex += yutArray[(int)yutName]; // 현재 인덱스 변경
+        yutResultIndex.Remove(yutArray[(int)yutName]); // 추가된 리스트 삭제
+        currentIndex += yutArray[(int)yutName]; // 현재 인덱스 리스트 삭제한 값과 같도록 변경
         TurnPosition(playerArray, currentIndex); // 현재 위치 배열 변경
+
         PositionOut();
         goalButton.SetActive(false);
 
         if (yutResultIndex.Count > 0)
-        {
-            PositionIn();
+        { // 리스트가 남았을 때
+            // 골인하지 않은 캐릭터 전부 선택 활성화
+            if (!player.GetComponent<PlayerMovement>().isGoal)
+            {
+                charcterButton.SetActive(true);
+            }
         }
     }
-
+    #region Goal Button
     public void GoalButtonClick()
-    {
+    { // Goal Button Event
         // Goal Count++
+        resultIndex = playerArray.Length - 1;
         PositionOut();
-        playerButton[0].SetActive(false);
-        playerButton[1].SetActive(false);
-        StartCoroutine(Goal_Co());
-    }
+        charcterButton.SetActive(false);
+        returnButton.SetActive(false);
 
-    private IEnumerator Goal_Co()
-    {
-        yield return new WaitForSeconds(0.2f);
-        player.SetActive(false);
-        goalButton.SetActive(false);
+        if (Vector3.Distance(player.transform.position, playerArray[resultIndex - 1].position) <= 0.01f)
+        { // move 끝났을 때
+            goalButton.SetActive(false);
+            player.SetActive(false);
+        }
     }
-
+    #endregion
+    #region ButtonPosition
     private void PositionOut()
     { // Button Position out
         for (int i = 0; i < yutButton.Length; i++)
-        {  // 윷 던질 때 마다 모든 버튼 Canvas 밖으로
+        {  // 윷 던질 때 마다 모든 버튼 Canvas 밖으로 배치
             yutButton[i].transform.position = Camera.main.WorldToScreenPoint(yutButton[i].transform.parent.position);
         }
-        goalButton.SetActive(false);
     }
 
     public void PositionIn()
     { // Button Position in
-        YutState yutType = YutState.Backdo;
+        // Character Button click 시 불러옴, list 최소 1개 이상
+        YutState yutType = YutState.Backdo; // 초기화
         for (int i = 0; i < yutResultIndex.Count; i++)
         {
-            resultIndex = currentIndex + yutResultIndex[i];
-            
-            if (!yutResult.Equals("Nack"))
+            resultIndex = currentIndex + yutResultIndex[i]; // 버튼 배치할 위치
+            if (yutResultIndex[i] != -1)
             {
-                if (yutResultIndex[i] == -1)
-                {
-                    yutType = YutState.Backdo; // 5
-                }
-                else
-                {
-                    yutType = (YutState)(yutResultIndex[i] - 1);
-                }
+                yutType = (YutState)(yutResultIndex[i] - 1);
             }
-            Debug.Log("YutType: " + yutType);
-            if (playerArray.Length > resultIndex)
-            {
+            if (resultIndex >= playerArray.Length)
+            { // Goal
+                goalButton.SetActive(true);
+                continue;
+            }
+            else if (playerArray.Length > resultIndex)
+            { // not Goal
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[resultIndex].transform.position);
-                yutButton[(int)yutType].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정, Backdo = 5
-            } else if (playerArray.Length == resultIndex)
-            {
-                Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[0].transform.position);
-                yutButton[(int)yutType].transform.position = screen;
-                goalButton.SetActive(true);
-            }
-            else
-            {
-                goalButton.SetActive(true);
+                yutButton[(int)yutType].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
             }
         }
     }
+    #endregion
+    #region PlayerButton
+    public void CharacterButtonClick()
+    { // Canvas - CharacterButton event
+        PositionIn();
+        returnButton.SetActive(true);
+        charcterButton.SetActive(false);
+    }
 
+    public void ReturnButtonClick()
+    { // Canvas - ReturnButton event
+        charcterButton.SetActive(true);
+        goalButton.SetActive(false);
+        PositionOut();
+        returnButton.SetActive(false);
+    }
+    #endregion
     public void TurnPosition(Transform[] pos, int num)
-    {
+    { // Player 현재 위치한 Array 변경
         if (pos == pos1)
         {
             if (num == 5)
@@ -216,4 +174,5 @@ public class PlayingYut : MonoBehaviour
         }
         // Catch 당했을 때 playerArray = pos1로 변경
     }
+
 }

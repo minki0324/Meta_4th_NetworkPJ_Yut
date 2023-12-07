@@ -182,6 +182,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e2ef8aabf5da63e459b5671c36b76798, type: 3}
   Yut_Ani: {fileID: 826149432}
   unitPanel: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!114 &23661854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +365,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1099292283}
+        m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
+        m_MethodName: GoalButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 3110869463557674136}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: PlayerMove
@@ -425,7 +438,7 @@ GameObject:
   - component: {fileID: 48588556}
   m_Layer: 0
   m_Name: Pos
-  m_TagString: Pos
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3909,15 +3922,13 @@ MonoBehaviour:
   - {fileID: 8614949772014579962}
   - {fileID: 482776773980730656}
   player: {fileID: 3110869463557674129}
-  playerButton:
-  - {fileID: 639258469}
-  - {fileID: 1639568955}
+  charcterButton: {fileID: 639258469}
+  returnButton: {fileID: 1639568955}
   currentIndex: 0
   resultIndex: 0
   yutResultIndex: 
   yutGacha: {fileID: 0}
   yutResult: 
-  type: 0
   goalButton: {fileID: 32443256}
 --- !u!1 &1110459276
 GameObject:
@@ -4740,6 +4751,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e2ef8aabf5da63e459b5671c36b76798, type: 3}
   Yut_Ani: {fileID: 826149432}
   unitPanel: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!114 &1289961042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7046,6 +7058,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 723802529f673f74985080bae9a8419f, type: 3}
   - {fileID: 21300000, guid: 51e99a9d4e4fdb94484b008b90aad93e, type: 3}
   yutGacha: {fileID: 826149432}
+  Results: []
 --- !u!114 &2138824290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7466,7 +7479,7 @@ GameObject:
   - component: {fileID: 3110869463557674136}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7499,12 +7512,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2d7e7e10f7f4f4fb621c7ca9d3359e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {fileID: 1470777935}
   playerArray: []
   currentIndex: 0
   targetIndex: 0
   targetPos: {fileID: 1470777935}
   speed: 2
+  isBackdo: 0
+  isGoal: 0
 --- !u!1 &3110869464187929920
 GameObject:
   m_ObjectHideFlags: 0
