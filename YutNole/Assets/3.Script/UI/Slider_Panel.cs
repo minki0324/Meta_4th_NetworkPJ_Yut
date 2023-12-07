@@ -24,9 +24,10 @@ public class Slider_Panel : MonoBehaviour
         Init();
 
 
-        //껏다 켜기 -> 내턴이 될떄 켜도록 코딩하기
+        //오브젝트 껏다 켜기 -> 내턴이 될떄 켜도록 코딩하기
         StartCoroutine(Throw_Timer());
     }
+
 
     private void Init()
     {
@@ -34,37 +35,76 @@ public class Slider_Panel : MonoBehaviour
         P2_Timer_slider.GetComponent<Slider>();
 
 
-        //턴이 1p면 조건달기
-        P1_Timer_slider.value = 0;
+        if (GameManager.instance.isPlayer1)
+        {
+            P1_Timer_slider.value = 0;
+            P1_Timer_slider.maxValue = TimeLimit;
 
-        //턴이 2p면 조건달기
-        P2_Timer_slider.value = 0;
+        }
+        else
+        {
+            P2_Timer_slider.value = 0;
+            P2_Timer_slider.maxValue = TimeLimit;
 
-        P1_Timer_slider.maxValue = TimeLimit;
-        P2_Timer_slider.maxValue = TimeLimit;
+        }
+
+
 
     }
 
 
     public IEnumerator Throw_Timer()
     {
+      
 
-
-        while (true)
+        if (GameManager.instance.isPlayer1)
         {
-            //턴이 1p면 조건달기
-            P1_Timer_slider.value += SliderSpeed;
-
-            //턴이 2p면 조건달기
-            P2_Timer_slider.value += SliderSpeed;
-
-            if (ThrowTime > TimeLimit)
+            P2_Timer_slider.gameObject.SetActive(false);
+            while (true)
             {
-                break;
+                P1_Timer_slider.value += SliderSpeed;
+                if (ThrowTime > TimeLimit)
+                {
+                    break;
+                }
+
+                yield return new WaitForSeconds(SliderSpeed);
             }
 
-            yield return new WaitForSeconds(SliderSpeed);
         }
+        else
+        {
+            P1_Timer_slider.gameObject.SetActive(false);
+            while (true)
+            {
+                P2_Timer_slider.value += SliderSpeed;
+                if (ThrowTime > TimeLimit)
+                {
+                    break;
+                }
+
+                yield return new WaitForSeconds(SliderSpeed);
+            }
+
+        }
+
+
+
+        if (GameManager.instance.isPlayer1)
+        {
+            P1_Timer_slider.gameObject.SetActive(false);
+            P1_Timer_slider.value = 0;
+
+        }
+        else
+        {
+            P2_Timer_slider.gameObject.SetActive(false);
+            P2_Timer_slider.value = 0;
+        }
+            
+
+
+        yield break;
 
     }
 

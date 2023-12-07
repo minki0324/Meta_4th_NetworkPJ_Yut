@@ -22,6 +22,8 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     [SerializeField] private Unit_Panel unitPanel;
 
+    [SerializeField] private PlayerMovement playerMovement;
+
 
     //변수 삭제하기
     bool isAbleTo_Throw;
@@ -30,7 +32,7 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
 
         unitPanel = FindObjectOfType<Unit_Panel>();
-
+        playerMovement = FindObjectOfType<PlayerMovement>();
 
         ThrowYut_Btn.GetComponent<Button>();
       
@@ -69,6 +71,7 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ThrowYut_Btn_Clicked()
     {
+        playerMovement.PlayerMove();
 
         if (!GameManager.instance.hasChance)
         {
@@ -82,15 +85,16 @@ public class ThrowYut_Button : MonoBehaviour, IPointerEnterHandler, IPointerExit
             ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[3];
             Yut_Ani.Throwing();
 
-            for (int i = 0; i < unitPanel.P1_Units.Count; i++)
-            {
-                if(GameManager.instance.isThrew)
-                {
-                    unitPanel.P1_Units[i].transform.GetChild(0).GetChild(1).GetComponent<Image>().gameObject.SetActive(true);
-                }
+            //for (int i = 0; i < unitPanel.P1_Units.Count; i++)
+            //{
+            //    if(GameManager.instance.isThrew)
+            //    {
+            //        //화살표 이미지
+            //        unitPanel.P1_Units[i].transform.GetChild(0).GetChild(1).GetComponent<Image>().gameObject.SetActive(true);
+            //    }
                 
                
-            }
+            //}
 
 
             ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[0];

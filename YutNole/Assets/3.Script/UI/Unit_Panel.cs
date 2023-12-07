@@ -28,14 +28,18 @@ public class Unit_Panel : MonoBehaviour
 
     private void Start()
     {
-        
-        for(int i= 0; i<4; i++)
+
+
+ 
+        for (int i= 0; i<4; i++)
         {
             P1_Units.Add(P1_Unit.transform.GetChild(i).gameObject);
             P2_Units.Add(P2_Unit.transform.GetChild(i).gameObject);
+
+            P1_Units[i].name = "Unit" + i;
+            P2_Units[i].name = "Unit" + i;
+
         }
-
-
 
         foreach (GameObject obj in P1_Units)
         {
@@ -44,11 +48,11 @@ public class Unit_Panel : MonoBehaviour
 
 
             //선택 화살표
-            obj.transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);     
+            obj.transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
             obj.transform.GetChild(0).transform.GetChild(1).GetComponent<Image>().raycastTarget = false;
 
             //골인 img
-            obj.transform.GetChild(1).gameObject.SetActive(false);   
+            obj.transform.GetChild(1).gameObject.SetActive(false);
 
             //캐릭터 이미지
             GameObject btn = obj.transform.GetChild(0).gameObject;
@@ -58,83 +62,193 @@ public class Unit_Panel : MonoBehaviour
             obj.transform.GetChild(0).transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Return_Clicked(ref btn); });
 
 
-
         }
+
 
         foreach (GameObject obj in P2_Units)
         {
-            obj.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);      //return 버튼 비활성화
-            obj.transform.GetChild(1).gameObject.SetActive(false);      //골인 비활성화
+            //return 버튼
+            obj.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
+
+
+            //선택 화살표
+            obj.transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
+            obj.transform.GetChild(0).transform.GetChild(1).GetComponent<Image>().raycastTarget = false;
+
+            //골인 img
+            obj.transform.GetChild(1).gameObject.SetActive(false);
+
+            //캐릭터 이미지
+            GameObject btn = obj.transform.GetChild(0).gameObject;
+            obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Character_Clicked(ref btn); });
+
+            //return 버튼
+            obj.transform.GetChild(0).transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Return_Clicked(ref btn); });
+
         }
 
+
+
+        #region 나중에 자기턴 구분하는 메소드에 넣기
+        if (GameManager.instance.isPlayer1)
+        {
+            foreach (GameObject obj in P1_Units)
+            {
+                obj.transform.GetChild(0).GetComponent<Button>().enabled = true;
+            }
+
+            foreach (GameObject obj in P2_Units)
+            {
+                obj.transform.GetChild(0).GetComponent<Button>().enabled = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject obj in P2_Units)
+            {
+                obj.transform.GetChild(0).GetComponent<Button>().enabled = true;
+            }
+
+            foreach (GameObject obj in P1_Units)
+            {
+                obj.transform.GetChild(0).GetComponent<Button>().enabled = false;
+            }
+        }
+
+        #endregion
     }
 
-    private void Update()
-    {
-        
-    }
 
+    //Return_Btn 클릭시 호출되는 메소드
     public void Return_Clicked(ref GameObject parentObj)
     {
         //매개변수로 들어온 GameObject는 캐릭터 이미지이므로 상속 0번이 return버튼
 
         parentObj.transform.GetChild(0).gameObject.SetActive(false);
-        for (int i = 0; i < 4; i++)
+
+        if(GameManager.instance.isPlayer1)
         {
-            P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+            for (int i = 0; i < 4; i++)
+            {
+                P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+            }
         }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+            }
+        }
+   
     }
 
+    //캐릭터 클릭시 호출되는 메소드
     public void Character_Clicked(ref GameObject btn)
     {
 
+
         if(GameManager.instance.isThrew)
         {
-
-
             //모든말이 제자리에 있으면 == 다 켜져있으면 클릭한 놈 끄기
             //하나라도 자리에 없으면 return버튼 켜기
 
             int unitCount = 0;
 
-            //만약 플레이어 1이면
-            for (int i = 0; i < P1_Units.Count; i++)
+            if(GameManager.instance.isPlayer1)
             {
-                if (P1_Units[i].transform.GetChild(0).gameObject.activeSelf)
+                for (int i = 0; i < P1_Units.Count; i++)
                 {
-                    //값이 일루만 들어옴..
-                    unitCount++;
-                    P1_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
-                    Debug.Log(unitCount);
+                    if (P1_Units[i].transform.GetChild(0).gameObject.activeSelf)
+                    {
+                       
+                        unitCount++;
+                        P1_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
+                        Debug.Log(unitCount);
+                    }
                 }
+
+            }
+            else
+            {
+                for (int i = 0; i < P2_Units.Count; i++)
+                {
+                    if (P2_Units[i].transform.GetChild(0).gameObject.activeSelf)
+                    {
+                
+                        unitCount++;
+                        P2_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
+                        Debug.Log(unitCount);
+                    }
+                }
+
             }
 
 
-            if (unitCount >= 4)
+
+
+            if (GameManager.instance.isPlayer1)
             {
-                //다 켜져있는 경우
-                btn.SetActive(false);
-                for (int i = 0; i < 4; i++)
+                if (unitCount >= 4)
                 {
-                    P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
+                    //다 켜져있는 경우
+                    btn.SetActive(false);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+
+                        if (P1_Units[i].transform.GetChild(0).gameObject.Equals(btn))
+                        {
+                            btn.transform.GetChild(0).gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
+
+
+                        }
+                    }
                 }
             }
             else
             {
-                for (int i = 0; i < 4; i++)
+                if (unitCount >= 4)
                 {
-                    //p2인경우도 만들기
-                    if (P1_Units[i].transform.GetChild(0).gameObject.Equals(btn))
+                    //다 켜져있는 경우
+                    btn.SetActive(false);
+                    for (int i = 0; i < 4; i++)
                     {
-                        btn.transform.GetChild(0).gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
-
-
+                        P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
                     }
                 }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+
+                        if (P2_Units[i].transform.GetChild(0).gameObject.Equals(btn))
+                        {
+                            btn.transform.GetChild(0).gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
+
+
+                        }
+                    }
+                }
+            }
+
+
+
+          
 
 
 
@@ -145,10 +259,7 @@ public class Unit_Panel : MonoBehaviour
             }
         }
 
-       
-
-
-    }
+     
 
 
 

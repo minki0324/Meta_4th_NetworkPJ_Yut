@@ -33,36 +33,48 @@ public class Yut_Gacha : MonoBehaviour
         if (GameManager.instance.hasChance)
         {
        
-
-            for (int i = 0; i < 4; i++)
+            if(GameManager.instance.isPlayer1)
             {
-                unitPanel. P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+                for (int i = 0; i < 4; i++)
+                {
+                    unitPanel.P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+                }
             }
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    unitPanel.P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+                }
+            }
+          
             //string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
             string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" ,"Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
-
+            //string[] triggers = { "Nack", "Nack", "Nack" };
             ThrowResult = triggers[Random.Range(0, triggers.Length)];
 
             Yut_ani.SetTrigger(ThrowResult);
 
+            GameManager.instance.hasChance = false;
+
+            if (ThrowResult.Equals("Nack"))
+            {
+              
+                return;
+            }
+
             resultPanel.Set_Result();
 
-            GameManager.instance.hasChance = false;
+            
             GameManager.instance.isThrew = true;
             //캐릭터 움직이고 isThrew false로 변경
 
-            if (ThrowResult.Equals("Yut"))
+            if (ThrowResult.Equals("Yut") || ThrowResult.Equals("Mo"))
             {
                 GameManager.instance.hasChance = true;
-                GameManager.instance.isThrew = false;
+               // GameManager.instance.isThrew = false;
             }
-            if (ThrowResult.Equals("Mo"))
-            {
-                GameManager.instance.hasChance = true;
-                GameManager.instance.isThrew = false;
-            }
-
-           
+      
 
 
 
