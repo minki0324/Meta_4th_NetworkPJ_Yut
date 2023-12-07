@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public PlayerStates playerState;
+   
 
     public bool isMyTurn;
     public bool isThrew = false;
@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
         if(instance == null)
         {
             instance = this;
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
 

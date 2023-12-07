@@ -17,12 +17,12 @@ public class Yut_Gacha : MonoBehaviour
 
     [SerializeField] Result_Panel resultPanel;
     [SerializeField] Unit_Panel unitPanel;
-
     private void Awake()
+
     {
         Yut_ani = GetComponent<Animator>();
         unitPanel = FindObjectOfType<Unit_Panel>();
-        GameManager.instance.playerState.hasChance = true;
+
     }
 
     public void Throwing()
@@ -30,11 +30,9 @@ public class Yut_Gacha : MonoBehaviour
 
         //내턴인 경우 체크하기 
 
-        if (GameManager.instance.playerState.hasChance)
+        if (GameManager.instance.hasChance)
         {
-            GameManager.instance.playerState.hasChance = false;
-            GameManager.instance.isThrew = true;
-            //캐릭터 움직이고 isThrew false로 변경
+       
 
             for (int i = 0; i < 4; i++)
             {
@@ -47,21 +45,24 @@ public class Yut_Gacha : MonoBehaviour
 
             Yut_ani.SetTrigger(ThrowResult);
 
-    
+            resultPanel.Set_Result();
 
+            GameManager.instance.hasChance = false;
+            GameManager.instance.isThrew = true;
+            //캐릭터 움직이고 isThrew false로 변경
 
             if (ThrowResult.Equals("Yut"))
             {
-                GameManager.instance.playerState.hasChance = true;
+                GameManager.instance.hasChance = true;
                 GameManager.instance.isThrew = false;
             }
             if (ThrowResult.Equals("Mo"))
             {
-                GameManager.instance.playerState.hasChance = true;
+                GameManager.instance.hasChance = true;
                 GameManager.instance.isThrew = false;
             }
 
-            resultPanel.Set_Result();
+           
 
 
 

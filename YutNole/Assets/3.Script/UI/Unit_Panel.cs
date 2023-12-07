@@ -39,12 +39,22 @@ public class Unit_Panel : MonoBehaviour
 
         foreach (GameObject obj in P1_Units)
         {
-            obj.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);      //return 버튼 비활성화
-            obj.transform.GetChild(1).gameObject.SetActive(false);      //골인 img 비활성화
+            //return 버튼
+            obj.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
 
-            GameObject btn = obj.transform.GetChild(0).gameObject;  //캐릭터img 
+
+            //선택 화살표
+            obj.transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);     
+            obj.transform.GetChild(0).transform.GetChild(1).GetComponent<Image>().raycastTarget = false;
+
+            //골인 img
+            obj.transform.GetChild(1).gameObject.SetActive(false);   
+
+            //캐릭터 이미지
+            GameObject btn = obj.transform.GetChild(0).gameObject;
             obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Character_Clicked(ref btn); });
 
+            //return 버튼
             obj.transform.GetChild(0).transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Return_Clicked(ref btn); });
 
 
@@ -94,6 +104,7 @@ public class Unit_Panel : MonoBehaviour
                 {
                     //값이 일루만 들어옴..
                     unitCount++;
+                    P1_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
                     Debug.Log(unitCount);
                 }
             }
