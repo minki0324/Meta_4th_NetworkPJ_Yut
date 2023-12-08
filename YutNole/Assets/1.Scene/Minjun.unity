@@ -686,7 +686,8 @@ MonoBehaviour:
   - {fileID: 1932874652}
   - {fileID: 1068279580}
   - {fileID: 733645525}
-  player: {fileID: 0}
+  player:
+  - {fileID: 0}
   charcterButton:
   - {fileID: 1510696431}
   - {fileID: 375670755}
@@ -8642,7 +8643,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   P2_Units_Obj: []
-  TargetPos:
+  myObject:
+  - {fileID: 2849594471969943332, guid: a1ada6ce6acf2704d90c61f0f614a04d, type: 3}
+  - {fileID: 3960500371682087817, guid: 03c31436b8786704e8b65ccbcdc216b1, type: 3}
+  targetPos:
   - {fileID: 122829854}
   - {fileID: 1781710981}
   - {fileID: 510201382}
@@ -8651,12 +8655,7 @@ MonoBehaviour:
   - {fileID: 1539837899}
   - {fileID: 1641280872}
   - {fileID: 110628474}
-  myObject:
-  - {fileID: 2849594471969943332, guid: a1ada6ce6acf2704d90c61f0f614a04d, type: 3}
-  - {fileID: 3960500371682087817, guid: 03c31436b8786704e8b65ccbcdc216b1, type: 3}
   PlayerIndex: 
-  playerNum: 0
-  playingPlayer: 00000000
   isPlayer1: 1
   isMyTurn: 0
   isThrew: 0
@@ -8664,6 +8663,8 @@ MonoBehaviour:
   GoalCount: 0
   isWin: 0
   isLose: 0
+  playerNum: 0
+  playingPlayer: 00000000
 --- !u!4 &1529586955
 Transform:
   m_ObjectHideFlags: 0

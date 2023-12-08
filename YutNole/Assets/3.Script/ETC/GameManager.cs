@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     //말판 위 게임 유닛 
     [SerializeField] public GameObject[] P1_Units_Obj; 
     [SerializeField] public GameObject[] P2_Units_Obj;
-
+    public GameObject[] myObject; //0번 힐라 1번 매그
+    public Transform[] targetPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
     public List<int> PlayerIndex;   //말판위에 올라간 유닛
 
     public bool isPlayer1 = true;  //턴구분 변수
@@ -47,10 +48,10 @@ public class GameManager : MonoBehaviour
 
         isPlayer1 = true;
 
-        for(int i = 0; i<P1_Units_Obj.Length; i++)
-        {
-            P1_Units_Obj[i].SetActive(false);
-        }
+        //for(int i = 0; i<P1_Units_Obj.Length; i++)
+        //{
+        //    P1_Units_Obj[i].SetActive(false);
+        //}
 
     }
 
