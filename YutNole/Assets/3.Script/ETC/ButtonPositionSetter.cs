@@ -28,7 +28,10 @@ public class ButtonPositionSetter : MonoBehaviour
     { // Button 생길 때 Setup 해주기
         switch (buttonName)
         {
-            case "Return":
+            case "Return 0":
+            case "Return 1":
+            case "Return 2":
+            case "Return 3":
                 targetPos = returnButtonPos;
                 break;
             default:

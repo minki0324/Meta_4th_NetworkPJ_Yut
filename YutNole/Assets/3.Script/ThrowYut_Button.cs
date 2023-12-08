@@ -22,8 +22,6 @@ public class ThrowYut_Button : MonoBehaviour/*, IPointerEnterHandler, IPointerEx
 
     [SerializeField] private Unit_Panel unitPanel;
 
-    [SerializeField] private PlayerMovement playerMovement;
-
 
     //변수 삭제하기
     bool isAbleTo_Throw;
@@ -32,7 +30,6 @@ public class ThrowYut_Button : MonoBehaviour/*, IPointerEnterHandler, IPointerEx
     {
 
         unitPanel = FindObjectOfType<Unit_Panel>();
-        playerMovement = FindObjectOfType<PlayerMovement>();
 
         ThrowYut_Btn.GetComponent<Button>();
       
@@ -41,9 +38,9 @@ public class ThrowYut_Button : MonoBehaviour/*, IPointerEnterHandler, IPointerEx
 
         //임시로 윷던지기용 코드
 
-        GameManager.instance.hasChance = true;
-        ThrowYut_Button yut_Button = FindObjectOfType<ThrowYut_Button>();
-        yut_Button.GetComponent<Image>().sprite = yut_Button.ThrowYut_sprites[1];
+        //GameManager.instance.hasChance = true;
+        //ThrowYut_Button yut_Button = FindObjectOfType<ThrowYut_Button>();
+        GetComponent<Image>().sprite = ThrowYut_sprites[0];
 
 
     }
@@ -71,8 +68,6 @@ public class ThrowYut_Button : MonoBehaviour/*, IPointerEnterHandler, IPointerEx
 
     public void ThrowYut_Btn_Clicked()
     {
-        playerMovement.PlayerMove();
-
         if (!GameManager.instance.hasChance)
         {
             //윷던지기 버튼 비활성화

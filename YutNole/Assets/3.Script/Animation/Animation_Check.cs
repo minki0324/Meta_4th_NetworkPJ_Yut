@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Animaton_Check : MonoBehaviour
+public class Animation_Check : MonoBehaviour
 {
     [SerializeField]
     private Yut_Gacha yutGacha;

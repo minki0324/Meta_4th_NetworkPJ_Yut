@@ -39,14 +39,14 @@ public class PlayingYut : MonoBehaviour
     private int[] yutArray = { 1, 2, 3, 4, 5, -1 }; // 도 개 걸 윷 모 빽도
 
     // 윷 결과 가져오기
-    public Yut_Gacha_Test yutGacha; // 나중에 Yut_Gacha로 바꿔주기
+    public Yut_Gacha yutGacha; // 나중에 Yut_Gacha로 바꿔주기
     public string yutResult;
 
     public GameObject goalButton; // goal button, resultIndex보다 클 때 SetActive(true)
 
     private void Awake()
     {
-        yutGacha = FindObjectOfType<Yut_Gacha_Test>(); // 나중에 Yut_Gacha로 바꿔주기
+        yutGacha = FindObjectOfType<Yut_Gacha>(); // 나중에 Yut_Gacha로 바꿔주기
         playerArray = pos1;
     }
     

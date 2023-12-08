@@ -164,7 +164,7 @@ public class Unit_Panel : MonoBehaviour
                        
                         unitCount++;
                         P1_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
-                        Debug.Log(unitCount);
+                        // player SetActive(true)
                     }
                 }
 
@@ -178,7 +178,7 @@ public class Unit_Panel : MonoBehaviour
                 
                         unitCount++;
                         P2_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
-                        Debug.Log(unitCount);
+                        // player SetActive(true)
                     }
                 }
 
@@ -245,14 +245,7 @@ public class Unit_Panel : MonoBehaviour
                     }
                 }
             }
-
-
-
-          
-
-
-
-                //재윤아 보드에 목적지 화살표 뜨게 부탁할게..^^
+                //재윤아 보드에 목적지 화살표 뜨게 부탁할게..^^ ... 완료 ^^ - 재윤
                 //재윤아 보드에 목적지 누르면 GameManager에 isThrew 변수도 false로 바꿔줘 부탁해..^^
 
 

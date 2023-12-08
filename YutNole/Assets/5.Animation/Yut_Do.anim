@@ -127,9 +127,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: 
+    functionName: Throwing_Start
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 51051f270b0d46c4b9598981c1e7757d, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

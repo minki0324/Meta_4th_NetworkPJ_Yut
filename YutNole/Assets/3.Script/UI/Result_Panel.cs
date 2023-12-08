@@ -18,7 +18,7 @@ public class Result_Panel : MonoBehaviour
 
     private void Start()
     {
-        foreach(Image e in Result_imgs)
+        foreach (Image e in Result_imgs)
         {
            
             e.gameObject.SetActive(false);  
@@ -50,8 +50,6 @@ public class Result_Panel : MonoBehaviour
             if (Result_imgs[i].gameObject.activeSelf) start++;
 
         }
-        Debug.Log(start);
-
 
 
         for (int i = start; i < Result_imgs.Length; i++)
