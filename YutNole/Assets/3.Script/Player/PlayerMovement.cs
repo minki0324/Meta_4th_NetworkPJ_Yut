@@ -73,7 +73,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (GameManager.instance.hasChance)
         { // À·, ¸ð, Ä³Ä¡
-            playingYut.charcterButton.SetActive(true);
+            for (int i = 0; i < 4; i++)
+            {
+                playingYut.charcterButton[i].SetActive(true);
+            }
         }
     }
 }

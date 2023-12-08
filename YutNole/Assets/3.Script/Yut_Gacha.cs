@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Yut_Gacha : MonoBehaviour
 {
     /*
-        1. È®·ü¿¡ µû¶ó¼­ À· ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·Â
+        1. í™•ë¥ ì— ë”°ë¼ì„œ ìœ· ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥
     */
 
     private Animator Yut_ani;
@@ -29,7 +29,7 @@ public class Yut_Gacha : MonoBehaviour
 
     public void Throwing()
     {
-        //³»ÅÏÀÎ °æ¿ì Ã¼Å©ÇÏ±â 
+        //ë‚´í„´ì¸ ê²½ìš° ì²´í¬í•˜ê¸° 
         if (GameManager.instance.hasChance)
         {
 
@@ -58,18 +58,18 @@ public class Yut_Gacha : MonoBehaviour
             GameManager.instance.hasChance = false;
 
 
-            //³«ÀÌ¸é ³»´Ù¹ö¸®±â
+            //ë‚™ì´ë©´ ë‚´ë‹¤ë²„ë¦¬ê¸°
             if (ThrowResult.Equals("Nack"))
             {
                 return;
             }
 
 
-            //¸»ÀÌ ¾Æ¹«°Íµµ ¾øÀ» ¶§ •üµµ ³ª¿ÔÀ» ½Ã
+            //ë§ì´ ì•„ë¬´ê²ƒë„ ì—†ì„ ë•Œ Â•æ› ë‚˜ì™”ì„ ì‹œ
             int countunits = 0;
             for (int i = 0; i < GameManager.instance.playingPlayer.Length; i++)
             {
-                //playingPlayer ¹è¿­ÀÇ ¿ø¼ÒµéÀÌ ÀüºÎ falseÀÎ°¡ Ã¼Å©
+                //playingPlayer ë°°ì—´ì˜ ì›ì†Œë“¤ì´ ì „ë¶€ falseì¸ê°€ ì²´í¬
                 if (!GameManager.instance.playingPlayer[i])
                 {
                     countunits++;
@@ -79,7 +79,7 @@ public class Yut_Gacha : MonoBehaviour
             
             if (countunits>=4 && ThrowResult.Equals("Backdo"))
             {
-                //ÀüºÎ false¸é
+                //ì „ë¶€ falseë©´
                 return;
             }
 
@@ -88,9 +88,10 @@ public class Yut_Gacha : MonoBehaviour
 
 
 
+
             resultPanel.Set_Result();
             GameManager.instance.isThrew = true;
-            //Ä³¸¯ÅÍ ¿òÁ÷ÀÌ°í isThrew false·Î º¯°æ
+            //ìºë¦­í„° ì›€ì§ì´ê³  isThrew falseë¡œ ë³€ê²½
 
             if (ThrowResult.Equals("Yut") || ThrowResult.Equals("Mo"))
             {
@@ -100,7 +101,7 @@ public class Yut_Gacha : MonoBehaviour
     }
 
     public void MyTurnButton()
-    { // Test¿ë MyTurn button event
+    { // Testìš© MyTurn button event
         Debug.Log("MyTurn");
         throwBtn.GetComponent<Image>().sprite = throwBtn.ThrowYut_sprites[1];
         throwBtn.GetComponent<Button>().enabled = true;
