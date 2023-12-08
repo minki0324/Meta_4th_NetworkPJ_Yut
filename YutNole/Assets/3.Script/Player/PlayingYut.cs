@@ -53,22 +53,22 @@ public class PlayingYut : MonoBehaviour
 
     private void Start()
     {
-        player = new GameObject[4];
-        Debug.Log(GameManager.instance.isPlayer1);
-        if (GameManager.instance.isPlayer1)
-        {
-            for (int i = 0; i < player.Length; i++)
-            {
-                player[i] = GameObject.FindGameObjectWithTag("Player1").transform.GetChild(i).gameObject;
-            }
-        }
-        else
-        { // Player2
-            for (int i = 0; i < player.Length; i++)
-            {
-                player[i] = GameObject.FindGameObjectWithTag("Player2").transform.GetChild(i).gameObject;
-            }
-        }
+        //player = new GameObject[4];
+        //Debug.Log(GameManager.instance.isPlayer1);
+        //if (GameManager.instance.isPlayer1)
+        //{
+        //    for (int i = 0; i < player.Length; i++)
+        //    {
+        //        player[i] = GameObject.FindGameObjectWithTag("Player1").transform.GetChild(i).gameObject;
+        //    }
+        //}
+        //else
+        //{ // Player2
+        //    for (int i = 0; i < player.Length; i++)
+        //    {
+        //        player[i] = GameObject.FindGameObjectWithTag("Player2").transform.GetChild(i).gameObject;
+        //    }
+        //}
     }
 
     public void PlayingYutPlus()
