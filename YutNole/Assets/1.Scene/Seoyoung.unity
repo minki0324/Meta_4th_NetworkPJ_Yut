@@ -6405,9 +6405,12 @@ MonoBehaviour:
   - {fileID: 62628157}
   - {fileID: 80155182}
   - {fileID: 1279040156}
-  player: {fileID: 3110869463557674129}
-  charcterButton: {fileID: 1281715963}
-  returnButton: {fileID: 670186887}
+  player:
+  - {fileID: 0}
+  charcterButton:
+  - {fileID: 0}
+  returnButton:
+  - {fileID: 0}
   currentIndex: 0
   resultIndex: 0
   yutResultIndex: 
@@ -9647,7 +9650,7 @@ GameObject:
   - component: {fileID: 1739984367}
   m_Layer: 0
   m_Name: Player1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11263,8 +11266,6 @@ MonoBehaviour:
   - {fileID: 1441063168}
   P2_Units_Obj: []
   PlayerIndex: 
-  playerNum: 0
-  playingPlayer: 00000000
   isPlayer1: 1
   isMyTurn: 0
   isThrew: 0
@@ -11272,6 +11273,8 @@ MonoBehaviour:
   GoalCount: 0
   isWin: 0
   isLose: 0
+  playerNum: 0
+  playingPlayer: 00000000
 --- !u!4 &2091944813
 Transform:
   m_ObjectHideFlags: 0

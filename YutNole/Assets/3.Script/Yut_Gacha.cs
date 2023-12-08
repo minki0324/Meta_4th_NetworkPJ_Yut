@@ -20,14 +20,13 @@ public class Yut_Gacha : MonoBehaviour
     [SerializeField] ThrowYut_Button throwBtn;
 
     private void Awake()
-
     {
         Yut_ani = GetComponent<Animator>();
         unitPanel = FindObjectOfType<Unit_Panel>();
         throwBtn = FindObjectOfType<ThrowYut_Button>();
     }
 
-    public void Throwing()
+    public void Throwing(string Trigger)
     {
         //내턴인 경우 체크하기 
         if (GameManager.instance.hasChance)
@@ -48,12 +47,10 @@ public class Yut_Gacha : MonoBehaviour
                 }
             }
 
-            string[] triggers = { "Mo", "Mo", "Mo", "Mo" };
             // string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" ,"Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
             //string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
-            ThrowResult = triggers[Random.Range(0, triggers.Length)];
 
-            Yut_ani.SetTrigger(ThrowResult);
+            Yut_ani.SetTrigger(Trigger);
 
             GameManager.instance.hasChance = false;
 

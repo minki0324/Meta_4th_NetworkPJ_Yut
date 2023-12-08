@@ -7,8 +7,6 @@ public class Unit_Panel : MonoBehaviour
 {
     [SerializeField] private PlayingYut playingYut;
 
-
-
     //플레이어 말
     [SerializeField]
     private GameObject P1_Unit;
@@ -17,7 +15,6 @@ public class Unit_Panel : MonoBehaviour
     private GameObject P2_Unit;
 
     public bool canBoard = false;   //말판에 나갈수 있는가 판단하는 변수
-
 
     public List<GameObject> P1_Units;
     // private GameObject[] P1_Unit;
@@ -28,14 +25,10 @@ public class Unit_Panel : MonoBehaviour
 
     [SerializeField]
     private Sprite Goal_sprite;
-
-
- 
-
+    #region Unity Callback
     private void Start()
     {
         playingYut = FindObjectOfType<PlayingYut>();
-
  
         for (int i= 0; i<4; i++)
         {
@@ -63,7 +56,7 @@ public class Unit_Panel : MonoBehaviour
             //캐릭터 이미지
             GameObject btn = obj.transform.GetChild(0).gameObject;
             obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Character_Clicked(ref btn); });
-            obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener( playingYut.CharacterButtonClick);
+            obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { playingYut.CharacterButtonClick(GameManager.instance.playerNum); });
 
             
 
@@ -126,7 +119,7 @@ public class Unit_Panel : MonoBehaviour
 
         #endregion
     }
-
+    #endregion
 
     //Return_Btn 클릭시 호출되는 메소드
     public void Return_Clicked(ref GameObject parentObj)

@@ -15,10 +15,6 @@ public class GameManager : MonoBehaviour
 
     public List<int> PlayerIndex;   //말판위에 올라간 유닛
 
-    public int playerNum = 0;   //어떤 플레이어가 선택되었는지 저장하는 변수
-    public bool[] playingPlayer = { false, false, false, false };
-
-
     public bool isPlayer1 = true;  //턴구분 변수
 
     public bool isMyTurn;

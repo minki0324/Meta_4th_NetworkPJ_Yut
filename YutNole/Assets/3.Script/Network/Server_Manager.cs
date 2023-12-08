@@ -7,16 +7,39 @@ public class Server_Manager : NetworkBehaviour
 {
     public static Server_Manager instance;
 
+    #region Script
+    [SerializeField] private Yut_Gacha Yut_Ani;
+    #endregion
+
     #region SyncVar
     [SyncVar(hook = nameof(OnTurn_Finish))] 
     public int Turn_Index = 1;
-    
+
+    [SyncVar]
+    public string ThrowResult = string.Empty;
     #endregion
 
     #region Client
+    [Client]
+    public void Yut_Btn_Click()
+    {
+
+    }
+
     #endregion
 
     #region Command
+    // 윷 던지는 애니메이션 CMD
+    [Command(requiresAuthority = false)]
+    private void CMDYut_Throwing()
+    {
+        string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
+        ThrowResult = triggers[Random.Range(0, triggers.Length)];
+
+        RPCYut_Throwing(ThrowResult);
+    }
+
+    // 턴 바꾸는 CMD
     [Command(requiresAuthority = false)]
     public void CMD_Turn_Changer()
     {
@@ -24,15 +47,17 @@ public class Server_Manager : NetworkBehaviour
         OnTurn_Finish(Turn_Index, next_Index);
     }
 
-    // 시작시 1, 2중 한개를 골라 랜덤으로 턴을 생성하는 로직 > 룸 매니저에서 게임씬으로 변경됐을 때 호출
-    [Command]
-    public void First_TurnSet()
-    {
-        StartCoroutine(DelayedFirstTurnSet());
-    }
+    
     #endregion
 
     #region ClientRPC
+    // 애니메이션 출력 RPC
+    [ClientRpc]
+    private void RPCYut_Throwing(string trigger)
+    {
+        Debug.Log("RpcRPCYut_Throwing 호출됨");
+        Yut_Ani.Throwing(trigger);
+    }
     #endregion
 
     #region Unity Callback
@@ -48,7 +73,6 @@ public class Server_Manager : NetworkBehaviour
             Destroy(gameObject);
             return;
         }
-        StartCoroutine(DelayedFirstTurnSet());
     }
 
     private void Update()
@@ -68,12 +92,5 @@ public class Server_Manager : NetworkBehaviour
     #endregion
 
 
-    private IEnumerator DelayedFirstTurnSet()
-    {
-        // 1초의 딜레이를 줌 
-        yield return new WaitForSeconds(1f);
-
-        int Ran_Num = Random.Range(1, 3);
-        OnTurn_Finish(Turn_Index, Ran_Num);
-    }
+   
 }

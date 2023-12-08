@@ -78,7 +78,6 @@ public class ThrowYut_Button : MonoBehaviour/*, IPointerEnterHandler, IPointerEx
         else
         {
             ThrowYut_Btn.GetComponent<Image>().sprite = ThrowYut_sprites[3];
-            Yut_Ani.Throwing();
 
             //for (int i = 0; i < unitPanel.P1_Units.Count; i++)
             //{

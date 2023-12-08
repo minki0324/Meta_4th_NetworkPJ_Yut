@@ -7165,8 +7165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb4fa93663225746b504c76b953aed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playingYut: {fileID: 0}
   P1_Unit: {fileID: 1644366324}
   P2_Unit: {fileID: 1633168789}
+  canBoard: 0
   P1_Units: []
   P2_Units: []
   Goal_sprite: {fileID: 0}
@@ -11269,6 +11271,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winNlose: {fileID: 0}
   unitPanel: {fileID: 0}
+  P1_Units_Obj:
+  - {fileID: 3110869463557674129}
+  - {fileID: 818810715}
+  - {fileID: 1753788894}
+  - {fileID: 1441063168}
+  P2_Units_Obj: []
+  PlayerIndex: 
   isPlayer1: 1
   isMyTurn: 0
   isThrew: 0

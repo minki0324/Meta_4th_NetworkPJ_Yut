@@ -2415,6 +2415,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 723802529f673f74985080bae9a8419f, type: 3}
   - {fileID: 21300000, guid: 51e99a9d4e4fdb94484b008b90aad93e, type: 3}
   yutGacha: {fileID: 1848670359}
+  Results: []
 --- !u!224 &755891720
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5796,6 +5797,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 43ca6df3ffb3fb946b8569032492e034, type: 3}
   - {fileID: 21300000, guid: e2ef8aabf5da63e459b5671c36b76798, type: 3}
   Yut_Ani: {fileID: 1848670359}
+  unitPanel: {fileID: 0}
 --- !u!114 &1771830779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6124,6 +6126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ThrowResult: 
   resultPanel: {fileID: 755891719}
+  unitPanel: {fileID: 0}
+  throwBtn: {fileID: 0}
 --- !u!95 &1848670360
 Animator:
   serializedVersion: 3
@@ -6560,16 +6564,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb4fa93663225746b504c76b953aed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1_Unit:
-  - {fileID: 581112}
-  - {fileID: 1595046794}
-  - {fileID: 1596588966}
-  - {fileID: 204383189}
-  P2_Unit:
-  - {fileID: 789862131}
-  - {fileID: 1538265407}
-  - {fileID: 577586154}
-  - {fileID: 1753524220}
+  playingYut: {fileID: 0}
+  P1_Unit: {fileID: 929485917}
+  P2_Unit: {fileID: 1638082974}
+  canBoard: 0
+  P1_Units: []
+  P2_Units: []
   Goal_sprite: {fileID: 0}
 --- !u!114 &1986193408
 MonoBehaviour:
@@ -6590,6 +6590,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 43ca6df3ffb3fb946b8569032492e034, type: 3}
   - {fileID: 21300000, guid: e2ef8aabf5da63e459b5671c36b76798, type: 3}
   Yut_Ani: {fileID: 1848670359}
+  unitPanel: {fileID: 0}
 --- !u!114 &1986193409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6602,12 +6603,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d21cad642596084489ae5ee3ba631fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1_Timer_slider: {fileID: 656226269}
-  P2_Timer_slider: {fileID: 36205121}
-  P1_Unit: []
-  P2_Unit: []
-  ThrowTime: 0
-  SliderSpeed: 1
 --- !u!114 &1986193410
 MonoBehaviour:
   m_ObjectHideFlags: 0
