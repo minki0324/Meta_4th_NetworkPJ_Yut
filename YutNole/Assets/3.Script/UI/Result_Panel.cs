@@ -35,11 +35,8 @@ public class Result_Panel : MonoBehaviour
     }
 
 
-    public void Set_Result()
+    public void Set_Result(string result)
     {
-
-
-
         //0번이 활성화 중이 아니면 0번 활성화
         //만약 0번이 활성화 중이면 0번을 1번으로 새로들어온건 0번으로
         int start = 0;
@@ -48,9 +45,7 @@ public class Result_Panel : MonoBehaviour
         for (int i = start; i < Result_imgs.Length; i++)
         {
             if (Result_imgs[i].gameObject.activeSelf) start++;
-
         }
-
 
         for (int i = start; i < Result_imgs.Length; i++)
         {
@@ -58,7 +53,7 @@ public class Result_Panel : MonoBehaviour
             if (!Result_imgs[i].gameObject.activeSelf)
             {
                 Result_imgs[i].gameObject.SetActive(true);
-                Throw_Result(ref (Result_imgs[i]));
+                Throw_Result(ref (Result_imgs[i]), result);
                 break;
             }
             else
@@ -69,7 +64,7 @@ public class Result_Panel : MonoBehaviour
 
                     Result_imgs[i + 1].gameObject.SetActive(true);
                     Result_imgs[i + 1].sprite = Result_imgs[i].sprite;
-                    Throw_Result(ref (Result_imgs[i]));
+                    Throw_Result(ref (Result_imgs[i]), result);
                     break;
 
                 }
@@ -81,12 +76,10 @@ public class Result_Panel : MonoBehaviour
     }
 
 
-    public void Throw_Result(ref Image img)
+    public void Throw_Result(ref Image img, string result)
     {
-
-        switch (yutGacha.ThrowResult)
+        switch (result)
         {
-
             case "Backdo":
                 img.sprite = Result_sprites[0];
                 break;
@@ -110,11 +103,6 @@ public class Result_Panel : MonoBehaviour
             case "Mo":
                 img.sprite = Result_sprites[5];
                 break;
-
-     
-
         }
-
-
     }
 }

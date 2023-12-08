@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class Yut_Gacha : MonoBehaviour
 {
-    /*
-        1. 확률에 따라서 윷 애니메이션 출력
-    */
+    
+      //  1. 확률에 따라서 윷 애니메이션 출력
+
 
     private Animator Yut_ani;
 
     public string ThrowResult;
 
- 
+
 
     [SerializeField] Result_Panel resultPanel;
     [SerializeField] Unit_Panel unitPanel;
@@ -73,8 +73,8 @@ public class Yut_Gacha : MonoBehaviour
                 }
             }
 
-            
-            if (countunits>=4 && ThrowResult.Equals("Backdo"))
+
+            if (countunits >= 4 && ThrowResult.Equals("Backdo"))
             {
                 //전부 false면
                 return;
@@ -86,7 +86,7 @@ public class Yut_Gacha : MonoBehaviour
 
 
 
-            resultPanel.Set_Result();
+            resultPanel.Set_Result(Trigger);
             GameManager.instance.isThrew = true;
             //캐릭터 움직이고 isThrew false로 변경
 

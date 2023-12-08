@@ -13,7 +13,7 @@ public class Server_Manager : NetworkBehaviour
 
     #region SyncVar
     [SyncVar(hook = nameof(OnTurn_Finish))] 
-    public int Turn_Index = 1;
+    public int Turn_Index = 2;
 
     [SyncVar]
     public string ThrowResult = string.Empty;
@@ -25,7 +25,6 @@ public class Server_Manager : NetworkBehaviour
     {
 
     }
-
     #endregion
 
     #region Command
@@ -73,6 +72,11 @@ public class Server_Manager : NetworkBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+
+    private void Start()
+    {
+        CMD_Turn_Changer();
     }
 
     private void Update()

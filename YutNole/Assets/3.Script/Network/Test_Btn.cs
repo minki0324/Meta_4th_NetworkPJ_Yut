@@ -5,8 +5,8 @@ using Mirror;
 
 public class Test_Btn : NetworkBehaviour
 {
-    [SerializeField]
-    private NetworkAnimator Yut_ani;
+    [SerializeField] private NetworkAnimator Yut_ani;
+    [SerializeField] private Result_Panel result;
 
     #region SyncVar
     [SyncVar]
@@ -19,7 +19,7 @@ public class Test_Btn : NetworkBehaviour
     {
         Debug.Log("Btn_Click »£√‚µ ");
         CMDYut_Throwing();
-
+        Server_Manager.instance.CMD_Turn_Changer();
     }
 
     [Command(requiresAuthority = false)]
@@ -28,7 +28,7 @@ public class Test_Btn : NetworkBehaviour
         string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
         trigger_ = triggers[Random.Range(0, triggers.Length)];
         Debug.Log($"CMDYut_Throwing »£√‚ : {trigger_}");
-
+        result.Set_Result(trigger_);
         RPCYut_Throwing(trigger_);
     }
     #endregion
