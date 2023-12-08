@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
 
     public bool hasChance = false; // 윷, 모, 잡기일 때 찬스 한 번 더
 
-
     public int GoalCount = 0;
     public bool isWin = false;
     public bool isLose = false;
+
+    public int playerNum = 0; // 어떤 player가 선택되었는지 저장하는 변수, CharacterButton
+    public bool[] playingPlayer = { false, false, false, false }; // player 0, 1, 2, 3 판에 올라갔다면 true, 잡혔을 때, 골인했을 때는 false로 바꿔줌
 
     private void Awake()
     {
@@ -36,8 +38,6 @@ public class GameManager : MonoBehaviour
 
         winNlose = FindObjectOfType<WINnLose>();
         unitPanel = FindObjectOfType<Unit_Panel>();
-
-        isPlayer1 = false;
     }
 
 

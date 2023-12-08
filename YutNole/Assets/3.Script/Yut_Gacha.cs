@@ -57,11 +57,12 @@ public class Yut_Gacha : MonoBehaviour
 
             GameManager.instance.hasChance = false;
 
-            if (!ThrowResult.Equals("Nack"))
+            if (ThrowResult.Equals("Nack"))
             {
-                resultPanel.Set_Result();
+                return;
             }
-
+            
+            resultPanel.Set_Result();
             GameManager.instance.isThrew = true;
             //캐릭터 움직이고 isThrew false로 변경
 
@@ -76,6 +77,7 @@ public class Yut_Gacha : MonoBehaviour
     { // Test용 MyTurn button event
         Debug.Log("MyTurn");
         throwBtn.GetComponent<Image>().sprite = throwBtn.ThrowYut_sprites[1];
+        throwBtn.GetComponent<Button>().enabled = true;
         GameManager.instance.hasChance = true;
 
 
