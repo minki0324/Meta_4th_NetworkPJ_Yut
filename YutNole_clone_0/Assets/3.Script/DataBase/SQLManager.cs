@@ -97,7 +97,7 @@ public class SQLManager : MonoBehaviour
     {
 
         List<server_info> userInfo = new List<server_info>();
-        userInfo.Add(new server_info("13.124.124.144", "programming", "root", "1234", "3306"));
+        userInfo.Add(new server_info("3.34.4.119", "programming", "root", "1234", "3306"));
 
         JsonData data = JsonMapper.ToJson(userInfo);
         File.WriteAllText(path + "/config.json", data.ToString());

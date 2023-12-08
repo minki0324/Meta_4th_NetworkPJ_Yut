@@ -62,18 +62,19 @@
     <Compile Include="Assets\3.Script\Network\Room_Manager.cs" />
     <Compile Include="Assets\3.Script\Yut_Gacha.cs" />
     <Compile Include="Assets\3.Script\Canvas_Net.cs" />
+    <Compile Include="Assets\3.Script\Network\Server_Manager.cs" />
     <Compile Include="Assets\3.Script\Player\PlayingYut.cs" />
     <Compile Include="Assets\3.Script\ThrowYut_Button.cs" />
     <Compile Include="Assets\3.Script\Player\ReturnButtonSetter.cs" />
     <Compile Include="Assets\3.Script\DataBase\SQLManager.cs" />
     <Compile Include="Assets\3.Script\UI\Unit_Panel.cs" />
+    <Compile Include="Assets\3.Script\Network\SM_Spawner.cs" />
     <Compile Include="Assets\3.Script\Network\Room_Player.cs" />
     <Compile Include="Assets\3.Script\UI\Result_Panel.cs" />
     <Compile Include="Assets\3.Script\DataBase\LoginControll.cs" />
+    <Compile Include="Assets\3.Script\Network\Room_Scene.cs" />
     <Compile Include="Assets\3.Script\DataBase\ServerChecker.cs" />
     <Compile Include="Assets\3.Script\Player\PlayerMovement.cs" />
-    <Compile Include="Assets\3.Script\Network\Server_Manager.cs" />
-    <Compile Include="Assets\3.Script\Network\Room_Scene.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />
