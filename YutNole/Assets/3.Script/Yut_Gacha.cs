@@ -32,8 +32,8 @@ public class Yut_Gacha : MonoBehaviour
         //내턴인 경우 체크하기 
         if (GameManager.instance.hasChance)
         {
-       
-            if(GameManager.instance.isPlayer1)
+
+            if (GameManager.instance.isPlayer1)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -47,21 +47,48 @@ public class Yut_Gacha : MonoBehaviour
                     unitPanel.P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
                 }
             }
-          
-            string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
-            // string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" ,"Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
 
+            string[] triggers = { "Mo", "Mo", "Mo", "Mo" };
+            // string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" ,"Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
+            //string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
             ThrowResult = triggers[Random.Range(0, triggers.Length)];
 
             Yut_ani.SetTrigger(ThrowResult);
 
             GameManager.instance.hasChance = false;
 
-            if (!ThrowResult.Equals("Nack"))
+
+            //낙이면 내다버리기
+            if (ThrowResult.Equals("Nack"))
             {
-                resultPanel.Set_Result();
+                return;
             }
 
+
+            //말이 아무것도 없을 때 뺵도 나왔을 시
+            int countunits = 0;
+            for (int i = 0; i < GameManager.instance.playingPlayer.Length; i++)
+            {
+                //playingPlayer 배열의 원소들이 전부 false인가 체크
+                if (!GameManager.instance.playingPlayer[i])
+                {
+                    countunits++;
+                }
+            }
+
+            
+            if (countunits>=4 && ThrowResult.Equals("Backdo"))
+            {
+                //전부 false면
+                return;
+            }
+
+
+
+
+
+
+            resultPanel.Set_Result();
             GameManager.instance.isThrew = true;
             //캐릭터 움직이고 isThrew false로 변경
 
@@ -76,6 +103,7 @@ public class Yut_Gacha : MonoBehaviour
     { // Test용 MyTurn button event
         Debug.Log("MyTurn");
         throwBtn.GetComponent<Image>().sprite = throwBtn.ThrowYut_sprites[1];
+        throwBtn.GetComponent<Button>().enabled = true;
         GameManager.instance.hasChance = true;
 
 

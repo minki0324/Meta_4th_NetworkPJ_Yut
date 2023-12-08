@@ -65,6 +65,7 @@ public class Slider_Panel : MonoBehaviour
                 P1_Timer_slider.value += SliderSpeed;
                 if (ThrowTime > TimeLimit)
                 {
+                    GameManager.instance.hasChance = false;
                     break;
                 }
 
@@ -80,6 +81,7 @@ public class Slider_Panel : MonoBehaviour
                 P2_Timer_slider.value += SliderSpeed;
                 if (ThrowTime > TimeLimit)
                 {
+                    GameManager.instance.hasChance = false;
                     break;
                 }
 

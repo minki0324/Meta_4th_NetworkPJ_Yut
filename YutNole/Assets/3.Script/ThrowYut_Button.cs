@@ -31,7 +31,7 @@ public class ThrowYut_Button : MonoBehaviour/*, IPointerEnterHandler, IPointerEx
 
         unitPanel = FindObjectOfType<Unit_Panel>();
 
-        ThrowYut_Btn.GetComponent<Button>();
+        ThrowYut_Btn = GetComponent<Button>();
       
         ThrowYut_Btn.onClick.AddListener(ThrowYut_Btn_Clicked);
 
