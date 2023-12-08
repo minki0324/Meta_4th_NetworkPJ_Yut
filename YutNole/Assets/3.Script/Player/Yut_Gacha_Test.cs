@@ -26,6 +26,7 @@ public class Yut_Gacha_Test : MonoBehaviour
     {
         if (isChance)
         {
+            //string[] triggers = { "Do", "Do", "Backdo", "Backdo", "Backdo", "Backdo", "Backdo", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
             string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
             //string[] triggers = { "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
 
@@ -42,8 +43,6 @@ public class Yut_Gacha_Test : MonoBehaviour
             }
 
             resultPanel.Set_Result();
-
-
         }
 
     }
