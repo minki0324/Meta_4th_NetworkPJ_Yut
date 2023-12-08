@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Yut_Gacha : MonoBehaviour
 {
     /*
-        1. È®·ü¿¡ µû¶ó¼­ À· ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·Â
+        1. í™•ë¥ ì— ë”°ë¼ì„œ ìœ· ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥
     */
 
     private Animator Yut_ani;
@@ -29,11 +29,11 @@ public class Yut_Gacha : MonoBehaviour
 
     public void Throwing()
     {
-        //³»ÅÏÀÎ °æ¿ì Ã¼Å©ÇÏ±â 
+        //ë‚´í„´ì¸ ê²½ìš° ì²´í¬í•˜ê¸° 
         if (GameManager.instance.hasChance)
         {
-       
-            if(GameManager.instance.isPlayer1)
+
+            if (GameManager.instance.isPlayer1)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -47,24 +47,51 @@ public class Yut_Gacha : MonoBehaviour
                     unitPanel.P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
                 }
             }
-          
-            string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
-            // string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" ,"Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
 
+            string[] triggers = { "Mo", "Mo", "Mo", "Mo" };
+            // string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" ,"Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
+            //string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
             ThrowResult = triggers[Random.Range(0, triggers.Length)];
 
             Yut_ani.SetTrigger(ThrowResult);
 
             GameManager.instance.hasChance = false;
 
+
+            //ë‚™ì´ë©´ ë‚´ë‹¤ë²„ë¦¬ê¸°
             if (ThrowResult.Equals("Nack"))
             {
                 return;
             }
+
+
+            //ë§ì´ ì•„ë¬´ê²ƒë„ ì—†ì„ ë•Œ Â•æ› ë‚˜ì™”ì„ ì‹œ
+            int countunits = 0;
+            for (int i = 0; i < GameManager.instance.playingPlayer.Length; i++)
+            {
+                //playingPlayer ë°°ì—´ì˜ ì›ì†Œë“¤ì´ ì „ë¶€ falseì¸ê°€ ì²´í¬
+                if (!GameManager.instance.playingPlayer[i])
+                {
+                    countunits++;
+                }
+            }
+
             
+            if (countunits>=4 && ThrowResult.Equals("Backdo"))
+            {
+                //ì „ë¶€ falseë©´
+                return;
+            }
+
+
+
+
+
+
+
             resultPanel.Set_Result();
             GameManager.instance.isThrew = true;
-            //Ä³¸¯ÅÍ ¿òÁ÷ÀÌ°í isThrew false·Î º¯°æ
+            //ìºë¦­í„° ì›€ì§ì´ê³  isThrew falseë¡œ ë³€ê²½
 
             if (ThrowResult.Equals("Yut") || ThrowResult.Equals("Mo"))
             {
@@ -74,7 +101,7 @@ public class Yut_Gacha : MonoBehaviour
     }
 
     public void MyTurnButton()
-    { // Test¿ë MyTurn button event
+    { // Testìš© MyTurn button event
         Debug.Log("MyTurn");
         throwBtn.GetComponent<Image>().sprite = throwBtn.ThrowYut_sprites[1];
         throwBtn.GetComponent<Button>().enabled = true;

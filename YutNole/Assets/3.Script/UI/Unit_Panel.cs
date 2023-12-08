@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class Unit_Panel : MonoBehaviour
 {
+    [SerializeField] private PlayingYut playingYut;
+
+
+
     //플레이어 말
     [SerializeField]
     private GameObject P1_Unit;
@@ -12,6 +16,7 @@ public class Unit_Panel : MonoBehaviour
     [SerializeField]
     private GameObject P2_Unit;
 
+    public bool canBoard = false;   //말판에 나갈수 있는가 판단하는 변수
 
 
     public List<GameObject> P1_Units;
@@ -25,10 +30,11 @@ public class Unit_Panel : MonoBehaviour
     private Sprite Goal_sprite;
 
 
+ 
 
     private void Start()
     {
-
+        playingYut = FindObjectOfType<PlayingYut>();
 
  
         for (int i= 0; i<4; i++)
@@ -57,6 +63,9 @@ public class Unit_Panel : MonoBehaviour
             //캐릭터 이미지
             GameObject btn = obj.transform.GetChild(0).gameObject;
             obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Character_Clicked(ref btn); });
+            obj.transform.GetChild(0).GetComponent<Button>().onClick.AddListener( playingYut.CharacterButtonClick);
+
+            
 
             //return 버튼
             obj.transform.GetChild(0).transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { Return_Clicked(ref btn); });
@@ -131,6 +140,8 @@ public class Unit_Panel : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+                //선택 화살표 다시 띄우기
+                P1_Units[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
             }
         }
         else
@@ -138,20 +149,28 @@ public class Unit_Panel : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+                P2_Units[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
             }
         }
    
     }
+
+
+
+
 
     //캐릭터 클릭시 호출되는 메소드
     public void Character_Clicked(ref GameObject btn)
     {
 
 
-        if(GameManager.instance.isThrew)
+
+        if (GameManager.instance.isThrew)
         {
+          
             //모든말이 제자리에 있으면 == 다 켜져있으면 클릭한 놈 끄기
             //하나라도 자리에 없으면 return버튼 켜기
+
 
             int unitCount = 0;
 
@@ -160,11 +179,9 @@ public class Unit_Panel : MonoBehaviour
                 for (int i = 0; i < P1_Units.Count; i++)
                 {
                     if (P1_Units[i].transform.GetChild(0).gameObject.activeSelf)
-                    {
-                       
+                    {                       
                         unitCount++;
-                        P1_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
-                        // player SetActive(true)
+                        P1_Units[i].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);                
                     }
                 }
 
@@ -196,22 +213,44 @@ public class Unit_Panel : MonoBehaviour
                     for (int i = 0; i < 4; i++)
                     {
                         P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
+
+                        // 말판 위 플레이어 켜기
+                        if (btn.gameObject.Equals(P1_Units[i].transform.GetChild(0).gameObject))
+                        {
+                            GameManager.instance.P1_Units_Obj[i].SetActive(true);
+
+                            //재윤아 말판으로 간 친구 몇번짼지 보냈어^_^..얜 첫번째로 선택된 애야
+                            GameManager.instance.PlayerIndex.Add(i);        
+                            GameManager.instance.playerNum = i;
+                            GameManager.instance.playingPlayer[i] = true;
+                        }
                     }
                 }
                 else
                 {
+                    //하나라도 말판위에 있는 경우
                     for (int i = 0; i < 4; i++)
                     {
 
                         if (P1_Units[i].transform.GetChild(0).gameObject.Equals(btn))
                         {
+                            //매개변수 btn(캐릭터)의 게임오브젝트가 i번째 unit이면 return 버튼 켜기
                             btn.transform.GetChild(0).gameObject.SetActive(true);
+                            if (btn.gameObject.Equals(P1_Units[i].transform.GetChild(0).gameObject))
+                            {
+                                canBoard = true;
+
+                                //재윤아 말판으로 간 친구 몇번짼지 보냈어^_^..얜 첫번째 말고 나머지들 중 선택된거~
+                                GameManager.instance.PlayerIndex.Add(i);       
+                                GameManager.instance.playerNum = i;
+                                GameManager.instance.playingPlayer[i] = true;
+                            }
+                              
                         }
                         else
                         {
+                            //다른 오브젝트면 
                             P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = false;
-
-
                         }
                     }
                 }
@@ -258,7 +297,7 @@ public class Unit_Panel : MonoBehaviour
 
 
 
-    public void Check_Goal()
+    public void Check_Goal()    
     {
         //골인한경우
 

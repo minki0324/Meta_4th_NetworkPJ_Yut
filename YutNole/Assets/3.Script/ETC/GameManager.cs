@@ -9,19 +9,29 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WINnLose winNlose;
     [SerializeField] private Unit_Panel unitPanel;
 
-    public bool isPlayer1 = true;  //ÅÏ±¸ºĞ º¯¼ö
+    //ë§íŒ ìœ„ ê²Œì„ ìœ ë‹› 
+    [SerializeField] public GameObject[] P1_Units_Obj; 
+    [SerializeField] public GameObject[] P2_Units_Obj;
+
+    public List<int> PlayerIndex;   //ë§íŒìœ„ì— ì˜¬ë¼ê°„ ìœ ë‹›
+
+    public int playerNum = 0;   //ì–´ë–¤ í”Œë ˆì´ì–´ê°€ ì„ íƒë˜ì—ˆëŠ”ì§€ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
+    public bool[] playingPlayer = { false, false, false, false };
+
+
+    public bool isPlayer1 = true;  //í„´êµ¬ë¶„ ë³€ìˆ˜
 
     public bool isMyTurn;
     public bool isThrew = false;
 
-    public bool hasChance = false; // À·, ¸ğ, Àâ±âÀÏ ¶§ Âù½º ÇÑ ¹ø ´õ
+    public bool hasChance = false; // ìœ·, ëª¨, ì¡ê¸°ì¼ ë•Œ ì°¬ìŠ¤ í•œ ë²ˆ ë”
 
     public int GoalCount = 0;
     public bool isWin = false;
     public bool isLose = false;
 
-    public int playerNum = 0; // ¾î¶² player°¡ ¼±ÅÃµÇ¾ú´ÂÁö ÀúÀåÇÏ´Â º¯¼ö, CharacterButton
-    public bool[] playingPlayer = { false, false, false, false }; // player 0, 1, 2, 3 ÆÇ¿¡ ¿Ã¶ó°¬´Ù¸é true, ÀâÇûÀ» ¶§, °ñÀÎÇßÀ» ¶§´Â false·Î ¹Ù²ãÁÜ
+    public int playerNum = 0; // ì–´ë–¤ playerê°€ ì„ íƒë˜ì—ˆëŠ”ì§€ ì €ì¥í•˜ëŠ” ë³€ìˆ˜, CharacterButton
+    public bool[] playingPlayer = { false, false, false, false }; // player 0, 1, 2, 3 íŒì— ì˜¬ë¼ê°”ë‹¤ë©´ true, ì¡í˜”ì„ ë•Œ, ê³¨ì¸í–ˆì„ ë•ŒëŠ” falseë¡œ ë°”ê¿”ì¤Œ
 
     private void Awake()
     {
@@ -38,12 +48,20 @@ public class GameManager : MonoBehaviour
 
         winNlose = FindObjectOfType<WINnLose>();
         unitPanel = FindObjectOfType<Unit_Panel>();
+
+        isPlayer1 = true;
+
+        for(int i = 0; i<P1_Units_Obj.Length; i++)
+        {
+            P1_Units_Obj[i].SetActive(false);
+        }
+
     }
 
 
 
 
-    //Ä³¸¯ÅÍ°¡ Goal ÁöÁ¡¿¡ µµÂøÇÒ¶§ È£ÃâÇØÁà :)
+    //ìºë¦­í„°ê°€ Goal ì§€ì ì— ë„ì°©í• ë•Œ í˜¸ì¶œí•´ì¤˜ :)
     public void Count_GoalUnit(GameObject unit)
     {
 
