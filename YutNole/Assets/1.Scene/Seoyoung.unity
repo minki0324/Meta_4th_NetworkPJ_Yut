@@ -319,6 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 18831616}
   - component: {fileID: 18831615}
+  - component: {fileID: 18831617}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player2
@@ -361,6 +362,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &18831617
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18831614}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &23988822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,11 +2276,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1099292283}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: CharacterButtonClick
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2387,7 +2401,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2411,31 +2425,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 333963839}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 826149432}
-        m_TargetAssemblyTypeName: Yut_Gacha, Assembly-CSharp
-        m_MethodName: Throwing
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1099292283}
-        m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
-        m_MethodName: PlayingYutPlus
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &333963839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3943,11 +3933,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1099292283}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: CharacterButtonClick
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4254,11 +4244,11 @@ GameObject:
   - component: {fileID: 818810719}
   m_Layer: 0
   m_Name: Player1 1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &818810717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4285,8 +4275,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 818810715}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.315, y: -0.719, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1659275822}
@@ -4799,11 +4789,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1099292283}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: CharacterButtonClick
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5908,19 +5898,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1060568863}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1099292283}
-        m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
-        m_MethodName: PlayingYutPlus
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1060568863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6427,17 +6405,9 @@ MonoBehaviour:
   - {fileID: 62628157}
   - {fileID: 80155182}
   - {fileID: 1279040156}
-  player: []
-  charcterButton:
-  - {fileID: 1281715963}
-  - {fileID: 325000047}
-  - {fileID: 887744982}
-  - {fileID: 726311187}
-  returnButton:
-  - {fileID: 670186887}
-  - {fileID: 1760502689}
-  - {fileID: 1897176203}
-  - {fileID: 563615071}
+  player: {fileID: 3110869463557674129}
+  charcterButton: {fileID: 1281715963}
+  returnButton: {fileID: 670186887}
   currentIndex: 0
   resultIndex: 0
   yutResultIndex: 
@@ -7165,8 +7135,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb4fa93663225746b504c76b953aed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playingYut: {fileID: 0}
   P1_Unit: {fileID: 1644366324}
   P2_Unit: {fileID: 1633168789}
+  canBoard: 0
   P1_Units: []
   P2_Units: []
   Goal_sprite: {fileID: 0}
@@ -7503,7 +7475,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1099292283}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: CharacterButtonClick
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8323,11 +8295,11 @@ GameObject:
   - component: {fileID: 1441063172}
   m_Layer: 0
   m_Name: Player1 3
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1441063169
 Transform:
   m_ObjectHideFlags: 0
@@ -8335,8 +8307,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1441063168}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.296, y: -2.896, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1648568642}
@@ -9675,7 +9647,7 @@ GameObject:
   - component: {fileID: 1739984367}
   m_Layer: 0
   m_Name: Player1
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9833,11 +9805,11 @@ GameObject:
   - component: {fileID: 1753788898}
   m_Layer: 0
   m_Name: Player1 2
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1753788895
 Transform:
   m_ObjectHideFlags: 0
@@ -9845,8 +9817,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753788894}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.277, y: -1.822, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1062822833}
@@ -10386,6 +10358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1805214366}
+  - component: {fileID: 1805214367}
   m_Layer: 5
   m_Name: CharButton
   m_TagString: Untagged
@@ -10416,6 +10389,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1805214367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805214365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753ed548c4ee8424eb3744cad209b922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: []
+  unitPanel: {fileID: 0}
 --- !u!1 &1825447405
 GameObject:
   m_ObjectHideFlags: 0
@@ -11269,6 +11256,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winNlose: {fileID: 0}
   unitPanel: {fileID: 0}
+  P1_Units_Obj:
+  - {fileID: 3110869463557674129}
+  - {fileID: 818810715}
+  - {fileID: 1753788894}
+  - {fileID: 1441063168}
+  P2_Units_Obj: []
+  PlayerIndex: 
+  playerNum: 0
+  playingPlayer: 00000000
   isPlayer1: 1
   isMyTurn: 0
   isThrew: 0
@@ -11276,8 +11272,6 @@ MonoBehaviour:
   GoalCount: 0
   isWin: 0
   isLose: 0
-  playerNum: 0
-  playingPlayer: 00000000
 --- !u!4 &2091944813
 Transform:
   m_ObjectHideFlags: 0
@@ -11286,7 +11280,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091944811}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 886.90625, y: 538.3617, z: -1225.8596}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11845,11 +11839,11 @@ GameObject:
   - component: {fileID: 3110869463557674132}
   m_Layer: 0
   m_Name: Player1 0
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3110869463557674130
 Transform:
   m_ObjectHideFlags: 0
@@ -12007,7 +12001,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3110869464372769321}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.266, y: 0.365, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 3110869463557674130}
