@@ -41,6 +41,9 @@ public class ServerChecker : MonoBehaviour
     public string Server_Ip { get; private set; }
     public string Server_Port { get; private set; }
 
+    [Header("자신의 아이피 넣어주기")]
+    public string ServerIP = string.Empty;
+
     private void Awake()
     {
         if(instance == null)
@@ -75,7 +78,7 @@ public class ServerChecker : MonoBehaviour
     {
       
         List<Item> item = new List<Item>();
-        item.Add(new Item("1", "15.164.233.124", "7777"));
+        item.Add(new Item("1", ServerIP, "7777"));
 
         JsonData data = JsonMapper.ToJson(item);
         File.WriteAllText(path + "/License.json", data.ToString());

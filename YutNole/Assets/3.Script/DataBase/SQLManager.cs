@@ -60,6 +60,8 @@ public class SQLManager : MonoBehaviour
     public string DB_path = string.Empty;
     public static SQLManager instance = null;
 
+    public string ServerIP = string.Empty;
+
     private void Awake()
     {
         if(instance == null)
@@ -97,7 +99,7 @@ public class SQLManager : MonoBehaviour
     {
 
         List<server_info> userInfo = new List<server_info>();
-        userInfo.Add(new server_info("15.164.233.124", "programming", "root", "1234", "3306"));
+        userInfo.Add(new server_info(ServerIP, "programming", "root", "1234", "3306"));
 
         JsonData data = JsonMapper.ToJson(userInfo);
         File.WriteAllText(path + "/config.json", data.ToString());

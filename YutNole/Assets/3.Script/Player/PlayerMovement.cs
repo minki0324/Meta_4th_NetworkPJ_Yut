@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         { // À·, ¸ð, Ä³Ä¡
             for (int i = 0; i < 4; i++)
             {
-                playingYut.charcterButton[i].SetActive(true);
+                playingYut.characterButton[i].SetActive(true);
             }
         }
     }

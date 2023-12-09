@@ -2321,12 +2321,12 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 7212728628432714181, guid: 966e5cb85c7a4094f98ca131ffc4c2b3, type: 3}
+  playerPrefab: {fileID: 1319365045450924751, guid: 040146c65579e4c4cbac681c965f5893, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs:
-  - {fileID: 2849594471969943332, guid: a1ada6ce6acf2704d90c61f0f614a04d, type: 3}
-  - {fileID: 3960500371682087817, guid: 03c31436b8786704e8b65ccbcdc216b1, type: 3}
+  - {fileID: 7444907692143716646, guid: 46b1f8abf2665f5499a52d62ce0e250c, type: 3}
+  - {fileID: 160705362447747828, guid: 63e4b0f731f442c4da79413cbcd02657, type: 3}
   snapshotSettings:
     bufferTimeMultiplier: 2
     bufferLimit: 32
@@ -2344,7 +2344,7 @@ MonoBehaviour:
   minPlayers: 2
   roomPlayerPrefab: {fileID: -7229258707171235979, guid: 6910a29d6e50b2340bc45a6e8f3c0ab8, type: 3}
   RoomScene: Assets/1.Scene/00_Intro.unity
-  GameplayScene: Assets/1.Scene/Minjun.unity
+  GameplayScene: Assets/1.Scene/Jaeyun.unity
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
@@ -2375,6 +2375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  ServerIP: 13.124.181.154
 --- !u!1 &1121435969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2785,6 +2786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DB_path: 
+  ServerIP: 3.34.46.211
 --- !u!4 &1185954388
 Transform:
   m_ObjectHideFlags: 0

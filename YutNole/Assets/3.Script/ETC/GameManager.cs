@@ -7,16 +7,13 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     [SerializeField] private WINnLose winNlose;
-    [SerializeField] private Unit_Panel unitPanel;
 
-    //말판 위 게임 유닛 
-    [SerializeField] public GameObject[] P1_Units_Obj; 
-    [SerializeField] public GameObject[] P2_Units_Obj;
     public GameObject[] myObject; //0번 힐라 1번 매그
-    public Transform[] targetPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
+    public Transform[] startPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
+
     public List<int> PlayerIndex;   //말판위에 올라간 유닛
-    public PlayerMovement[] players;   //말판위에 올라간 유닛
-    public PlayerMovement[] tempplayers;
+    public PlayerState[] players;   //말판위에 올라간 유닛
+    public PlayerState[] tempPlayers;
     public bool isPlayer1 = true;  //턴구분 변수
     
     public bool isMyTurn;
@@ -25,6 +22,7 @@ public class GameManager : MonoBehaviour
     public bool hasChance = false; // 윷, 모, 잡기일 때 찬스 한 번 더
 
     public int GoalCount = 0;
+
     public bool isWin = false;
     public bool isLose = false;
 
@@ -33,7 +31,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-
         if(instance == null)
         {
             instance = this;
@@ -45,36 +42,27 @@ public class GameManager : MonoBehaviour
         }
 
         winNlose = FindObjectOfType<WINnLose>();
-        unitPanel = FindObjectOfType<Unit_Panel>();
-
         isPlayer1 = true;
-
-        //for(int i = 0; i<P1_Units_Obj.Length; i++)
-        //{
-        //    P1_Units_Obj[i].SetActive(false);
-        //}
-
     }
     private void Start()
     {
-        players = new PlayerMovement[4];
+        players = new PlayerState[4];
         StartCoroutine(GetPlayer());
-        
     }
+
     private IEnumerator GetPlayer()
     {
         yield return new WaitForSeconds(1f);
-      tempplayers = FindObjectsOfType<PlayerMovement>();
+        tempPlayers = FindObjectsOfType<PlayerState>();
         int index = 0;
-        foreach (PlayerMovement player in tempplayers)
+        foreach (PlayerState player in tempPlayers)
         {
-           
             if (GM.instance.Player_Num == Player_Num.P1)
             {
                 if (player.gameObject.CompareTag("Player1"))
                 {
-                    
                     players[index] = player;
+                    players[index].startPos = startPos[index];
                     index++;
                 }
             }
@@ -82,56 +70,11 @@ public class GameManager : MonoBehaviour
             {
                 if (player.gameObject.CompareTag("Player2"))
                 {
-
                     players[index] = player;
+                    players[index].startPos = startPos[index + 4];
                     index++;
                 }
             }
         }
-
-        Debug.Log(players[1].gameObject.name);
     }
-
-
-    //캐릭터가 Goal 지점에 도착할때 호출해줘 :)
-    public void Count_GoalUnit(GameObject unit)
-    {
-
-        if(isPlayer1)
-        {
-            for (int i = 0; i < unitPanel.P1_Units.Count; i++)
-            {
-                if (unit.name == unitPanel.P1_Units[i].name)
-                {
-                    unitPanel.P1_Units[i].transform.GetChild(1).gameObject.SetActive(true);
-                }
-            }
-
-        }   
-        else
-        {
-            for (int i = 0; i < unitPanel.P2_Units.Count; i++)
-            {
-                if (unit.name == unitPanel.P2_Units[i].name)
-                {
-                    unitPanel.P2_Units[i].transform.GetChild(1).gameObject.SetActive(true);
-                }
-            }
-        }
-     
-
-        GoalCount++;
-
-        if(GoalCount >= 4)
-        {
-            isWin = true;
-            winNlose.Play_ImgAnimation();
-        }
-        
-    }
-
- 
-
-
-
 }
