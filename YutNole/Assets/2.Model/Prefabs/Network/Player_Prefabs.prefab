@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7911082318332083494}
   - component: {fileID: 5193804305903366374}
   - component: {fileID: 1921586930902068182}
+  - component: {fileID: -7415173863503879975}
   m_Layer: 0
   m_Name: Player_Prefabs
   m_TagString: Untagged
@@ -68,6 +69,21 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   Yut_Btn: {fileID: 8655587635537207653}
+--- !u!114 &-7415173863503879975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301239189963825578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dea09b8d3aa5e448b99453343a3026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &3265809248850613044
 GameObject:
   m_ObjectHideFlags: 0
@@ -3383,8 +3399,8 @@ GameObject:
   - component: {fileID: 8655587635187667260}
   - component: {fileID: 8655587635187667262}
   - component: {fileID: 8655587635187667261}
-  - component: {fileID: 8655587635187667263}
   - component: {fileID: 8655587635187667232}
+  - component: {fileID: 5913312021330143391}
   m_Layer: 5
   m_Name: Result_Panel
   m_TagString: Untagged
@@ -3454,33 +3470,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8655587635187667263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8655587635187667259}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe91a8037e07d254fb630278d29a525d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Result_imgs:
-  - {fileID: 8655587634938554175}
-  - {fileID: 8655587634023816015}
-  - {fileID: 8655587634735111640}
-  - {fileID: 8655587635736806787}
-  - {fileID: 8655587634407239950}
-  Result_sprites:
-  - {fileID: 21300000, guid: 5334f449e31fb9549b402f3eac7daeac, type: 3}
-  - {fileID: 21300000, guid: 84456dc601aff50488f437fdcfbaffcc, type: 3}
-  - {fileID: 21300000, guid: 9fb55ce5e474ede459d9215e01b61d1e, type: 3}
-  - {fileID: 21300000, guid: e36ba3325cc255b4b8e8182ca95888b7, type: 3}
-  - {fileID: 21300000, guid: 723802529f673f74985080bae9a8419f, type: 3}
-  - {fileID: 21300000, guid: 51e99a9d4e4fdb94484b008b90aad93e, type: 3}
-  yutGacha: {fileID: 0}
-  Results: []
 --- !u!114 &8655587635187667232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3505,6 +3494,36 @@ MonoBehaviour:
   m_Spacing: {x: -10, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &5913312021330143391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8655587635187667259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a75c3e6193eb44409a6739ed8ffa556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  results:
+  - {fileID: 8655587634938554175}
+  - {fileID: 8655587634023816015}
+  - {fileID: 8655587634735111640}
+  - {fileID: 8655587635736806787}
+  - {fileID: 8655587634407239950}
+  yut_Counts:
+  - {fileID: 21300000, guid: 5334f449e31fb9549b402f3eac7daeac, type: 3}
+  - {fileID: 21300000, guid: 84456dc601aff50488f437fdcfbaffcc, type: 3}
+  - {fileID: 21300000, guid: 9fb55ce5e474ede459d9215e01b61d1e, type: 3}
+  - {fileID: 21300000, guid: e36ba3325cc255b4b8e8182ca95888b7, type: 3}
+  - {fileID: 21300000, guid: 723802529f673f74985080bae9a8419f, type: 3}
+  - {fileID: 21300000, guid: 51e99a9d4e4fdb94484b008b90aad93e, type: 3}
+  throw_Btn: {fileID: 3832632371402790542}
+  result_Value: []
 --- !u!1 &8655587635198610668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4173,7 +4192,6 @@ GameObject:
   - component: {fileID: 8655587635537207656}
   - component: {fileID: 8655587635537207654}
   - component: {fileID: 8655587635537207653}
-  - component: {fileID: 8655587635537207655}
   - component: {fileID: 3832632371402790542}
   m_Layer: 5
   m_Name: Throw_Btn
@@ -4295,26 +4313,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8655587635537207655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8655587635537207652}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af9a4143db043a9468382c52ac230253, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ThrowYut_Btn: {fileID: 8655587635537207653}
-  ThrowYut_sprites:
-  - {fileID: 21300000, guid: 056e35eb2db217a49ae3f30630082875, type: 3}
-  - {fileID: 21300000, guid: 5e5f2a3ece11839469db2aa26f27dc36, type: 3}
-  - {fileID: 21300000, guid: 43ca6df3ffb3fb946b8569032492e034, type: 3}
-  - {fileID: 21300000, guid: e2ef8aabf5da63e459b5671c36b76798, type: 3}
-  Yut_Ani: {fileID: 0}
-  unitPanel: {fileID: 0}
 --- !u!114 &3832632371402790542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4331,6 +4329,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   Yut_ani: {fileID: 2868462646973912045}
+  result: {fileID: 5913312021330143391}
 --- !u!1 &8655587635545970373
 GameObject:
   m_ObjectHideFlags: 0

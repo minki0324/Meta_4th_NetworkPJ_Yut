@@ -9,14 +9,4 @@ public class Room_Manager : NetworkRoomManager
     {
         
     }
-
-    public override void OnServerChangeScene(string newSceneName)
-    {
-        base.OnServerChangeScene(newSceneName);
-
-        if(Utils.IsSceneActive(GameplayScene))
-        {
-
-        }
-    }
 }
