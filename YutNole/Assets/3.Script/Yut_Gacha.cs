@@ -1,60 +1,109 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Yut_Gacha : MonoBehaviour
 {
-    /*
-        1. Ȯ���� ���� �� �ִϸ��̼� ���
-    */
+    
+      //  1. 확률에 따라서 윷 애니메이션 출력
+
 
     private Animator Yut_ani;
 
     public string ThrowResult;
 
-    public  PlayerStates playerState;
+
 
     [SerializeField] Result_Panel resultPanel;
+    [SerializeField] Unit_Panel unitPanel;
+    [SerializeField] ThrowYut_Button throwBtn;
 
     private void Awake()
     {
         Yut_ani = GetComponent<Animator>();
-        playerState.hasChance = true;
+        unitPanel = FindObjectOfType<Unit_Panel>();
+        throwBtn = FindObjectOfType<ThrowYut_Button>();
     }
 
-    public void Throwing()
+    public void Throwing(string Trigger)
     {
-
-        //������ ��� üũ�ϱ� 
-
-        if(playerState.hasChance)
+        //내턴인 경우 체크하기 
+        if (GameManager.instance.hasChance)
         {
-            playerState.hasChance = false;
 
-            string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
-            //string[] triggers = { "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
-
-            ThrowResult = triggers[Random.Range(0, triggers.Length)];
-
-            Yut_ani.SetTrigger(ThrowResult);
-
-
-            if (ThrowResult.Equals("Yut"))
+            if (GameManager.instance.isPlayer1)
             {
-                playerState.hasChance = true;
+                for (int i = 0; i < 4; i++)
+                {
+                    unitPanel.P1_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    unitPanel.P2_Units[i].transform.GetChild(0).GetComponent<Button>().enabled = true;
+                }
+            }
+
+            // string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" ,"Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo", "Mo"};
+            //string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo", "Nack", "Nack" };
+
+            Yut_ani.SetTrigger(Trigger);
+
+            GameManager.instance.hasChance = false;
+
+
+            //낙이면 내다버리기
+            if (ThrowResult.Equals("Nack"))
+            {
+                return;
             }
 
 
-            if (ThrowResult.Equals("Mo"))
+            //말이 아무것도 없을 때 換 나왔을 시
+            int countunits = 0;
+            for (int i = 0; i < GameManager.instance.playingPlayer.Length; i++)
             {
-                playerState.hasChance = true;
+                //playingPlayer 배열의 원소들이 전부 false인가 체크
+                if (!GameManager.instance.playingPlayer[i])
+                {
+                    countunits++;
+                }
             }
 
 
-            resultPanel.Set_Result();
+            if (countunits >= 4 && ThrowResult.Equals("Backdo"))
+            {
+                //전부 false면
+                return;
+            }
 
 
+
+
+
+
+
+            resultPanel.Set_Result(Trigger);
+            GameManager.instance.isThrew = true;
+            //캐릭터 움직이고 isThrew false로 변경
+
+            if (ThrowResult.Equals("Yut") || ThrowResult.Equals("Mo"))
+            {
+                GameManager.instance.hasChance = true;
+            }
         }
+    }
+
+    public void MyTurnButton()
+    { // Test용 MyTurn button event
+        Debug.Log("MyTurn");
+        throwBtn.GetComponent<Image>().sprite = throwBtn.ThrowYut_sprites[1];
+        throwBtn.GetComponent<Button>().enabled = true;
+        GameManager.instance.hasChance = true;
+
 
     }
 }
