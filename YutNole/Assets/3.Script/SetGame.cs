@@ -2,16 +2,21 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Mirror;
 
-
+public class NetworkSpawnedObject
+{
+    public uint objectId;
+    // 다른 필요한 정보들을 추가할 수 있음
+}
 public class SetGame : NetworkBehaviour
 {
     private GameObject[] myObject; //0번 힐라 1번 매그
     private Transform[] targetPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
-
+    public NetworkSpawnedObject[] players;
     //플레이어 1 ,2 에따라 어떤말 , 어떤위치에 생성할지 정해줘야함
 
     private void Awake()
     {
+        players = new NetworkSpawnedObject[2];
         myObject = new GameObject[2];
 
         for (int i = 0; i < NetworkRoomManager.singleton.spawnPrefabs.Count; i++)
@@ -43,7 +48,7 @@ public class SetGame : NetworkBehaviour
                 GameObject myOb = Instantiate(myObject[0], targetPos[i].position, Quaternion.identity);
                 // isServer 체크 제거
                 NetworkServer.Spawn(myOb, connectionToClient);
-
+               
                 Debug.Log($"플레이어1 생성 {i}");
             }
         }
