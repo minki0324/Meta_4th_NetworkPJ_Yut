@@ -29,7 +29,7 @@ public class PlayerState : NetworkBehaviour
     {
         SetUp();
         if (!isLocalPlayer) return;
-        StartCoroutine(PlayerButtonSetting());
+        //StartCoroutine(PlayerButtonSetting());
     }
 
     private void SetUp()
@@ -38,20 +38,20 @@ public class PlayerState : NetworkBehaviour
         currentArray = playingYut.pos1;
     }
 
-    private IEnumerator PlayerButtonSetting()
-    { // Button Position Setting
-        yield return new WaitForSeconds(1.5f);
-        int index = int.Parse(startPos.gameObject.name);
-        Debug.Log(index);
-        characterButton = playingYut.characterButton[index];
-        returnButton = playingYut.returnButton[index];
+    //private IEnumerator PlayerButtonSetting()
+    //{ // Button Position Setting
+    //    yield return new WaitForSeconds(1.5f);
+    //    int index = int.Parse(startPos.gameObject.name);
+    //    Debug.Log(index);
+    //    characterButton = playingYut.characterButton[index];
+    //    returnButton = playingYut.returnButton[index];
 
-        characterButton.GetComponent<ButtonPositionSetter>().target = gameObject.transform;
-        returnButton.GetComponent<ButtonPositionSetter>().target = gameObject.transform;
+    //    characterButton.GetComponent<ButtonPositionSetter>().target = gameObject.transform;
+    //    returnButton.GetComponent<ButtonPositionSetter>().target = gameObject.transform;
 
-        characterButton.SetActive(false);
-        returnButton.SetActive(false);
-    }
+    //    characterButton.SetActive(false);
+    //    returnButton.SetActive(false);
+    //}
     #endregion
     #region SyncVar
     #endregion
