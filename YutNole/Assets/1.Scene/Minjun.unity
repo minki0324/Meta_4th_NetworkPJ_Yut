@@ -8066,14 +8066,14 @@ MonoBehaviour:
   - {fileID: 2849594471969943332, guid: a1ada6ce6acf2704d90c61f0f614a04d, type: 3}
   - {fileID: 3960500371682087817, guid: 03c31436b8786704e8b65ccbcdc216b1, type: 3}
   targetPos:
-  - {fileID: 122829854}
-  - {fileID: 1781710981}
-  - {fileID: 510201382}
   - {fileID: 1426957671}
-  - {fileID: 2055161945}
-  - {fileID: 1539837899}
-  - {fileID: 1641280872}
+  - {fileID: 510201382}
+  - {fileID: 1781710981}
+  - {fileID: 122829854}
   - {fileID: 110628474}
+  - {fileID: 1641280872}
+  - {fileID: 1539837899}
+  - {fileID: 2055161945}
   PlayerIndex: 
   players: []
   tempplayers: []
