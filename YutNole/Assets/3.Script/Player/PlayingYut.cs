@@ -36,8 +36,10 @@ public class PlayingYut : MonoBehaviour
     public int currentIndex = 0; // Button 위치 시킬 기준 인덱스, player 포지션과 동일해야 함
     public int resultIndex = 0; // 버튼 위치할 인덱스
     public List<int> yutResultIndex = new List<int>(); // yut 결과에 대한 숫자, 이동 버튼 클릭 시 Remove, Nack이면 Add 안함
-    private int[] yutArray = { 1, 2, 3, 4, 5, -1 }; // 도 개 걸 윷 모 빽도
+    public List<string> yutResultString = new List<string>(); // yut 결과에 대한 숫자, 이동 버튼 클릭 시 Remove, Nack이면 Add 안함
 
+    private int[] yutArray = { 1, 2, 3, 4, 5, -1 }; // 도 개 걸 윷 모 빽도
+    private Result_Yut result;
     // 윷 결과 가져오기
     public string yutResult;
 
@@ -45,24 +47,50 @@ public class PlayingYut : MonoBehaviour
 
     private void Awake()
     {
+        for (int i = 0; i < result.result_Value.Count; i++)
+        {
+            yutResultString.Add(result.result_Value[i]);
+        }
         playerArray = pos1;
+
+        string temp = result.result_Value[0];
     }
 
     private void Start()
     {
-        
+        //재윤아 ...
+        //내가 캐릭터버튼 타겟 여기서 설정해줬어...
+        //players 인덱스 순서대로 startpos도 다시 세팅했어
+        StartCoroutine(SetButtons());
+       
     }
-
+    private void Update()
+    {
+      
+    }
+    public IEnumerator SetButtons()
+    {
+        yield return new WaitForSeconds(1.1f);
+        for (int i = 0; i < characterButton.Length; i++)
+        {
+            characterButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+            returnButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+        }
+    }
     public void PlayingYutPlus()
     { // 윷 던지기 버튼 event
+
         if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
         { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
-            YutState type = (YutState)Enum.Parse(typeof(YutState), yutResult);
-            yutResultIndex.Add(yutArray[(int)type]); // yutResult에 따라 List에 이동할 만큼의 숫자 추가
-
+            //YutState type = (YutState)Enum.Parse(typeof(YutState), yutResult);
+            Debug.Log(yutResult);
+            int intyut = ConvertToInt(yutResult);
+            //yutResultIndex.Add(yutArray[intyut]); // yutResult에 따라 List에 이동할 만큼의 숫자 추가
+            
+            Debug.Log(yutArray[intyut]);
             for (int i = 0; i < 4; i++)
             {
-                if (GameManager.instance.playingPlayer[i])
+                if (GameManager.instance.players[i])
                 {
                     Debug.Log("Button?");
                     characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
@@ -83,7 +111,7 @@ public class PlayingYut : MonoBehaviour
         YutState yutName = (YutState)Enum.Parse(typeof(YutState), name); // 버튼에 따라 달라짐
         // GameObject yutObject = yutButton[(int)yutName].gameObject;
 
-        yutResultIndex.Remove(yutArray[(int)yutName]); // 추가된 리스트 삭제
+        //yutResultIndex.Remove(yutArray[(int)yutName]); // 추가된 리스트 삭제
         currentIndex += yutArray[(int)yutName]; // 현재 인덱스 리스트 삭제한 값과 같도록 변경
         TurnPosition(playerArray, currentIndex); // 현재 위치 배열 변경
 
@@ -168,7 +196,7 @@ public class PlayingYut : MonoBehaviour
             characterButton[i].SetActive(false);
         }
         // 어떤 말을 선택했는지 설정
-        GameManager.instance.playerNum = 0;
+        GameManager.instance.playerNum = playerNum;
     }
 
     public void ReturnButtonClick()
@@ -205,5 +233,37 @@ public class PlayingYut : MonoBehaviour
         }
         // Catch 당했을 때 playerArray = pos1로 변경
     }
+    public void MoveButton()
+    {
+        PlayerMovement SelectPlayer = GameManager.instance.players[GameManager.instance.playerNum].GetComponent<PlayerMovement>();
+        SelectPlayer.PlayerMove();
+       
+    }
+    private int ConvertToInt(string yut)
+    {
+        int a = 0;
+        switch (yut) {
+            case "Backdo":
+                a = -1;
+                break;
+            case "Do":
+                a = 1;
+               
+                break;
+            case "Gae":
+                a = 2;
+                break;
+            case "Geol":
+                a = 3;
+                break;
+            case "Yut":
+                a = 4;
+                break;
+            case "Mo":
+                a = 5;
+                break;
 
+        }
+        return a;
+    }
 }

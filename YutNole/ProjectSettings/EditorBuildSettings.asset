@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1.Scene/00_Intro.unity
     guid: 1ac0e0417c08ae342a3baa8305208e46
-  - enabled: 0
+  - enabled: 1
     path: Assets/1.Scene/Minjun.unity
     guid: 5e991a9e630856341af93e3f2ef18bbc
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/Minki.unity
     guid: cacd53185a656c442a496c92fc68c633
   - enabled: 0

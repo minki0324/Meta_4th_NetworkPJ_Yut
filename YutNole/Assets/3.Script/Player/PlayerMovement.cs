@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Move_Co()
     {
+        GameManager.instance.isMoving = true;
         for (int i = currentIndex; i <= moveIndex; i++)
         {
             if (isBackdo)
@@ -70,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
             }
             yield return new WaitForSeconds(0.2f);
         }
-
+        GameManager.instance.isMoving = false ;
         if (GameManager.instance.hasChance)
         { // À·, ¸ð, Ä³Ä¡
             for (int i = 0; i < 4; i++)

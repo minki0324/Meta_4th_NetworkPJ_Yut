@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public PlayerState[] players;   //말판위에 올라간 유닛
     public PlayerState[] tempPlayers;
     public bool isPlayer1 = true;  //턴구분 변수
-    
+    public bool isMoving;
     public bool isMyTurn;
     public bool isThrew = false;
 
@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
     public bool isWin = false;
     public bool isLose = false;
 
-    public int playerNum = 0; // 어떤 player가 선택되었는지 저장하는 변수, CharacterButton
+    public int playerNum ; // 어떤 player가 선택되었는지 저장하는 변수, CharacterButton
+   
     public bool[] playingPlayer = { false, false, false, false }; // player 0, 1, 2, 3 판에 올라갔다면 true, 잡혔을 때, 골인했을 때는 false로 바꿔줌
 
     private void Awake()
@@ -61,17 +62,17 @@ public class GameManager : MonoBehaviour
             {
                 if (player.gameObject.CompareTag("Player1"))
                 {
-                    players[index] = player;
-                    players[index].startPos = startPos[index];
+                    players[3-index] = player;
+                    players[3-index].startPos = startPos[3-index];
                     index++;
                 }
             }
-            else if(GM.instance.Player_Num == Player_Num.P2)
+            else if (GM.instance.Player_Num == Player_Num.P2)
             {
                 if (player.gameObject.CompareTag("Player2"))
                 {
-                    players[index] = player;
-                    players[index].startPos = startPos[index + 4];
+                    players[3-index] = player;
+                    players[3-index].startPos = startPos[3-index];
                     index++;
                 }
             }

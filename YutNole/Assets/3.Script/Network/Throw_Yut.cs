@@ -32,6 +32,13 @@ public class Throw_Yut : NetworkBehaviour
         Debug.Log("Btn_Click 호출됨");
         CMDYut_Throwing();
         Server_Manager.instance.CMD_Turn_Changer();
+        ThrowYutResult(trigger_);
+        playingYut.PlayingYutPlus();
+    }
+    [Client]
+    public void ThrowYutResult(string trigger_)
+    {
+        playingYut.yutResult = trigger_;
     }
     #endregion
 
@@ -44,8 +51,10 @@ public class Throw_Yut : NetworkBehaviour
         Debug.Log($"CMDYut_Throwing 호출 : {trigger_}");
         // Result_Yut 클래스의 Set_Result 메소드 호출
         result.Set_Result(trigger_, true);
-        ThrowYutResult(trigger_);
+        
         RPCYut_Throwing(trigger_);
+
+
     }
     #endregion
 
@@ -55,11 +64,17 @@ public class Throw_Yut : NetworkBehaviour
     {
         Debug.Log("RpcRPCYut_Throwing 호출됨");
         Yut_ani.animator.SetTrigger(trigger);
+
+
     }
     #endregion
-
-    public void ThrowYutResult(string trigger_)
-    {
-        playingYut.yutResult = trigger_;
-    }
+    #region ClientRPC
+    //[TargetRpc]
+    //private void moveturn(NetworkConnection target)
+    //{
+    //    if(target.connectionId )
+    //    target.connectionId
+    //}
+    #endregion
+    
 }
