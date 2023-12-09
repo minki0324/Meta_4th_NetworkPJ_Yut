@@ -10,20 +10,18 @@ public class NetworkSpawnedObject
 public class SetGame : NetworkBehaviour
 {
     private GameObject[] myObject; //0번 힐라 1번 매그
-    private Transform[] targetPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
-    public NetworkSpawnedObject[] players;
+    private Transform[] startPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
     //플레이어 1 ,2 에따라 어떤말 , 어떤위치에 생성할지 정해줘야함
 
     private void Awake()
     {
-        players = new NetworkSpawnedObject[2];
         myObject = new GameObject[2];
 
         for (int i = 0; i < NetworkRoomManager.singleton.spawnPrefabs.Count; i++)
         {
             myObject[i] = NetworkRoomManager.singleton.spawnPrefabs[i];
         }
-        targetPos = GameManager.instance.targetPos;
+        startPos = GameManager.instance.startPos;
         // isLocalPlayer 체크를 통해 로컬 플레이어인 경우에만 SpawnOB 메서드 호출
 
     }
@@ -45,10 +43,10 @@ public class SetGame : NetworkBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                GameObject myOb = Instantiate(myObject[0], targetPos[i].position, Quaternion.identity);
+                GameObject myOb = Instantiate(myObject[0], startPos[i].position, Quaternion.identity);
                 // isServer 체크 제거
                 NetworkServer.Spawn(myOb, connectionToClient);
-               
+
                 Debug.Log($"플레이어1 생성 {i}");
             }
         }
@@ -56,10 +54,9 @@ public class SetGame : NetworkBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                GameObject myOb = Instantiate(myObject[1], targetPos[4 + j].position, Quaternion.identity);
+                GameObject myOb = Instantiate(myObject[1], startPos[4 + j].position, Quaternion.identity);
                 // isServer 체크 제거
                 NetworkServer.Spawn(myOb, connectionToClient);
-
 
                 Debug.Log($"플레이어2 생성 {j}");
             }
