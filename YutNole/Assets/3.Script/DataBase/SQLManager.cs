@@ -60,6 +60,8 @@ public class SQLManager : MonoBehaviour
     public string DB_path = string.Empty;
     public static SQLManager instance = null;
 
+    public string ServerIP = string.Empty;
+
     private void Awake()
     {
         if(instance == null)
@@ -97,7 +99,7 @@ public class SQLManager : MonoBehaviour
     {
 
         List<server_info> userInfo = new List<server_info>();
-        userInfo.Add(new server_info("3.34.46.211", "programming", "root", "1234", "3306"));
+        userInfo.Add(new server_info(ServerIP, "programming", "root", "1234", "3306"));
 
         JsonData data = JsonMapper.ToJson(userInfo);
         File.WriteAllText(path + "/config.json", data.ToString());
@@ -105,12 +107,12 @@ public class SQLManager : MonoBehaviour
 
     private string Serverset(string path)
     {
-        if (!File.Exists(path)) // °æ·Î°¡ ÀÖ³ª¿ä?
+        if (!File.Exists(path)) // ê²½ë¡œê°€ ìˆë‚˜ìš”?
         {
             Directory.CreateDirectory(path);
         }
 
-        if (!File.Exists(path + "/config.json"))  // ÆÄÀÏÀÌ ÀÖ³ª¿ä?
+        if (!File.Exists(path + "/config.json"))  // íŒŒì¼ì´ ìˆë‚˜ìš”?
         {
             Default_Data(path);
         }
@@ -132,7 +134,7 @@ public class SQLManager : MonoBehaviour
 
     private bool connection_check(MySqlConnection con)
     {
-        //ÇöÀç MySQLConnection open ÀÌ ¾Æ´Ï¶ó¸é?
+        //í˜„ì¬ MySQLConnection open ì´ ì•„ë‹ˆë¼ë©´?
         if(con.State != System.Data.ConnectionState.Open)
         {
             con.Open();
@@ -149,7 +151,7 @@ public class SQLManager : MonoBehaviour
     {
         try
         {
-            //1.connection open »óÈ²ÀÎÁö È®ÀÎ -> ¸Ş¼ÒµåÈ­
+            //1.connection open ìƒí™©ì¸ì§€ í™•ì¸ -> ë©”ì†Œë“œí™”
             if (!connection_check(connection))
             {
                 return false;
@@ -157,7 +159,7 @@ public class SQLManager : MonoBehaviour
            
             if (IsIdOrNicknameDuplicate(id, nickname))
             {
-                // Áßº¹µÈ ¾ÆÀÌµğ ¶Ç´Â ´Ğ³×ÀÓÀÌ ÀÖÀ¸¸é °¡ÀÔ ½ÇÆĞ
+                // ì¤‘ë³µëœ ì•„ì´ë”” ë˜ëŠ” ë‹‰ë„¤ì„ì´ ìˆìœ¼ë©´ ê°€ì… ì‹¤íŒ¨
                 return false;
             }
 
@@ -169,12 +171,12 @@ public class SQLManager : MonoBehaviour
 
             if (rowsAffected > 0)
             {
-                Debug.Log("È¸¿ø°¡ÀÔ ¼º°ø!");
+                Debug.Log("íšŒì›ê°€ì… ì„±ê³µ!");
                 return true;
             }
             else
             {
-                Debug.Log("È¸¿ø°¡ÀÔ ½ÇÆĞ.");
+                Debug.Log("íšŒì›ê°€ì… ì‹¤íŒ¨.");
                 return false;
             }
         }
@@ -188,17 +190,17 @@ public class SQLManager : MonoBehaviour
     }
     private bool IsIdOrNicknameDuplicate(string id, string nickname)
     {
-        // ¾ÆÀÌµğ ¶Ç´Â ´Ğ³×ÀÓÀÌ ÀÌ¹Ì Á¸ÀçÇÏ´ÂÁö È®ÀÎÇÏ´Â Äõ¸®
+        // ì•„ì´ë”” ë˜ëŠ” ë‹‰ë„¤ì„ì´ ì´ë¯¸ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸í•˜ëŠ” ì¿¼ë¦¬
         string duplicateCheckCommand =
             string.Format(@"SELECT COUNT(*) FROM user_info WHERE User_ID = '{0}' OR User_Name = '{1}';", id, nickname);
 
         MySqlCommand checkCmd = new MySqlCommand(duplicateCheckCommand, connection);
         int count = Convert.ToInt32(checkCmd.ExecuteScalar());
 
-        // count°¡ 0ÀÌ ¾Æ´Ï¸é Áßº¹µÈ ¾ÆÀÌµğ ¶Ç´Â ´Ğ³×ÀÓÀÌ Á¸ÀçÇÔ
+        // countê°€ 0ì´ ì•„ë‹ˆë©´ ì¤‘ë³µëœ ì•„ì´ë”” ë˜ëŠ” ë‹‰ë„¤ì„ì´ ì¡´ì¬í•¨
         if(count > 0)
         {
-            Debug.Log("Áßº¹¹ß»ı");
+            Debug.Log("ì¤‘ë³µë°œìƒ");
             
             return true;
         }
@@ -209,24 +211,24 @@ public class SQLManager : MonoBehaviour
     }
     public bool Login(string id, string password)
     {
-        //Á÷Á¢ÀûÀ¸·Î DB¿¡¼­ µ¥ÀÌÅÍ¸¦ °¡Áö°í ¿À´Â ¸Ş¼Òµå
-        //Á¶È¸µÇ´Â µ¥ÀÌÅÍ°¡ ¾ø´Ù¸é bool°ªÀ» false;
-        //Á¶È¸°¡ µÇ´Â µ¥ÀÌÅÍ°¡ ÀÖ´Ù¸é true°ª ´øÁö±âÀü¿¡
-        //À§¿¡¼­ ¼±¾ğÇÑ info ¿¡´Ù°¡ ´ãÀº ´ÙÀ½¿¡ ´øÁü.
+        //ì§ì ‘ì ìœ¼ë¡œ DBì—ì„œ ë°ì´í„°ë¥¼ ê°€ì§€ê³  ì˜¤ëŠ” ë©”ì†Œë“œ
+        //ì¡°íšŒë˜ëŠ” ë°ì´í„°ê°€ ì—†ë‹¤ë©´ boolê°’ì„ false;
+        //ì¡°íšŒê°€ ë˜ëŠ” ë°ì´í„°ê°€ ìˆë‹¤ë©´ trueê°’ ë˜ì§€ê¸°ì „ì—
+        //ìœ„ì—ì„œ ì„ ì–¸í•œ info ì—ë‹¤ê°€ ë‹´ì€ ë‹¤ìŒì— ë˜ì§.
 
-        //µ¥ÀÌÅÍ °¡Áö°í¿À±â 
+        //ë°ì´í„° ê°€ì§€ê³ ì˜¤ê¸° 
 
         /*
-         1.connection open »óÈ²ÀÎÁö È®ÀÎ -> ¸Ş¼ÒµåÈ­
+         1.connection open ìƒí™©ì¸ì§€ í™•ì¸ -> ë©”ì†Œë“œí™”
 
         
-        2. Reader »óÅÂ°¡ ÀĞ°í ÀÖ´Â »óÈ²ÀÎÁö È®ÀÎ (ÇÑ Äõ¸®¹®´ç ¸®´õ ÇÑ°³¾¿)
-        3. µ¥ÀÌÅÍ¸¦ ´Ù ÀĞ¾úÀ¸¸é ReaderÀÇ »óÅÂ È®ÀÎ ÈÄ Close
+        2. Reader ìƒíƒœê°€ ì½ê³  ìˆëŠ” ìƒí™©ì¸ì§€ í™•ì¸ (í•œ ì¿¼ë¦¬ë¬¸ë‹¹ ë¦¬ë” í•œê°œì”©)
+        3. ë°ì´í„°ë¥¼ ë‹¤ ì½ì—ˆìœ¼ë©´ Readerì˜ ìƒíƒœ í™•ì¸ í›„ Close
          */
 
         try
         {
-            //1.connection open »óÈ²ÀÎÁö È®ÀÎ -> ¸Ş¼ÒµåÈ­
+            //1.connection open ìƒí™©ì¸ì§€ í™•ì¸ -> ë©”ì†Œë“œí™”
             if (!connection_check(connection))
             {
                 return false;
@@ -239,26 +241,26 @@ public class SQLManager : MonoBehaviour
             MySqlCommand cmd = new MySqlCommand(SQL_command, connection);
             reader = cmd.ExecuteReader();
 
-            //Reader ÀĞÀº µ¥ÀÌÅÍ°¡ 1°³ ÀÌ»ó Á¸ÀçÇØ?
+            //Reader ì½ì€ ë°ì´í„°ê°€ 1ê°œ ì´ìƒ ì¡´ì¬í•´?
             if (reader.HasRows)
             {
-                //ÀĞÀº µ¥ÀÌÅÍ¸¦ ÇÏ³ª¾¿ ³ª¿­ÇÔ
+                //ì½ì€ ë°ì´í„°ë¥¼ í•˜ë‚˜ì”© ë‚˜ì—´í•¨
                 while (reader.Read())
                 {
                     /*
-                     »ïÇ×¿¬»êÀÚ
+                     ì‚¼í•­ì—°ì‚°ì
                      */
                     string ID = (reader.IsDBNull(0)) ? string.Empty : (string)reader["User_ID"].ToString();
                     string pass = (reader.IsDBNull(1)) ? string.Empty : (string)reader["User_Password"].ToString();
                     string nick = (reader.IsDBNull(2)) ? string.Empty : (string)reader["User_Name"].ToString();
                     if(!ID.Equals(string.Empty) || !pass.Equals(string.Empty))
                     {
-                        //Á¤»óÀûÀ¸·Î Data¸¦ ºÒ·¯¿Â »óÈ²
+                        //ì •ìƒì ìœ¼ë¡œ Dataë¥¼ ë¶ˆëŸ¬ì˜¨ ìƒí™©
                         info = new user_info(ID, pass ,nick);
                         if (!reader.IsClosed) reader.Close();
                         return true;
                     }
-                    else//·Î±×ÀÎ½ÇÆĞ
+                    else//ë¡œê·¸ì¸ì‹¤íŒ¨
                     {
                         break;
                     }

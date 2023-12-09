@@ -11,18 +11,27 @@ public class ButtonPositionSetter : MonoBehaviour
     private string buttonName;
     private Vector3 targetPos;
     private Vector3 returnButtonPos = new Vector3(0.25f, -0.45f, 0); // Return Button
+    private bool gameStart = false;
 
     private void Awake()
     {
         TryGetComponent(out buttonTrans);
         buttonName = gameObject.name;
-        gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        SetUp(buttonName);
+        if (gameStart)
+        {
+            SetUp(buttonName);
+        }
     }
+
+    private void OnDisable()
+    {
+        gameStart = true;
+    }
+
 
     public void SetUp(string buttonName)
     { // Button 생길 때 Setup 해주기
