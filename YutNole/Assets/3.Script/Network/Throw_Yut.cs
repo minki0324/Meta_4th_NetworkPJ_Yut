@@ -9,9 +9,16 @@ public class Throw_Yut : NetworkBehaviour
         1. 윷 던지기 버튼을 누르면 커맨드에서 결과값 만들기
         2. 나온 결과값을 RPC를 통해 모든 클라이언트에게 같은 애니메이션 출력
     */
-
+    private PlayingYut playingYut;
     [SerializeField] private NetworkAnimator Yut_ani;
     [SerializeField] private Result_Yut result;
+
+    #region Unity Callback
+    private void Start()
+    {
+        playingYut = FindObjectOfType<PlayingYut>();
+    }
+    #endregion
 
     #region SyncVar
     [SyncVar] // 윷놀이 결과값
@@ -37,6 +44,7 @@ public class Throw_Yut : NetworkBehaviour
         Debug.Log($"CMDYut_Throwing 호출 : {trigger_}");
         // Result_Yut 클래스의 Set_Result 메소드 호출
         result.Set_Result(trigger_, true);
+        ThrowYutResult(trigger_);
         RPCYut_Throwing(trigger_);
     }
     #endregion
@@ -49,4 +57,9 @@ public class Throw_Yut : NetworkBehaviour
         Yut_ani.animator.SetTrigger(trigger);
     }
     #endregion
+
+    public void ThrowYutResult(string trigger_)
+    {
+        playingYut.yutResult = trigger_;
+    }
 }

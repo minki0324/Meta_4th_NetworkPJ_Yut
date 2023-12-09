@@ -30,7 +30,7 @@ public class PlayingYut : MonoBehaviour
     // UI에서 버튼 선택할 때 달라질 예정
     [SerializeField] private GameObject[] player; // 자신의 말
     // 캐릭터마다 붙어있는 버튼
-    public GameObject[] charcterButton; // character
+    public GameObject[] characterButton; // character
     public GameObject[] returnButton; // return
 
     public int currentIndex = 0; // Button 위치 시킬 기준 인덱스, player 포지션과 동일해야 함
@@ -39,42 +39,22 @@ public class PlayingYut : MonoBehaviour
     private int[] yutArray = { 1, 2, 3, 4, 5, -1 }; // 도 개 걸 윷 모 빽도
 
     // 윷 결과 가져오기
-    public Yut_Gacha yutGacha;
     public string yutResult;
 
     public GameObject goalButton; // goal button, resultIndex보다 클 때 SetActive(true)
 
     private void Awake()
     {
-        yutGacha = FindObjectOfType<Yut_Gacha>();
         playerArray = pos1;
-        
     }
 
     private void Start()
     {
-        //player = new GameObject[4];
-        //Debug.Log(GameManager.instance.isPlayer1);
-        //if (GameManager.instance.isPlayer1)
-        //{
-        //    for (int i = 0; i < player.Length; i++)
-        //    {
-        //        player[i] = GameObject.FindGameObjectWithTag("Player1").transform.GetChild(i).gameObject;
-        //    }
-        //}
-        //else
-        //{ // Player2
-        //    for (int i = 0; i < player.Length; i++)
-        //    {
-        //        player[i] = GameObject.FindGameObjectWithTag("Player2").transform.GetChild(i).gameObject;
-        //    }
-        //}
+        
     }
 
     public void PlayingYutPlus()
     { // 윷 던지기 버튼 event
-        yutResult = yutGacha.ThrowResult; // 윷 던진 결과
-
         if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
         { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
             YutState type = (YutState)Enum.Parse(typeof(YutState), yutResult);
@@ -85,7 +65,7 @@ public class PlayingYut : MonoBehaviour
                 if (GameManager.instance.playingPlayer[i])
                 {
                     Debug.Log("Button?");
-                    charcterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
+                    characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
                 }
             }
         }
@@ -96,7 +76,7 @@ public class PlayingYut : MonoBehaviour
     { // Canvas - YutObject - 도, 개, 걸, 윷, 모, 빽도 event
         for (int i = 0; i < 4; i++)
         {
-            charcterButton[i].SetActive(false);
+            characterButton[i].SetActive(false);
             returnButton[i].SetActive(false);
         }
 
@@ -120,7 +100,7 @@ public class PlayingYut : MonoBehaviour
             {
                 if (!GameManager.instance.playingPlayer[i])
                 {
-                    charcterButton[i].SetActive(true);
+                    characterButton[i].SetActive(true);
                 }
             }
         }
@@ -134,7 +114,7 @@ public class PlayingYut : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            charcterButton[i].SetActive(false);
+            characterButton[i].SetActive(false);
             returnButton[i].SetActive(false);
         }
 
@@ -185,7 +165,7 @@ public class PlayingYut : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             returnButton[i].SetActive(true);
-            charcterButton[i].SetActive(false);
+            characterButton[i].SetActive(false);
         }
         // 어떤 말을 선택했는지 설정
         GameManager.instance.playerNum = 0;
@@ -197,7 +177,7 @@ public class PlayingYut : MonoBehaviour
         PositionOut();
         for (int i = 0; i < 4; i++)
         {
-            charcterButton[i].SetActive(true);
+            characterButton[i].SetActive(true);
             returnButton[i].SetActive(false);
         }
     }

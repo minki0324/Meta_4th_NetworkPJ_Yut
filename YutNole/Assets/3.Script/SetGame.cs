@@ -2,24 +2,37 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Mirror;
 
-
+public class NetworkSpawnedObject
+{
+    public uint objectId;
+    // 다른 필요한 정보들을 추가할 수 있음
+}
 public class SetGame : NetworkBehaviour
 {
     private GameObject[] myObject; //0번 힐라 1번 매그
-    private Transform[] targetPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
+    private Transform[] startPos; // 0123 -> P1 돌위치 / 4567 -> P2 돌위치
     //플레이어 1 ,2 에따라 어떤말 , 어떤위치에 생성할지 정해줘야함
-    private void Start()
-    {
-        myObject = GameManager.instance.myObject;
-        targetPos = GameManager.instance.targetPos;
 
+    private void Awake()
+    {
+        myObject = new GameObject[2];
+
+        for (int i = 0; i < NetworkRoomManager.singleton.spawnPrefabs.Count; i++)
+        {
+            myObject[i] = NetworkRoomManager.singleton.spawnPrefabs[i];
+        }
+        startPos = GameManager.instance.startPos;
         // isLocalPlayer 체크를 통해 로컬 플레이어인 경우에만 SpawnOB 메서드 호출
+
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
         if (isLocalPlayer)
         {
             SpawnOB(GM.instance.Player_Num);
         }
     }
-
     [Command]
 
     private void SpawnOB(Player_Num p)
@@ -30,8 +43,7 @@ public class SetGame : NetworkBehaviour
         {
             for (int i = 0; i < 4; i++)
             {
-                GameObject myOb = Instantiate(myObject[0], targetPos[i].position, Quaternion.identity);
-
+                GameObject myOb = Instantiate(myObject[0], startPos[i].position, Quaternion.identity);
                 // isServer 체크 제거
                 NetworkServer.Spawn(myOb, connectionToClient);
 
@@ -42,8 +54,7 @@ public class SetGame : NetworkBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                GameObject myOb = Instantiate(myObject[1], targetPos[4 + j].position, Quaternion.identity);
-
+                GameObject myOb = Instantiate(myObject[1], startPos[4 + j].position, Quaternion.identity);
                 // isServer 체크 제거
                 NetworkServer.Spawn(myOb, connectionToClient);
 
