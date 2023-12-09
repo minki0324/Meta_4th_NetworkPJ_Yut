@@ -75,7 +75,7 @@ public class ServerChecker : MonoBehaviour
     {
       
         List<Item> item = new List<Item>();
-        item.Add(new Item("1", "15.164.233.124", "7777"));
+        item.Add(new Item("1", "3.34.46.211", "7777"));
 
         JsonData data = JsonMapper.ToJson(item);
         File.WriteAllText(path + "/License.json", data.ToString());
