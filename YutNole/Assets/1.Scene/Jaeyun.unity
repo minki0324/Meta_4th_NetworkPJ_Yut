@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 40483474}
   m_Layer: 0
   m_Name: Character 3
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -981,7 +981,7 @@ GameObject:
   - component: {fileID: 365842399}
   m_Layer: 0
   m_Name: Character 0
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1128,7 +1128,7 @@ GameObject:
   - component: {fileID: 400124411}
   m_Layer: 0
   m_Name: Character 2
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2151,7 +2151,7 @@ GameObject:
   - component: {fileID: 753677115}
   m_Layer: 0
   m_Name: Return 0
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2297,7 +2297,7 @@ GameObject:
   - component: {fileID: 753758470}
   m_Layer: 0
   m_Name: Return 3
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2562,7 +2562,7 @@ GameObject:
   - component: {fileID: 841122796}
   m_Layer: 0
   m_Name: Return 2
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3127,7 +3127,7 @@ GameObject:
   - component: {fileID: 1164241949}
   m_Layer: 0
   m_Name: Character 1
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4922,7 +4922,7 @@ GameObject:
   - component: {fileID: 2060442331}
   m_Layer: 0
   m_Name: Return 1
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

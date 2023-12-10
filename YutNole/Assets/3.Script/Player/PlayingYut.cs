@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum YutState
 {
@@ -42,6 +43,7 @@ public class PlayingYut : MonoBehaviour
     // 윷 결과 가져오기
     public string yutResult;
 
+    private Button ThrowButton;
     public GameObject goalButton; // goal button, resultIndex보다 클 때 SetActive(true)
 
     private void Awake()
@@ -56,7 +58,6 @@ public class PlayingYut : MonoBehaviour
         //players 인덱스 순서대로 startpos도 다시 세팅했어 ...
         //오케이... - 재윤 -
         StartCoroutine(SetButtons());
-       
     }
     private void Update()
     {
@@ -64,26 +65,25 @@ public class PlayingYut : MonoBehaviour
     }
     public IEnumerator SetButtons()
     {
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(1.5f);
+
         for (int i = 0; i < characterButton.Length; i++)
         {
             characterButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
             returnButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
         }
+        // 윷 던지기 버튼에 리스너 추가
+        ThrowButton = FindObjectOfType<Throw_Yut>().GetComponent<Button>();
+        ThrowButton.onClick.AddListener(PlayingYutPlus);
     }
+
     public void PlayingYutPlus()
     { // 윷 던지기 버튼 event
         if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
         { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
-            // YutState type = (YutState)Enum.Parse(typeof(YutState), yutResult);
-            // yutResultIndex.Add(yutArray[intyut]); // yutResult에 따라 List에 이동할 만큼의 숫자 추가
-
             for (int i = 0; i < 4; i++)
             {
-                if (GameManager.instance.players[i])
-                {
-                    characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
-                }
+                characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
             }
         }
         // Nack일 때, 인덱스 0일 때 빽도일 때
