@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class Server_Manager : NetworkBehaviour
 {
     public static Server_Manager instance;
     [SerializeField] private Time_Slider slider;
-
+    private PlayingYut playingYut;
     #region Script
     #endregion
 
@@ -23,25 +24,56 @@ public class Server_Manager : NetworkBehaviour
         CMD_Turn_Changer();
         TestSpeed();
     }
+
+    [Client]
+    public void Catch(PlayerState target)
+    {
+        CmdCatch(target);
+    }
+
+   
     #endregion
 
     #region Command
-    // �� �ٲٴ� CMD
+    // ÅÏ ¹Ù²Ù´Â CMD
     [Command(requiresAuthority = false)]
     public void CMD_Turn_Changer()
     {
         int next_Index = (Turn_Index % 2) + 1;
         OnTurn_Finish(Turn_Index, next_Index);
     }
+
     [Command(requiresAuthority = false)]
-    public void TestSpeed()
+    public void CmdCatch( PlayerState target)
     {
-        Time.timeScale = 4;
+
+        RPCCatch(target);
+
     }
     #endregion
 
     #region ClientRPC
+    [ClientRpc]
+    public void RPCCatch( PlayerState target)
+    {
+        if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
+        {
+            target.transform.position = target.startPos.position;
+            //target.currentIndex = 0;
+            //target.currentArray = playingYut.pos1;
+
+        }
+        else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
+        {
+            target.transform.position = target.startPos.position;
+            //target.currentIndex = 0;
+            //target.currentArray = playingYut.pos1;
+        }
+
+    }
     #endregion
+
+
 
     #region Unity Callback
     private void Awake()
