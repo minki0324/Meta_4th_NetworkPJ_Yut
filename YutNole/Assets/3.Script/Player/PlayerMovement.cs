@@ -49,6 +49,26 @@ public class PlayerMovement : MonoBehaviour
         isBackdo = false;
         currentIndex = targetIndex;
         playerArray = playingYut.playerArray;
+        //만약 도착한 장소에 적팀이 있다면?
+        //hasChance =true 줘야함
+        //없다면? else
+        //if(Yutindex.count > 0) 
+        // playingYut.PlayingYutPlus();
+        //else turn 종료 
+        Debug.Log(playingYut.yutResultIndex.Count);
+        //턴종료 조건 : 카운트 0 , 던질기회 X
+        if(playingYut.yutResultIndex.Count== 0 && !GameManager.instance.hasChance) {
+            //움직일 카운트가 남으면 다시진행
+            Server_Manager.instance.CMD_Turn_Changer();
+            playingYut.yutResultIndex.Clear();
+            GameManager.instance.hasChance = true;
+            
+        }
+        else if(playingYut.yutResultIndex.Count > 0) 
+        {
+            playingYut.PlayingYutPlus();
+        }
+        
     }
 
     private IEnumerator Move_Co()
@@ -72,12 +92,12 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
         GameManager.instance.isMoving = false ;
-        if (GameManager.instance.hasChance)
-        { // 윷, 모, 캐치
-            for (int i = 0; i < 4; i++)
-            {
-                playingYut.characterButton[i].SetActive(true);
-            }
-        }
+        //if (GameManager.instance.hasChance)
+        //{ // 윷, 모, 캐치
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        playingYut.characterButton[i].SetActive(true);
+        //    }
+        //}
     }
 }

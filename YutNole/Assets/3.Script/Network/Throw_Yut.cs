@@ -32,11 +32,11 @@ public class Throw_Yut : NetworkBehaviour
     public void Btn_Click()
     {
         Debug.Log("Btn_Click 호출됨");
+        GameManager.instance.hasChance = false;
         CMDYut_Throwing();
-
-        Server_Manager.instance.CMD_Turn_Changer();
+        //Server_Manager.instance.CMD_Turn_Changer();
     }
-
+   
     public void ThrowYutResult(string trigger_)
     {
         Debug.Log("ThrowYutResult");
@@ -55,9 +55,11 @@ public class Throw_Yut : NetworkBehaviour
                 break;
             case "Yut":
                 index = 3;
+                GameManager.instance.hasChance = true;
                 break;
             case "Mo":
                 index = 4;
+                GameManager.instance.hasChance = true;
                 break;
             case "Backdo":
                 index = 5;
@@ -66,10 +68,32 @@ public class Throw_Yut : NetworkBehaviour
         //내턴이 아닐때 && 낙이 나왔을때 && 판에 내말이없는경우 빽도가 나올때(추가)
         if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index && !trigger_.Equals("Nack"))
         {
-            playingYut.yutResultIndex.Add(index);
+            Addlist(index);
         }
+        //else if(playingYut.yutResultIndex.Count == 0 )
+        //{
+        //    Server_Manager.instance.CMD_Turn_Changer();
+        //    playingYut.yutResultIndex.Clear();
+        //    GameManager.instance.hasChance = true;
+        //}
+
+       
+
+
+
+    }
+
+    private void Addlist(int index)
+    {
+
+        playingYut.yutResultIndex.Add(index);
+        playingYut.PlayingYutPlus();
+      
+
         Debug.Log("Count: " + playingYut.yutResultIndex.Count);
     }
+
+
     #endregion
 
     #region Command
