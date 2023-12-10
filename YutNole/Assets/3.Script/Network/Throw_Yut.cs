@@ -13,6 +13,8 @@ public class Throw_Yut : NetworkBehaviour
     [SerializeField] private NetworkAnimator Yut_ani;
     [SerializeField] private Result_Yut result;
 
+   
+
     #region Unity Callback
     private void Start()
     {
@@ -21,7 +23,7 @@ public class Throw_Yut : NetworkBehaviour
     #endregion
 
     #region SyncVar
-    [SyncVar] // À·³îÀÌ °á°ú°ª
+    [SyncVar(hook = nameof(TriggerChange))] // À·³îÀÌ °á°ú°ª
     private string trigger_ = string.Empty;
     #endregion
 
@@ -31,14 +33,39 @@ public class Throw_Yut : NetworkBehaviour
     {
         Debug.Log("Btn_Click È£ÃâµÊ");
         CMDYut_Throwing();
+
         Server_Manager.instance.CMD_Turn_Changer();
-        ThrowYutResult(trigger_);
-        playingYut.PlayingYutPlus();
     }
-    [Client]
+
     public void ThrowYutResult(string trigger_)
     {
+        Debug.Log("ThrowYutResult");
+        int index = 0;
         playingYut.yutResult = trigger_;
+        Debug.Log("play yut Result: " + playingYut.yutResult);
+        switch (trigger_)
+        {
+            case "Do":
+                index = 0;
+                break;
+            case "Gae":
+                index = 1;
+                break;
+            case "Geol":
+                index = 2;
+                break;
+            case "Yut":
+                index = 3;
+                break;
+            case "Mo":
+                index = 4;
+                break;
+            case "Backdo":
+                index = 5;
+                break;
+        }
+        playingYut.yutResultIndex.Add(index);
+        Debug.Log("Count: " + playingYut.yutResultIndex.Count);
     }
     #endregion
 
@@ -51,10 +78,7 @@ public class Throw_Yut : NetworkBehaviour
         Debug.Log($"CMDYut_Throwing È£Ãâ : {trigger_}");
         // Result_Yut Å¬·¡½ºÀÇ Set_Result ¸Þ¼Òµå È£Ãâ
         result.Set_Result(trigger_, true);
-        
         RPCYut_Throwing(trigger_);
-
-
     }
     #endregion
 
@@ -65,16 +89,13 @@ public class Throw_Yut : NetworkBehaviour
         Debug.Log("RpcRPCYut_Throwing È£ÃâµÊ");
         Yut_ani.animator.SetTrigger(trigger);
 
-
+        ThrowYutResult(trigger);
     }
     #endregion
-    #region ClientRPC
-    //[TargetRpc]
-    //private void moveturn(NetworkConnection target)
-    //{
-    //    if(target.connectionId )
-    //    target.connectionId
-    //}
+    #region Hook Method
+    private void TriggerChange(string _old, string _new)
+    {
+        trigger_ = _new;
+    }
     #endregion
-    
 }
