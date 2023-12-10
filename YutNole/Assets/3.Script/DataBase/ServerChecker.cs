@@ -9,7 +9,7 @@ using System;
 using System.IO;
 
 public enum Type
-{
+{   
     Empty =0,
     Server,
     Client
@@ -41,6 +41,9 @@ public class ServerChecker : MonoBehaviour
     public string Server_Ip { get; private set; }
     public string Server_Port { get; private set; }
 
+    [Header("ìì‹ ì˜ ì•„ì´í”¼ ë„£ì–´ì£¼ê¸°")]
+    public string ServerIP = string.Empty;
+
     private void Awake()
     {
         if(instance == null)
@@ -59,11 +62,11 @@ public class ServerChecker : MonoBehaviour
         {
             Path = Application.dataPath + "/License";
         }
-        if (!File.Exists(Path)) //Æú´õ °Ë»ç
+        if (!File.Exists(Path)) //í´ë” ê²€ì‚¬
         {
             Directory.CreateDirectory(Path);
         }
-        if(!File.Exists(Path + "/License.json")) //ÆÄÀÏ °Ë»ç
+        if(!File.Exists(Path + "/License.json")) //íŒŒì¼ ê²€ì‚¬
         {
             Default_Data(Path);
         }
@@ -75,7 +78,7 @@ public class ServerChecker : MonoBehaviour
     {
       
         List<Item> item = new List<Item>();
-        item.Add(new Item("2", "3.34.4.119", "7777"));
+        item.Add(new Item("1", ServerIP, "7777"));
 
         JsonData data = JsonMapper.ToJson(item);
         File.WriteAllText(path + "/License.json", data.ToString());
@@ -112,7 +115,7 @@ public class ServerChecker : MonoBehaviour
     {
         if (type.Equals(Type.Empty))
         {
-            Debug.Log("Å¸ÀÔ¾øÀ½ ¿À·ù");
+            Debug.Log("íƒ€ì…ì—†ìŒ ì˜¤ë¥˜");
             return;
         }
 
