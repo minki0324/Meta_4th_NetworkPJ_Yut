@@ -42,7 +42,6 @@ public class Throw_Yut : NetworkBehaviour
         Debug.Log("ThrowYutResult");
         int index = 0;
         playingYut.yutResult = trigger_;
-        Debug.Log("play yut Result: " + playingYut.yutResult);
         switch (trigger_)
         {
             case "Do":

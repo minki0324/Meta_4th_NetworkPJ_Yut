@@ -17,12 +17,6 @@ public class PlayerState : NetworkBehaviour
     public Transform startPos;
     // public Player_Num myNum;
 
-    // Player Button
-    private GameObject[] charBtn = null;
-    private GameObject[] returnBtn = null;
-    public GameObject characterButton = null;
-    public GameObject returnButton = null;
-
     // Player NumImage
     public GameObject[] numImage; // numberImage GameObject 참조해주기
 
