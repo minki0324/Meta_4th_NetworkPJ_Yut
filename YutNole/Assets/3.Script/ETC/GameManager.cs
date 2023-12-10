@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
                 if (player.gameObject.CompareTag("Player2"))
                 {
                     players[3 - index] = player;
-                    players[3 - index].startPos = startPos[3 - index];
+                    players[3 - index].startPos = startPos[7 - index];
                     index++;
                 }
             }

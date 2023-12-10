@@ -12,8 +12,8 @@ public class PlayerState : NetworkBehaviour
     public bool isPlaying = false; // 대기 상태가 아닌 판에 나와있는지
     public bool isGoal = false; // 골인 했는지 아닌지
 
-
-    public Transform startPos;
+    
+    
     public Transform currentPositon;
     public Transform[] currentArray; // 자신이 현재 위치한 배열
     public int currentIndex = 0; // 현재 위치한 인덱스
@@ -45,7 +45,8 @@ public class PlayerState : NetworkBehaviour
 
     #endregion
     #region SyncVar
-
+    [SyncVar (hook = nameof(StartPosTrans))]
+    public Transform startPos;
     #endregion
     #region Client
     #endregion
@@ -54,21 +55,21 @@ public class PlayerState : NetworkBehaviour
     #region ClientRPC
     #endregion
     #region Hook Method, 다른 클라이언트도 알아야 함
-    /*    private void StartPosTrans(Transform _old, Transform _new)
+        private void StartPosTrans(Transform _old, Transform _new)
         {
             startPos = _new;
         }    
-        private void PlayerPosTrans(Transform _old, Transform _new)
-        {
-            currentPositon = _new;
-        }
-        private void CurrentArrayTrans(Transform[] _old, Transform[] _new)
-        {
-            currentArray = _new;
-        }
-        private void CurrentIndexTrans(int _old, int _new)
-        {
-            currentIndex = _new;
-        }*/
+        //private void PlayerPosTrans(Transform _old, Transform _new)
+        //{
+        //    currentPositon = _new;
+        //}
+        //private void CurrentArrayTrans(Transform[] _old, Transform[] _new)
+        //{
+        //    currentArray = _new;
+        //}
+        //private void CurrentIndexTrans(int _old, int _new)
+        //{
+        //    currentIndex = _new;
+        //}
     #endregion
 }

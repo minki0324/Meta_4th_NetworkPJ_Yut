@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private PlayingYut playingYut;
-
+    private PlayerState playerstate;
     public Transform[] playerArray; // player가 해당하는 pos array
     public int currentIndex = 0; // player 현재 index, 버튼 클릭 후 이동할 때마다 바뀜
     public int targetIndex = 0; // 버튼 클릭 시 이동할 index
@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
         // UI Player 선택했을 때로 나중에 이동
         playerArray = playingYut.pos1;
         playingYut.playerArray = playerArray;
+        playerstate = GetComponent<PlayerState>();
     }
 
     public void PlayerMove(int index)
@@ -73,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
                 yield return null;
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         GameManager.instance.isMoving = false;
@@ -86,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         foreach (PlayerState player in GameManager.instance.tempPlayers)
         {
             if (player.gameObject == gameObject) continue;
-            if (player.transform == gameObject.transform)
+            if (Vector2.Distance(player.transform.position, gameObject.transform.position) < 0.01f)
             {
                 if (player.tag == gameObject.tag)
                 {
@@ -96,6 +97,9 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     Debug.Log("잡");
+                    Server_Manager.instance.Catch( player);
+                    GameManager.instance.hasChance = true;
+                    //todo 잡았을때 애니메이션 넣기
                     //잡기
                 }
 
