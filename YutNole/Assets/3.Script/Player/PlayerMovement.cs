@@ -93,6 +93,9 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //업기
                     Debug.Log("업");
+                    //player.transform.SetParent(gameObject.transform);
+                    //todo.. 내일의민준아... 업기 해줘.
+                    //List<PlayerState> list // 잡은 말의 리스트
                 }
                 else
                 {

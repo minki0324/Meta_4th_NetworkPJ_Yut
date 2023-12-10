@@ -22,7 +22,6 @@ public class Server_Manager : NetworkBehaviour
     private void GameStart()
     {
         CMD_Turn_Changer();
-        TestSpeed();
     }
 
     [Client]
@@ -30,8 +29,13 @@ public class Server_Manager : NetworkBehaviour
     {
         CmdCatch(target);
     }
+    [Client]
+    public void Together()
+    {
 
-   
+    }
+
+
     #endregion
 
     #region Command
@@ -48,8 +52,22 @@ public class Server_Manager : NetworkBehaviour
     {
 
         RPCCatch(target);
+        if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
+        {
+           
+            target.currentIndex = 0;
+            target.currentArray = playingYut.pos1;
+
+        }
+        else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
+        {
+         
+            target.currentIndex = 0;
+            target.currentArray = playingYut.pos1;
+        }
 
     }
+    
     #endregion
 
     #region ClientRPC
@@ -59,6 +77,11 @@ public class Server_Manager : NetworkBehaviour
         if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
         {
             target.transform.position = target.startPos.position;
+            for (int i = 0; i < target.carryPlayer.Count; i++)
+            {
+                target.carryPlayer[i].transform.position = target.startPos.position;
+            }
+           
             //target.currentIndex = 0;
             //target.currentArray = playingYut.pos1;
 
