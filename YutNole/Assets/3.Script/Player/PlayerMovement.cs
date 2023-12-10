@@ -80,6 +80,9 @@ public class PlayerMovement : MonoBehaviour
         currentIndex = targetIndex;
         playerArray = playingYut.playerArray;
 
+        playingYut.player[GameManager.instance.playerNum].currentIndex = currentIndex;
+        playingYut.player[GameManager.instance.playerNum].currentArray = playerArray;
+
         if (playingYut.yutResultIndex.Count == 0 && !GameManager.instance.hasChance)
         {
             //움직일 카운트가 남으면 다시진행

@@ -11,9 +11,10 @@ public class PlayerState : NetworkBehaviour
     public int playerNum = 0; // 플레이어의 처음 위치
     public bool isPlaying = false; // 대기 상태가 아닌 판에 나와있는지
     public bool isGoal = false; // 골인 했는지 아닌지
-    public Transform[] currentArray; // 자신이 현재 위치한 배열
 
+    public Transform[] currentArray; // 자신이 현재 위치한 배열
     public int currentIndex = 0; // 현재 위치한 인덱스
+    
     public Transform startPos;
     // public Player_Num myNum;
 
