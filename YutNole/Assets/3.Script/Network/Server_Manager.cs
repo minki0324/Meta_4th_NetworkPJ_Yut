@@ -22,7 +22,7 @@ public class Server_Manager : NetworkBehaviour
     private void GameStart()
     {
         CMD_Turn_Changer();
-        CMD_Turn_Changer();
+        TestSpeed();
     }
 
     [Client]
@@ -35,7 +35,7 @@ public class Server_Manager : NetworkBehaviour
     #endregion
 
     #region Command
-    // �� �ٲٴ� CMD
+    // ÅÏ ¹Ù²Ù´Â CMD
     [Command(requiresAuthority = false)]
     public void CMD_Turn_Changer()
     {
@@ -48,6 +48,7 @@ public class Server_Manager : NetworkBehaviour
     {
 
         RPCCatch(target);
+
     }
     #endregion
 

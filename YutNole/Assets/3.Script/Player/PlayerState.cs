@@ -1,25 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class PlayerState : NetworkBehaviour
 {
     private PlayingYut playingYut;
 
-    // PlayerÀÇ À§Ä¡
-    public int playerNum = 0; // ÇÃ·¹ÀÌ¾îÀÇ Ã³À½ À§Ä¡
-    public bool isPlaying = false; // ´ë±â »óÅÂ°¡ ¾Æ´Ñ ÆÇ¿¡ ³ª¿ÍÀÖ´ÂÁö
-    public bool isGoal = false; // °ñÀÎ Çß´ÂÁö ¾Æ´ÑÁö
+    // Playerì˜ ìœ„ì¹˜
+    public int playerNum = 0; // í”Œë ˆì´ì–´ì˜ ì²˜ìŒ ìœ„ì¹˜
+    public bool isPlaying = false; // ëŒ€ê¸° ìƒíƒœê°€ ì•„ë‹Œ íŒì— ë‚˜ì™€ìˆëŠ”ì§€
+    public bool isGoal = false; // ê³¨ì¸ í–ˆëŠ”ì§€ ì•„ë‹Œì§€
 
-    
-    
     public Transform currentPositon;
-    public Transform[] currentArray; // ÀÚ½ÅÀÌ ÇöÀç À§Ä¡ÇÑ ¹è¿­
-    public int currentIndex = 0; // ÇöÀç À§Ä¡ÇÑ ÀÎµ¦½º
+    public Transform[] currentArray; // ìì‹ ì´ í˜„ì¬ ìœ„ì¹˜í•œ ë°°ì—´
+    public int currentIndex = 0; // í˜„ì¬ ìœ„ì¹˜í•œ ì¸ë±ìŠ¤
 
     // Player NumImage
-    public GameObject[] numImage; // numberImage GameObject ÂüÁ¶ÇØÁÖ±â
+    public GameObject[] numImage; // numberImage GameObject ì°¸ì¡°í•´ì£¼ê¸°
 
     public override void OnStartLocalPlayer()
     {
@@ -30,6 +29,7 @@ public class PlayerState : NetworkBehaviour
     private void Start()
     {
         SetUp();
+        playingYut.goalButton.GetComponent<Button>().onClick.AddListener(GoalInClick); // ê³¨ì¸ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ
     }
 
     private void Update()
@@ -38,38 +38,69 @@ public class PlayerState : NetworkBehaviour
     }
 
     private void SetUp()
-    { // ÇÃ·¹ÀÌ¾î »óÅÂ Ã³À½ ¼³Á¤
+    { // í”Œë ˆì´ì–´ ìƒíƒœ ì²˜ìŒ ì„¤ì •
         playingYut = FindObjectOfType<PlayingYut>();
         currentArray = playingYut.pos1;
     }
 
     #endregion
     #region SyncVar
+    
+    [SyncVar (hook = nameof(GoalTrans))]
+    public bool isGoal = false; // ê³¨ì¸ í–ˆëŠ”ì§€ ì•„ë‹Œì§€
     [SyncVar (hook = nameof(StartPosTrans))]
     public Transform startPos;
     #endregion
     #region Client
+    [Client]
+    public void GoalInClick()
+    {
+        GoalIn_Command();
+    }
     #endregion
     #region Command
+    [Command(requiresAuthority = false)]
+    private void GoalIn_Command()
+    { 
+        isGoal = true;
+        GoalIn_RPC();
+    }
     #endregion
-    #region ClientRPC
+    #region ClientRpc
+    [ClientRpc]
+    public void GoalIn_RPC()
+    {
+        if (isLocalPlayer)
+        {
+            startPos.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        }
+    }
     #endregion
-    #region Hook Method, ´Ù¸¥ Å¬¶óÀÌ¾ğÆ®µµ ¾Ë¾Æ¾ß ÇÔ
+    #region Hook Method, ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ë„ ì•Œì•„ì•¼ í•¨
         private void StartPosTrans(Transform _old, Transform _new)
         {
             startPos = _new;
         }    
-        //private void PlayerPosTrans(Transform _old, Transform _new)
-        //{
-        //    currentPositon = _new;
-        //}
-        //private void CurrentArrayTrans(Transform[] _old, Transform[] _new)
-        //{
-        //    currentArray = _new;
-        //}
-        //private void CurrentIndexTrans(int _old, int _new)
-        //{
-        //    currentIndex = _new;
-        //}
+        private void PlayerPosTrans(Transform _old, Transform _new)
+        {
+            currentPositon = _new;
+        }
+        private void CurrentArrayTrans(Transform[] _old, Transform[] _new)
+        {
+            currentArray = _new;
+        }
+        private void CurrentIndexTrans(int _old, int _new)
+        {
+            currentIndex = _new;
+        }
+    private void GoalTrans(bool _old, bool _new)
+    {
+        isGoal = _new;
+    }
+
+    private void StartTrans(Transform _old, Transform _new)
+    {
+        startPos = _new;
+    }
     #endregion
 }

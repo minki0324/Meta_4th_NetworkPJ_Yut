@@ -37,7 +37,6 @@ public class Throw_Yut : NetworkBehaviour
     {
         GameManager.instance.hasChance = false;
         CMDYut_Throwing();
-        //Server_Manager.instance.CMD_Turn_Changer();
     }
 
 
@@ -47,6 +46,7 @@ public class Throw_Yut : NetworkBehaviour
         CMDYut_Button_Click(name);
     }
 
+    [Client]
     public void ThrowYutResult(string trigger_)
     {
         int index = 0;
@@ -74,27 +74,34 @@ public class Throw_Yut : NetworkBehaviour
                 index = 5;
                 break;
         }
-        //내턴이 아닐때 && 낙이 나왔을때 && 판에 내말이없는경우 빽도가 나올때(추가)
-        if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index && !trigger_.Equals("Nack"))
+        // 낙이 아닐 때 || (판에 내말이 없으면서 && 빽도가 나올때)
+        // 내턴이 아닐 때
+        int zeroPlayer = 0; // 판에 말이 0개일 때
+
+        for (int i = 0; i < 4; i++)
         {
-            Addlist(index);
+            if (GameManager.instance.players[i].currentIndex != 0)
+            {
+                zeroPlayer++;
+            }
         }
-       /* else if(playingYut.yutResultIndex.Count == 0 )
+
+        if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index)
         {
-            Server_Manager.instance.CMD_Turn_Changer();
-            playingYut.yutResultIndex.Clear();
-            GameManager.instance.hasChance = true;
-        }*/
-
-       
-
-
-
+            if (trigger_.Equals("Backdo") && zeroPlayer == 0)
+            {
+                GameManager.instance.hasChance = true;
+                Server_Manager.instance.CMD_Turn_Changer();
+            }
+            else
+            {
+                Addlist(index);
+            }
+        }
     }
 
     private void Addlist(int index)
     {
-
         playingYut.yutResultIndex.Add(index);
         playingYut.PlayingYutPlus();
     }
@@ -106,10 +113,16 @@ public class Throw_Yut : NetworkBehaviour
     [Command(requiresAuthority = false)] // 실질적인 윷놀이 결과값을 만들어내고 리스트에 저장 및 클라이언트들에게 뿌리는 RPC 메소드 호출
     private void CMDYut_Throwing()
     {
-        string[] triggers = { "Backdo", "Backdo", "Backdo", "Do", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
+        string[] triggers = { "Geol", "Geol", "Yut", "Mo"};
+        //string[] triggers = { "Backdo", "Do", "Do", "Do", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
         trigger_ = triggers[Random.Range(0, triggers.Length)];
         // Result_Yut 클래스의 Set_Result 메소드 호출
-        result.Set_Result(trigger_, true);
+        int zeroPlayer = 0; // 판에 말이 0개일 때
+        if (!(trigger_.Equals("Backdo") && zeroPlayer == 0))
+        {
+            GameManager.instance.hasChance = true;
+            result.Set_Result(trigger_, true);
+        }
         RPCYut_Throwing(trigger_);
     }
 
@@ -147,7 +160,6 @@ public class Throw_Yut : NetworkBehaviour
     private void RPCYut_Throwing(string trigger)
     {
         Yut_ani.animator.SetTrigger(trigger);
-
         ThrowYutResult(trigger);
     }
     #endregion
