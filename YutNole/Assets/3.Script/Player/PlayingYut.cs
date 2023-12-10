@@ -4,16 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum YutState
-{
-    Do = 0,
-    Gae,
-    Geol,
-    Yut,
-    Mo,
-    Backdo,
-}
-
 public class PlayingYut : MonoBehaviour
 {
     /*

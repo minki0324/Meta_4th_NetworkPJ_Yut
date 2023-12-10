@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class Throw_Yut : NetworkBehaviour
@@ -13,12 +14,15 @@ public class Throw_Yut : NetworkBehaviour
     [SerializeField] private NetworkAnimator Yut_ani;
     [SerializeField] private Result_Yut result;
 
-   
-
     #region Unity Callback
     private void Start()
     {
         playingYut = FindObjectOfType<PlayingYut>();
+        for (int i = 0; i < playingYut.yutButton.Length; i++)
+        {
+            int index = i;
+            playingYut.yutButton[i].gameObject.GetComponent<Button>().onClick.AddListener(() => Yut_Btn_Click(index));
+        }
     }
     #endregion
 
@@ -35,6 +39,13 @@ public class Throw_Yut : NetworkBehaviour
         CMDYut_Throwing();
 
         Server_Manager.instance.CMD_Turn_Changer();
+    }
+
+    [Client]
+    public void Yut_Btn_Click(int name)
+    {
+        Debug.Log("Yut_Btn_Click 호출");
+        CMDYut_Button_Click(name);
     }
 
     public void ThrowYutResult(string trigger_)
@@ -82,6 +93,35 @@ public class Throw_Yut : NetworkBehaviour
         // Result_Yut 클래스의 Set_Result 메소드 호출
         result.Set_Result(trigger_, true);
         RPCYut_Throwing(trigger_);
+    }
+
+    [Command(requiresAuthority = false)]
+    private void CMDYut_Button_Click(int name)
+    {
+        string yutTrigger = string.Empty;
+        switch (name)
+        {
+            case 0:
+                yutTrigger = "Do";
+                break;
+            case 1:
+                yutTrigger = "Gae";
+                break;
+            case 2:
+                yutTrigger = "Geol";
+                break;
+            case 3:
+                yutTrigger = "Yut";
+                break;
+            case 4:
+                yutTrigger = "Mo";
+                break;
+            case 5:
+                yutTrigger = "Backdo";
+                break;
+        }
+        Debug.Log(yutTrigger);
+        result.Set_Result(yutTrigger, false);
     }
     #endregion
 
