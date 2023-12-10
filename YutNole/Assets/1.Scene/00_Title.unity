@@ -2445,7 +2445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  ServerIP: 127.0.0.1
+  ServerIP: 3.34.46.211
 --- !u!1 &1121435969
 GameObject:
   m_ObjectHideFlags: 0

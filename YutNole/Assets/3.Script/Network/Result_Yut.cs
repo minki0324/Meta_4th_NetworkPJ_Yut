@@ -123,8 +123,6 @@ public class Result_Yut : NetworkBehaviour
 
         // 결과 값 전파
         StartCoroutine(DelayedRPCSetResult());
-
-        Debug.Log($"ModifyList: oldItem = {oldItem}, newItem = {newItem}, result_Value.Count = {result_Value.Count}");
     }
 
     // 윷놀이 결과값에 따라 스프라이트 바꿔주는 메소드

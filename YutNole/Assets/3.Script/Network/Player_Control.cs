@@ -19,9 +19,6 @@ public class Player_Control : NetworkBehaviour
     #region Unity Callback
     private void Update()
     {
-        Debug.Log((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index);
-        Debug.Log(GameManager.instance.hasChance);
-
         //내턴일때 && 찬스가 true일때 버튼활성화
         if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index && GameManager.instance.hasChance)
         {

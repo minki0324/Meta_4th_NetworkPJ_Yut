@@ -69,7 +69,6 @@ public class PlayingYut : MonoBehaviour
 
     public void PlayingYutPlus()
     { // 윷 던지기 버튼 event
-        Debug.Log("캐릭터버튼활성화");
         if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
         { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
             for (int i = 0; i < 4; i++)
@@ -223,33 +222,5 @@ public class PlayingYut : MonoBehaviour
         PlayerMovement SelectPlayer = GameManager.instance.players[GameManager.instance.playerNum].GetComponent<PlayerMovement>();
         SelectPlayer.PlayerMove();
 
-    }
-    private int ConvertToInt(string yut)
-    {
-        int a = 0;
-        switch (yut)
-        {
-            case "Backdo":
-                a = -1;
-                break;
-            case "Do":
-                a = 1;
-
-                break;
-            case "Gae":
-                a = 2;
-                break;
-            case "Geol":
-                a = 3;
-                break;
-            case "Yut":
-                a = 4;
-                break;
-            case "Mo":
-                a = 5;
-                break;
-
-        }
-        return a;
     }
 }

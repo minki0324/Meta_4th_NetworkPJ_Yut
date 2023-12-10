@@ -23,18 +23,21 @@ public class ButtonPositionSetter : MonoBehaviour
         playingYut = FindObjectOfType<PlayingYut>();
     }
 
-    //private void Update()
-    //{
-    //    //움직일 카운트가 있을경우에만 캐릭터 버튼 옮겨주기
-    //    if(playingYut.yutResultIndex.Count>0) SetUp(buttonName);
-
-    //}
-    private void OnEnable()
+    private void Update()
     {
+        if(GameManager.instance.isMoving)
+        {
+            gameObject.SetActive(false);
+        }
         SetUp(buttonName);
     }
+   /* private void OnEnable()
+    {
+        SetUp(buttonName);
+    }*/
     private void OnDisable()
     {
+        Debug.Log("꺼짐");
         gameStart = true;
     }
 

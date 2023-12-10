@@ -21,6 +21,7 @@ public class Server_Manager : NetworkBehaviour
     private void GameStart()
     {
         CMD_Turn_Changer();
+        CMD_Turn_Changer();
     }
     #endregion
 

@@ -23,7 +23,6 @@ public class PlayerState : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        Debug.Log("LocalPlayer");
     }
 
     #region Unity Callback

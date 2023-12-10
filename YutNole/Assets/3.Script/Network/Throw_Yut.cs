@@ -35,7 +35,6 @@ public class Throw_Yut : NetworkBehaviour
     [Client] // 버튼 눌렀을 때 클라이언트 입장에서 서버에게 버튼 눌렸다고 호출해주는 메소드
     public void Btn_Click()
     {
-        Debug.Log("Btn_Click 호출됨");
         GameManager.instance.hasChance = false;
         CMDYut_Throwing();
         //Server_Manager.instance.CMD_Turn_Changer();
@@ -45,13 +44,11 @@ public class Throw_Yut : NetworkBehaviour
     [Client]
     public void Yut_Btn_Click(int name)
     {
-        Debug.Log("Yut_Btn_Click 호출");
         CMDYut_Button_Click(name);
     }
 
     public void ThrowYutResult(string trigger_)
     {
-        Debug.Log("ThrowYutResult");
         int index = 0;
         playingYut.yutResult = trigger_;
         switch (trigger_)
@@ -82,12 +79,12 @@ public class Throw_Yut : NetworkBehaviour
         {
             Addlist(index);
         }
-        //else if(playingYut.yutResultIndex.Count == 0 )
-        //{
-        //    Server_Manager.instance.CMD_Turn_Changer();
-        //    playingYut.yutResultIndex.Clear();
-        //    GameManager.instance.hasChance = true;
-        //}
+       /* else if(playingYut.yutResultIndex.Count == 0 )
+        {
+            Server_Manager.instance.CMD_Turn_Changer();
+            playingYut.yutResultIndex.Clear();
+            GameManager.instance.hasChance = true;
+        }*/
 
        
 
@@ -100,9 +97,6 @@ public class Throw_Yut : NetworkBehaviour
 
         playingYut.yutResultIndex.Add(index);
         playingYut.PlayingYutPlus();
-      
-
-        Debug.Log("Count: " + playingYut.yutResultIndex.Count);
     }
 
 
@@ -112,9 +106,8 @@ public class Throw_Yut : NetworkBehaviour
     [Command(requiresAuthority = false)] // 실질적인 윷놀이 결과값을 만들어내고 리스트에 저장 및 클라이언트들에게 뿌리는 RPC 메소드 호출
     private void CMDYut_Throwing()
     {
-        string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
+        string[] triggers = { "Mo", "Mo", "Mo", "Mo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
         trigger_ = triggers[Random.Range(0, triggers.Length)];
-        Debug.Log($"CMDYut_Throwing 호출 : {trigger_}");
         // Result_Yut 클래스의 Set_Result 메소드 호출
         result.Set_Result(trigger_, true);
         RPCYut_Throwing(trigger_);
@@ -145,7 +138,6 @@ public class Throw_Yut : NetworkBehaviour
                 yutTrigger = "Backdo";
                 break;
         }
-        Debug.Log(yutTrigger);
         result.Set_Result(yutTrigger, false);
     }
     #endregion
@@ -154,7 +146,6 @@ public class Throw_Yut : NetworkBehaviour
     [ClientRpc] // 윷놀이 결과값에 대한 애니메이션만 출력해주는 메소드
     private void RPCYut_Throwing(string trigger)
     {
-        Debug.Log("RpcRPCYut_Throwing 호출됨");
         Yut_ani.animator.SetTrigger(trigger);
 
         ThrowYutResult(trigger);
