@@ -17,7 +17,7 @@ public class Time_Slider : NetworkBehaviour
     [SerializeField] private Slider P1_Slider;
     [SerializeField] private Slider P2_Slider;
 
-    public float TimeLimit = 30; 
+    public float TimeLimit = 60; 
     public float ThrowTime = 0f;
     private Coroutine serverTimerCoroutine;
     private int previousTurnIndex = -1;
@@ -75,7 +75,6 @@ public class Time_Slider : NetworkBehaviour
             yield return new WaitForSeconds(0.1f);
             exitTime += Time.deltaTime;
         }
-
         // Coroutine이 종료되면 isCoroutineRunning을 false로 설정
         isCoroutineRunning = false;
     }
