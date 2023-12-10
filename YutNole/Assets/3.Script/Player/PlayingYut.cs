@@ -50,11 +50,11 @@ public class PlayingYut : MonoBehaviour
     }
     private void Update()
     {
-
+   
     }
     public void SetButtons()
     {
-        if (GameManager.instance.players != null)
+        if (GameManager.instance.players[0] != null)
         {
             for (int i = 0; i < characterButton.Length; i++)
             {
@@ -63,12 +63,13 @@ public class PlayingYut : MonoBehaviour
             }
         }
         // 윷 던지기 버튼에 리스너 추가
-        ThrowButton = FindObjectOfType<Throw_Yut>().GetComponent<Button>();
-        ThrowButton.onClick.AddListener(PlayingYutPlus);
+        //ThrowButton = FindObjectOfType<Throw_Yut>().GetComponent<Button>();
+        //ThrowButton.onClick.AddListener(PlayingYutPlus);
     }
 
     public void PlayingYutPlus()
     { // 윷 던지기 버튼 event
+        Debug.Log("캐릭터버튼활성화");
         if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
         { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
             for (int i = 0; i < 4; i++)
@@ -99,17 +100,17 @@ public class PlayingYut : MonoBehaviour
             goalButton.SetActive(false);
         }
 
-        if (yutResultIndex.Count > 0)
-        { // 리스트가 남았을 때
-          // 골인하지 않은 캐릭터 전부 선택 활성화
-            for (int i = 0; i < 4; i++)
-            {
-                if (!GameManager.instance.playingPlayer[i])
-                {
-                    characterButton[i].SetActive(true);
-                }
-            }
-        }
+        //if (yutResultIndex.Count > 0)
+        //{ // 리스트가 남았을 때
+        //  // 골인하지 않은 캐릭터 전부 선택 활성화
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        if (!GameManager.instance.playingPlayer[i])
+        //        {
+        //            characterButton[i].SetActive(true);
+        //        }
+        //    }
+        //}
     }
     #region Goal Button
     public void GoalButtonClick()

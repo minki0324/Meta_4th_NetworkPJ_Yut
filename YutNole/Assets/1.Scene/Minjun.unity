@@ -884,11 +884,11 @@ MonoBehaviour:
       - m_Target: {fileID: 777914384}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: Mo
           m_BoolArgument: 0
@@ -1175,7 +1175,7 @@ MonoBehaviour:
       - m_Target: {fileID: 777914384}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1710,6 +1710,7 @@ MonoBehaviour:
   currentIndex: 0
   resultIndex: 0
   yutResultIndex: 
+  yutArray: 0100000002000000030000000400000005000000ffffffff
   yutResult: 
   goalButton: {fileID: 1088145073}
 --- !u!4 &777914385
@@ -1841,11 +1842,11 @@ MonoBehaviour:
       - m_Target: {fileID: 777914384}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: Yut
           m_BoolArgument: 0
@@ -3209,11 +3210,11 @@ MonoBehaviour:
       - m_Target: {fileID: 777914384}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: Backdo
           m_BoolArgument: 0
@@ -4646,11 +4647,11 @@ MonoBehaviour:
       - m_Target: {fileID: 777914384}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: Gae
           m_BoolArgument: 0
@@ -5044,11 +5045,11 @@ MonoBehaviour:
       - m_Target: {fileID: 777914384}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: Geol
           m_BoolArgument: 0

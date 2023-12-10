@@ -7,8 +7,8 @@ using Mirror;
 public class Throw_Yut : NetworkBehaviour
 {
     /*
-        1. À· ´øÁö±â ¹öÆ°À» ´©¸£¸é Ä¿¸Çµå¿¡¼­ °á°ú°ª ¸¸µé±â
-        2. ³ª¿Â °á°ú°ªÀ» RPC¸¦ ÅëÇØ ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô °°Àº ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·Â
+        1. ìœ· ë˜ì§€ê¸° ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ì»¤ë§¨ë“œì—ì„œ ê²°ê³¼ê°’ ë§Œë“¤ê¸°
+        2. ë‚˜ì˜¨ ê²°ê³¼ê°’ì„ RPCë¥¼ í†µí•´ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ê°™ì€ ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥
     */
     private PlayingYut playingYut;
     [SerializeField] private NetworkAnimator Yut_ani;
@@ -27,24 +27,25 @@ public class Throw_Yut : NetworkBehaviour
     #endregion
 
     #region SyncVar
-    [SyncVar(hook = nameof(TriggerChange))] // À·³îÀÌ °á°ú°ª
+    [SyncVar(hook = nameof(TriggerChange))] // ìœ·ë†€ì´ ê²°ê³¼ê°’
     private string trigger_ = string.Empty;
     #endregion
 
     #region Client
-    [Client] // ¹öÆ° ´­·¶À» ¶§ Å¬¶óÀÌ¾ğÆ® ÀÔÀå¿¡¼­ ¼­¹ö¿¡°Ô ¹öÆ° ´­·È´Ù°í È£ÃâÇØÁÖ´Â ¸Ş¼Òµå
+    [Client] // ë²„íŠ¼ ëˆŒë €ì„ ë•Œ í´ë¼ì´ì–¸íŠ¸ ì…ì¥ì—ì„œ ì„œë²„ì—ê²Œ ë²„íŠ¼ ëˆŒë ¸ë‹¤ê³  í˜¸ì¶œí•´ì£¼ëŠ” ë©”ì†Œë“œ
     public void Btn_Click()
     {
-        Debug.Log("Btn_Click È£ÃâµÊ");
+        Debug.Log("Btn_Click í˜¸ì¶œë¨");
+        GameManager.instance.hasChance = false;
         CMDYut_Throwing();
-
-        Server_Manager.instance.CMD_Turn_Changer();
+        //Server_Manager.instance.CMD_Turn_Changer();
     }
+
 
     [Client]
     public void Yut_Btn_Click(int name)
     {
-        Debug.Log("Yut_Btn_Click È£Ãâ");
+        Debug.Log("Yut_Btn_Click í˜¸ì¶œ");
         CMDYut_Button_Click(name);
     }
 
@@ -66,31 +67,55 @@ public class Throw_Yut : NetworkBehaviour
                 break;
             case "Yut":
                 index = 3;
+                GameManager.instance.hasChance = true;
                 break;
             case "Mo":
                 index = 4;
+                GameManager.instance.hasChance = true;
                 break;
             case "Backdo":
                 index = 5;
                 break;
         }
-        //³»ÅÏÀÌ ¾Æ´Ò¶§ && ³«ÀÌ ³ª¿ÔÀ»¶§ && ÆÇ¿¡ ³»¸»ÀÌ¾ø´Â°æ¿ì »ªµµ°¡ ³ª¿Ã¶§(Ãß°¡)
+        //ë‚´í„´ì´ ì•„ë‹ë•Œ && ë‚™ì´ ë‚˜ì™”ì„ë•Œ && íŒì— ë‚´ë§ì´ì—†ëŠ”ê²½ìš° ë¹½ë„ê°€ ë‚˜ì˜¬ë•Œ(ì¶”ê°€)
         if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index && !trigger_.Equals("Nack"))
         {
-            playingYut.yutResultIndex.Add(index);
+            Addlist(index);
         }
+        //else if(playingYut.yutResultIndex.Count == 0 )
+        //{
+        //    Server_Manager.instance.CMD_Turn_Changer();
+        //    playingYut.yutResultIndex.Clear();
+        //    GameManager.instance.hasChance = true;
+        //}
+
+       
+
+
+
+    }
+
+    private void Addlist(int index)
+    {
+
+        playingYut.yutResultIndex.Add(index);
+        playingYut.PlayingYutPlus();
+      
+
         Debug.Log("Count: " + playingYut.yutResultIndex.Count);
     }
+
+
     #endregion
 
     #region Command
-    [Command(requiresAuthority = false)] // ½ÇÁúÀûÀÎ À·³îÀÌ °á°ú°ªÀ» ¸¸µé¾î³»°í ¸®½ºÆ®¿¡ ÀúÀå ¹× Å¬¶óÀÌ¾ğÆ®µé¿¡°Ô »Ñ¸®´Â RPC ¸Ş¼Òµå È£Ãâ
+    [Command(requiresAuthority = false)] // ì‹¤ì§ˆì ì¸ ìœ·ë†€ì´ ê²°ê³¼ê°’ì„ ë§Œë“¤ì–´ë‚´ê³  ë¦¬ìŠ¤íŠ¸ì— ì €ì¥ ë° í´ë¼ì´ì–¸íŠ¸ë“¤ì—ê²Œ ë¿Œë¦¬ëŠ” RPC ë©”ì†Œë“œ í˜¸ì¶œ
     private void CMDYut_Throwing()
     {
         string[] triggers = { "Do", "Do", "Do", "Backdo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
         trigger_ = triggers[Random.Range(0, triggers.Length)];
-        Debug.Log($"CMDYut_Throwing È£Ãâ : {trigger_}");
-        // Result_Yut Å¬·¡½ºÀÇ Set_Result ¸Ş¼Òµå È£Ãâ
+        Debug.Log($"CMDYut_Throwing í˜¸ì¶œ : {trigger_}");
+        // Result_Yut í´ë˜ìŠ¤ì˜ Set_Result ë©”ì†Œë“œ í˜¸ì¶œ
         result.Set_Result(trigger_, true);
         RPCYut_Throwing(trigger_);
     }
@@ -126,10 +151,10 @@ public class Throw_Yut : NetworkBehaviour
     #endregion
 
     #region ClientRPC
-    [ClientRpc] // À·³îÀÌ °á°ú°ª¿¡ ´ëÇÑ ¾Ö´Ï¸ŞÀÌ¼Ç¸¸ Ãâ·ÂÇØÁÖ´Â ¸Ş¼Òµå
+    [ClientRpc] // ìœ·ë†€ì´ ê²°ê³¼ê°’ì— ëŒ€í•œ ì• ë‹ˆë©”ì´ì…˜ë§Œ ì¶œë ¥í•´ì£¼ëŠ” ë©”ì†Œë“œ
     private void RPCYut_Throwing(string trigger)
     {
-        Debug.Log("RpcRPCYut_Throwing È£ÃâµÊ");
+        Debug.Log("RpcRPCYut_Throwing í˜¸ì¶œë¨");
         Yut_ani.animator.SetTrigger(trigger);
 
         ThrowYutResult(trigger);
