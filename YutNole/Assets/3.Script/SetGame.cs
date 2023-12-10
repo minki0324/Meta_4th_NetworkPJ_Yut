@@ -54,7 +54,7 @@ public class SetGame : NetworkBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                GameObject myOb = Instantiate(myObject[1], startPos[4 + j].position, Quaternion.identity);
+                GameObject myOb = Instantiate(myObject[1], startPos[4+j].position, Quaternion.identity);
                 // isServer 체크 제거
                 NetworkServer.Spawn(myOb, connectionToClient);
 

@@ -18,14 +18,11 @@ public class ButtonPositionSetter : MonoBehaviour
         TryGetComponent(out buttonTrans);
         buttonName = gameObject.name;
     }
-
-    private void Update()
+    private void OnEnable()
     {
-        if (gameStart)
-        {
-            SetUp(buttonName);
-        }
+        SetUp(buttonName);
     }
+   
 
     private void OnDisable()
     {

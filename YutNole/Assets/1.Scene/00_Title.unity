@@ -2201,7 +2201,7 @@ MonoBehaviour:
   minPlayers: 2
   roomPlayerPrefab: {fileID: -7229258707171235979, guid: 6910a29d6e50b2340bc45a6e8f3c0ab8, type: 3}
   RoomScene: Assets/1.Scene/00_Intro.unity
-  GameplayScene: Assets/1.Scene/Minki.unity
+  GameplayScene: Assets/1.Scene/Jaeyun.unity
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0

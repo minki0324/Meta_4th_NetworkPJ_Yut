@@ -6,6 +6,7 @@ using Mirror;
 public class Server_Manager : NetworkBehaviour
 {
     public static Server_Manager instance;
+    [SerializeField] private Time_Slider slider;
 
     #region Script
     #endregion
