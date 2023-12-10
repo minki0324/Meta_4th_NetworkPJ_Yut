@@ -277,13 +277,13 @@ MonoBehaviour:
       - m_Target: {fileID: 700210848}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Do
+          m_StringArgument: 0
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 700210848}
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 40483474}
   m_Layer: 0
   m_Name: Character 3
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -981,7 +981,7 @@ GameObject:
   - component: {fileID: 365842399}
   m_Layer: 0
   m_Name: Character 0
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1128,7 +1128,7 @@ GameObject:
   - component: {fileID: 400124411}
   m_Layer: 0
   m_Name: Character 2
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2151,7 +2151,7 @@ GameObject:
   - component: {fileID: 753677115}
   m_Layer: 0
   m_Name: Return 0
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2297,7 +2297,7 @@ GameObject:
   - component: {fileID: 753758470}
   m_Layer: 0
   m_Name: Return 3
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2562,7 +2562,7 @@ GameObject:
   - component: {fileID: 841122796}
   m_Layer: 0
   m_Name: Return 2
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2838,13 +2838,13 @@ MonoBehaviour:
       - m_Target: {fileID: 700210848}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
-          m_StringArgument: Yut
+          m_StringArgument: 3
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 700210848}
@@ -3127,7 +3127,7 @@ GameObject:
   - component: {fileID: 1164241949}
   m_Layer: 0
   m_Name: Character 1
-  m_TagString: Untagged
+  m_TagString: CharBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3523,13 +3523,13 @@ MonoBehaviour:
       - m_Target: {fileID: 700210848}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
-          m_StringArgument: Geol
+          m_StringArgument: 2
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 700210848}
@@ -4063,13 +4063,13 @@ MonoBehaviour:
       - m_Target: {fileID: 700210848}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
-          m_StringArgument: Mo
+          m_StringArgument: 4
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 700210848}
@@ -4583,13 +4583,13 @@ MonoBehaviour:
       - m_Target: {fileID: 700210848}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
-          m_StringArgument: Backdo
+          m_StringArgument: 5
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 700210848}
@@ -4796,13 +4796,13 @@ MonoBehaviour:
       - m_Target: {fileID: 700210848}
         m_TargetAssemblyTypeName: PlayingYut, Assembly-CSharp
         m_MethodName: YutButtonClick
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: Gae
+          m_StringArgument: 1
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 700210848}
@@ -4922,7 +4922,7 @@ GameObject:
   - component: {fileID: 2060442331}
   m_Layer: 0
   m_Name: Return 1
-  m_TagString: Untagged
+  m_TagString: ReturnBtn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

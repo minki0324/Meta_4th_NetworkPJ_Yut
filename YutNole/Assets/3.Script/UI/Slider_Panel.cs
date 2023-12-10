@@ -82,6 +82,7 @@ public class Slider_Panel : MonoBehaviour
                 if (ThrowTime > TimeLimit)
                 {
                     GameManager.instance.hasChance = false;
+                    
                     break;
                 }
 
