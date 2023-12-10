@@ -24,12 +24,17 @@ public class PlayerState : NetworkBehaviour
     // Player NumImage
     public GameObject[] numImage; // numberImage GameObject 참조해주기
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        Debug.Log("LocalPlayer");
+    }
+
     #region Unity Callback
     private void Start()
     {
         SetUp();
-        if (!isLocalPlayer) return;
-        StartCoroutine(PlayerButtonSetting());
+        OnStart();
     }
 
     private void SetUp()
@@ -38,11 +43,29 @@ public class PlayerState : NetworkBehaviour
         currentArray = playingYut.pos1;
     }
 
-    private IEnumerator PlayerButtonSetting()
-    { // Button Position Setting
+    #endregion
+    #region SyncVar
+    #endregion
+    #region Client
+    [Client]
+    private IEnumerator OnStart()
+    {
         yield return new WaitForSeconds(1.5f);
+        ButtonSetting();
+    }
+    #endregion
+    #region Command
+    [Command]
+    private void ButtonSetting()
+    {
+        PlayerButtonSetting();
+    }
+    #endregion
+    #region ClientRPC
+    [ClientRpc] // 왜안되니... 12. 10 AM 03:20
+    private void PlayerButtonSetting()
+    { // Button Position Setting
         int index = int.Parse(startPos.gameObject.name);
-        Debug.Log(index);
         characterButton = playingYut.characterButton[index];
         returnButton = playingYut.returnButton[index];
 
@@ -52,14 +75,6 @@ public class PlayerState : NetworkBehaviour
         characterButton.SetActive(false);
         returnButton.SetActive(false);
     }
-    #endregion
-    #region SyncVar
-    #endregion
-    #region Client
-    #endregion
-    #region Command
-    #endregion
-    #region ClientRPC
     #endregion
     #region Hook Method, 다른 클라이언트도 알아야 함
     private void PlayerStateTrans(Transform[] _old, Transform[] _new)
