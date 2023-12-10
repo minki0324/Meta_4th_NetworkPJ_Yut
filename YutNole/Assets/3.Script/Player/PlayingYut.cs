@@ -56,7 +56,7 @@ public class PlayingYut : MonoBehaviour
         //players 인덱스 순서대로 startpos도 다시 세팅했어 ...
         //오케이... - 재윤 -
         StartCoroutine(SetButtons());
-       
+
     }
     private void Update()
     {
@@ -64,11 +64,33 @@ public class PlayingYut : MonoBehaviour
     }
     public IEnumerator SetButtons()
     {
-        yield return new WaitForSeconds(1.1f);
-        for (int i = 0; i < characterButton.Length; i++)
+        yield return new WaitForSeconds(1.5f);
+
+        if (GameManager.instance != null)
         {
-            characterButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
-            returnButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+            if (GameManager.instance.players != null)
+            {
+                for (int i = 0; i < characterButton.Length; i++)
+                {
+                    if (GameManager.instance.players.Length > i && GameManager.instance.players[i] != null)
+                    {
+                        characterButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+                        returnButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+                    }
+                    else
+                    {
+                        Debug.LogError($"GameManager.instance.players[{i}] is null.");
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("GameManager.instance.players is null.");
+            }
+        }
+        else
+        {
+            Debug.LogError("GameManager.instance is null.");
         }
     }
     public void PlayingYutPlus()
