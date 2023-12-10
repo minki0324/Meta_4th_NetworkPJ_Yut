@@ -19,7 +19,7 @@ public class PlayingYut : MonoBehaviour
     public RectTransform[] yutButton; // 도, 개, 걸, 윷, 모, 빽도 버튼
 
     // UI에서 버튼 선택할 때 달라질 예정
-    [SerializeField] private GameObject[] player; // 자신의 말
+    public PlayerState[] player = new PlayerState[4]; // 자신의 말
     // 캐릭터마다 붙어있는 버튼
     public GameObject[] characterButton; // character
     public GameObject[] returnButton; // return
@@ -32,26 +32,13 @@ public class PlayingYut : MonoBehaviour
 
     // 윷 결과 가져오기
     public string yutResult;
-
-    private Button ThrowButton;
     public GameObject goalButton; // goal button, resultIndex보다 클 때 SetActive(true)
-
-    private void Awake()
-    {
-
-    }
 
     private void Start()
     {
-        //재윤아 ...
-        //내가 캐릭터버튼 타겟 여기서 설정해줬어...
-        //players 인덱스 순서대로 startpos도 다시 세팅했어 ...
-        //오케이... - 재윤 -
+        player = GameManager.instance.players;
     }
-    private void Update()
-    {
-   
-    }
+
     public void SetButtons()
     {
         if (GameManager.instance.players[0] != null)
@@ -62,9 +49,6 @@ public class PlayingYut : MonoBehaviour
                 returnButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
             }
         }
-        // 윷 던지기 버튼에 리스너 추가
-        //ThrowButton = FindObjectOfType<Throw_Yut>().GetComponent<Button>();
-        //ThrowButton.onClick.AddListener(PlayingYutPlus);
     }
 
     public void PlayingYutPlus()
@@ -90,7 +74,6 @@ public class PlayingYut : MonoBehaviour
         currentIndex += yutArray[name]; // 현재 인덱스 리스트 삭제한 값과 같도록 변경
         yutResultIndex.Remove(name); // 추가된 리스트 삭제
 
-
         TurnPosition(playerArray, currentIndex); // 현재 위치 배열 변경
 
         PositionOut();
@@ -98,18 +81,6 @@ public class PlayingYut : MonoBehaviour
         {
             goalButton.SetActive(false);
         }
-
-        //if (yutResultIndex.Count > 0)
-        //{ // 리스트가 남았을 때
-        //  // 골인하지 않은 캐릭터 전부 선택 활성화
-        //    for (int i = 0; i < 4; i++)
-        //    {
-        //        if (!GameManager.instance.playingPlayer[i])
-        //        {
-        //            characterButton[i].SetActive(true);
-        //        }
-        //    }
-        //}
     }
     #region Goal Button
     public void GoalButtonClick()
@@ -143,15 +114,9 @@ public class PlayingYut : MonoBehaviour
     public void PositionIn()
     { // Button Position in
         // Character Button click 시 불러옴, list 최소 1개 이상
-        // YutState yutType = YutState.Backdo; // 초기화
-        int yutType = 0;
         for (int i = 0; i < yutResultIndex.Count; i++)
         {
             resultIndex = currentIndex + yutArray[yutResultIndex[i]]; // 버튼 배치할 위치, 도 개 걸 윷 모 빽도
-            if (yutArray[yutResultIndex[i]] != -1)
-            { // 빽도가 아닐 때
-                yutType = yutResultIndex[i];
-            }
 
             if (resultIndex >= playerArray.Length)
             { // Goal
@@ -161,7 +126,7 @@ public class PlayingYut : MonoBehaviour
             else if (playerArray.Length > resultIndex)
             { // not Goal
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[resultIndex].transform.position);
-                yutButton[yutType].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
+                yutButton[yutResultIndex[i]].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
             }
         }
     }
@@ -169,12 +134,14 @@ public class PlayingYut : MonoBehaviour
     #region PlayerButton
     public void CharacterButtonClick(int playerNum)
     { // Canvas - CharacterButton event
-
+        currentIndex = player[playerNum].currentIndex;
+        playerArray = player[playerNum].currentArray;
 
         PositionIn();
+
+        returnButton[playerNum].SetActive(true);
         for (int i = 0; i < 4; i++)
         {
-            returnButton[i].SetActive(true);
             characterButton[i].SetActive(false);
         }
         // 어떤 말을 선택했는지 설정
@@ -220,7 +187,6 @@ public class PlayingYut : MonoBehaviour
     public void MoveButton()
     {
         PlayerMovement SelectPlayer = GameManager.instance.players[GameManager.instance.playerNum].GetComponent<PlayerMovement>();
-        SelectPlayer.PlayerMove();
-
+        SelectPlayer.PlayerMove(currentIndex);
     }
 }

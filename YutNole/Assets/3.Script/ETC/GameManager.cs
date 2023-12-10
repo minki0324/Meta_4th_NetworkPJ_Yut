@@ -6,6 +6,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    private PlayingYut playingYut;
 
     [SerializeField] private WINnLose winNlose;
 
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
         }
 
         winNlose = FindObjectOfType<WINnLose>();
+        playingYut = FindObjectOfType<PlayingYut>();
         isPlayer1 = true;
     }
     private void Start()
@@ -50,10 +52,6 @@ public class GameManager : MonoBehaviour
         players = new PlayerState[4];
         StartCoroutine(GetPlayer());
         hasChance = true;
-    }
-    private void Update()
-    {
-        
     }
 
     private IEnumerator GetPlayer()
@@ -82,6 +80,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        FindObjectOfType<PlayingYut>().SetButtons();
+        playingYut.SetButtons();
     }
 }
