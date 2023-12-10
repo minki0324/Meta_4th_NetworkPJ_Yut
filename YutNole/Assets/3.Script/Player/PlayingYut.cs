@@ -114,15 +114,9 @@ public class PlayingYut : MonoBehaviour
     public void PositionIn()
     { // Button Position in
         // Character Button click 시 불러옴, list 최소 1개 이상
-        // YutState yutType = YutState.Backdo; // 초기화
-        int yutType = 0;
         for (int i = 0; i < yutResultIndex.Count; i++)
         {
             resultIndex = currentIndex + yutArray[yutResultIndex[i]]; // 버튼 배치할 위치, 도 개 걸 윷 모 빽도
-            if (yutArray[yutResultIndex[i]] != -1)
-            { // 빽도가 아닐 때
-                yutType = yutResultIndex[i];
-            }
 
             if (resultIndex >= playerArray.Length)
             { // Goal
@@ -132,7 +126,7 @@ public class PlayingYut : MonoBehaviour
             else if (playerArray.Length > resultIndex)
             { // not Goal
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[resultIndex].transform.position);
-                yutButton[yutType].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
+                yutButton[yutResultIndex[i]].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
             }
         }
     }
@@ -144,9 +138,10 @@ public class PlayingYut : MonoBehaviour
         playerArray = player[playerNum].currentArray;
 
         PositionIn();
+
+        returnButton[playerNum].SetActive(true);
         for (int i = 0; i < 4; i++)
         {
-            returnButton[i].SetActive(true);
             characterButton[i].SetActive(false);
         }
         // 어떤 말을 선택했는지 설정
@@ -192,6 +187,6 @@ public class PlayingYut : MonoBehaviour
     public void MoveButton()
     {
         PlayerMovement SelectPlayer = GameManager.instance.players[GameManager.instance.playerNum].GetComponent<PlayerMovement>();
-        SelectPlayer.PlayerMove();
+        SelectPlayer.PlayerMove(currentIndex);
     }
 }

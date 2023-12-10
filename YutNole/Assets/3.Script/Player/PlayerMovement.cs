@@ -24,10 +24,10 @@ public class PlayerMovement : MonoBehaviour
         playingYut.playerArray = playerArray;
     }
 
-    public void PlayerMove()
+    public void PlayerMove(int index)
     { // 도 개 걸 윷 모 빽도 버튼 event
         transform.position = playerArray[currentIndex].position; // 플레이어가 위치할 포지션
-        targetIndex = playingYut.currentIndex; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
+        targetIndex = index; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
 
         if (targetIndex - currentIndex == -1)
         { // Backdo
@@ -75,13 +75,34 @@ public class PlayerMovement : MonoBehaviour
             }
             yield return new WaitForSeconds(0.2f);
         }
+
         GameManager.instance.isMoving = false;
         isBackdo = false;
         currentIndex = targetIndex;
         playerArray = playingYut.playerArray;
-
         playingYut.player[GameManager.instance.playerNum].currentIndex = currentIndex;
         playingYut.player[GameManager.instance.playerNum].currentArray = playerArray;
+
+        foreach (PlayerState player in GameManager.instance.tempPlayers)
+        {
+            if (player.gameObject == gameObject) continue;
+            if (player.transform == gameObject.transform)
+            {
+                if (player.tag == gameObject.tag)
+                {
+                    //업기
+                    Debug.Log("업");
+                }
+                else
+                {
+                    Debug.Log("잡");
+                    //잡기
+                }
+
+
+            }
+
+        }
 
         if (playingYut.yutResultIndex.Count == 0 && !GameManager.instance.hasChance)
         {
