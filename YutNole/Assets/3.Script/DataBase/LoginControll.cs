@@ -22,6 +22,7 @@ public class LoginControll : MonoBehaviour
         if(SQLManager.instance.Login(id_i.text, pass_i.text))
         {
             //로그인 성공
+            Debug.Log("ㅎㅇㅎㅇ");
             user_info info = SQLManager.instance.info;
             Debug.Log(info.User_ID + " ㅣ " + info.User_Password +" l " + info.User_name);
             ServerChecker.instance.Start_Client();

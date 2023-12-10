@@ -9,7 +9,7 @@ using System;
 using System.IO;
 
 public enum Type
-{
+{   
     Empty =0,
     Server,
     Client
