@@ -164,5 +164,6 @@ public class Result_Yut : NetworkBehaviour
         yield return null; // 1프레임 대기
         RPCSet_Result();
     }
+
     #endregion
 }

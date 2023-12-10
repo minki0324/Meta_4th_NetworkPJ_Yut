@@ -19,7 +19,7 @@ public class Player_Control : NetworkBehaviour
     #region Unity Callback
     private void Update()
     {
-        if((int)GM.instance.Player_Num != Server_Manager.instance.Turn_Index)
+        if ((int)GM.instance.Player_Num != Server_Manager.instance.Turn_Index)
         {
             Yut_Btn.interactable = false;
         }
