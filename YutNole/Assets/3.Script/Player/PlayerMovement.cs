@@ -95,7 +95,12 @@ public class PlayerMovement : MonoBehaviour
                     Debug.Log("업");
                     //player.transform.SetParent(gameObject.transform);
                     //todo.. 내일의민준아... 업기 해줘.
-                    //List<PlayerState> list // 잡은 말의 리스트
+                    //List<PlayerState> list // 업은 말의 리스트
+                    //업은애를 리스트에 넣어
+                    //잡혔을때 리스트에있는애도 초기화해줘
+                    //골인했을대도 리스트에있는 수만큼 +1 해주고 위치도 초기화해줘
+                    //현재 2마리 // 한마리더업힘    1  (2)  (3)
+                     
                 }
                 else
                 {
