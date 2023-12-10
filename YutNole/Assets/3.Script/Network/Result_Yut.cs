@@ -52,7 +52,7 @@ public class Result_Yut : NetworkBehaviour
                 }
             }
         }
-        RPCSet_Result();
+        StartCoroutine(DelayedRPCSetResult());
     }
     #endregion
 
@@ -123,8 +123,6 @@ public class Result_Yut : NetworkBehaviour
 
         // 결과 값 전파
         StartCoroutine(DelayedRPCSetResult());
-
-        Debug.Log($"ModifyList: oldItem = {oldItem}, newItem = {newItem}, result_Value.Count = {result_Value.Count}");
     }
 
     // 윷놀이 결과값에 따라 스프라이트 바꿔주는 메소드
@@ -161,9 +159,8 @@ public class Result_Yut : NetworkBehaviour
     // RPC 메소드 대기 코루틴
     private IEnumerator DelayedRPCSetResult()
     {
-        yield return null; // 1프레임 대기
+        yield return new WaitForSeconds(0.1f); // 1프레임 대기
         RPCSet_Result();
     }
-
     #endregion
 }

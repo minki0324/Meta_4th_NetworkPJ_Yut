@@ -17,6 +17,12 @@ public class Server_Manager : NetworkBehaviour
     #endregion
 
     #region Client
+    [Client]
+    private void GameStart()
+    {
+        CMD_Turn_Changer();
+        CMD_Turn_Changer();
+    }
     #endregion
 
     #region Command
@@ -49,7 +55,7 @@ public class Server_Manager : NetworkBehaviour
 
     private void Start()
     {
-        CMD_Turn_Changer();
+        GameStart();
     }
 
     private void Update()
