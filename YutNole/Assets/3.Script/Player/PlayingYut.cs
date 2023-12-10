@@ -57,6 +57,7 @@ public class PlayingYut : MonoBehaviour
         { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
             for (int i = 0; i < 4; i++)
             {
+                if (player[GameManager.instance.playerNum].isGoal) continue;
                 characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
             }
         }
@@ -77,6 +78,7 @@ public class PlayingYut : MonoBehaviour
         TurnPosition(playerArray, currentIndex); // 현재 위치 배열 변경
 
         PositionOut();
+
         if (goalButton.activeSelf)
         {
             goalButton.SetActive(false);
@@ -87,6 +89,7 @@ public class PlayingYut : MonoBehaviour
     { // Goal Button Event ... Error 있음
         // Goal Count++
         resultIndex = playerArray.Length - 1;
+
         PositionOut();
 
         for (int i = 0; i < 4; i++)
@@ -95,11 +98,9 @@ public class PlayingYut : MonoBehaviour
             returnButton[i].SetActive(false);
         }
 
-        /*if (Vector3.Distance(player.transform.position, playerArray[resultIndex - 1].position) <= 0.01f)
-        { // move 끝났을 때
-            goalButton.SetActive(false);
-            player.SetActive(false);
-        }*/
+        player[GameManager.instance.playerNum].isGoal = true;
+        player[GameManager.instance.playerNum].gameObject.transform.position = player[GameManager.instance.playerNum].startPos.transform.position;
+        goalButton.SetActive(false);
     }
     #endregion
     #region ButtonPosition
@@ -142,6 +143,7 @@ public class PlayingYut : MonoBehaviour
         returnButton[playerNum].SetActive(true);
         for (int i = 0; i < 4; i++)
         {
+            if (player[GameManager.instance.playerNum].isGoal) continue;
             characterButton[i].SetActive(false);
         }
         // 어떤 말을 선택했는지 설정

@@ -21,7 +21,7 @@ public class Server_Manager : NetworkBehaviour
     private void GameStart()
     {
         CMD_Turn_Changer();
-        CMD_Turn_Changer();
+        TestSpeed();
     }
     #endregion
 
@@ -32,6 +32,11 @@ public class Server_Manager : NetworkBehaviour
     {
         int next_Index = (Turn_Index % 2) + 1;
         OnTurn_Finish(Turn_Index, next_Index);
+    }
+    [Command(requiresAuthority = false)]
+    public void TestSpeed()
+    {
+        Time.timeScale = 4;
     }
     #endregion
 
