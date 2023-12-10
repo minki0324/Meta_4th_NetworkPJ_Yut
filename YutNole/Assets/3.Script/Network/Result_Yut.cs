@@ -52,7 +52,7 @@ public class Result_Yut : NetworkBehaviour
                 }
             }
         }
-        RPCSet_Result();
+        StartCoroutine(DelayedRPCSetResult());
     }
     #endregion
 
@@ -161,9 +161,8 @@ public class Result_Yut : NetworkBehaviour
     // RPC 메소드 대기 코루틴
     private IEnumerator DelayedRPCSetResult()
     {
-        yield return null; // 1프레임 대기
+        yield return new WaitForSeconds(0.1f); // 1프레임 대기
         RPCSet_Result();
     }
-
     #endregion
 }

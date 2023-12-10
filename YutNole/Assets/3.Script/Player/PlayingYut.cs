@@ -89,6 +89,8 @@ public class PlayingYut : MonoBehaviour
 
         currentIndex += yutArray[name]; // 현재 인덱스 리스트 삭제한 값과 같도록 변경
         yutResultIndex.Remove(name); // 추가된 리스트 삭제
+
+
         TurnPosition(playerArray, currentIndex); // 현재 위치 배열 변경
 
         PositionOut();
@@ -167,6 +169,8 @@ public class PlayingYut : MonoBehaviour
     #region PlayerButton
     public void CharacterButtonClick(int playerNum)
     { // Canvas - CharacterButton event
+
+
         PositionIn();
         for (int i = 0; i < 4; i++)
         {
