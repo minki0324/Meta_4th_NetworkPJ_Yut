@@ -48,7 +48,7 @@ public class PlayingYut : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     private void Start()
@@ -57,20 +57,20 @@ public class PlayingYut : MonoBehaviour
         //내가 캐릭터버튼 타겟 여기서 설정해줬어...
         //players 인덱스 순서대로 startpos도 다시 세팅했어 ...
         //오케이... - 재윤 -
-        StartCoroutine(SetButtons());
     }
     private void Update()
     {
-      
-    }
-    public IEnumerator SetButtons()
-    {
-        yield return new WaitForSeconds(1.5f);
 
-        for (int i = 0; i < characterButton.Length; i++)
+    }
+    public void SetButtons()
+    {
+        if (GameManager.instance.players != null)
         {
-            characterButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
-            returnButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+            for (int i = 0; i < characterButton.Length; i++)
+            {
+                characterButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+                returnButton[i].GetComponent<ButtonPositionSetter>().target = GameManager.instance.players[i].gameObject.transform;
+            }
         }
         // 윷 던지기 버튼에 리스너 추가
         ThrowButton = FindObjectOfType<Throw_Yut>().GetComponent<Button>();
@@ -88,8 +88,8 @@ public class PlayingYut : MonoBehaviour
         }
         // Nack일 때, 인덱스 0일 때 빽도일 때
     }
-    
-    public void YutButtonClick(string name)
+
+    public void YutButtonClick(int name)
     { // Canvas - YutObject - 도, 개, 걸, 윷, 모, 빽도 event
         for (int i = 0; i < 4; i++)
         {
@@ -97,11 +97,8 @@ public class PlayingYut : MonoBehaviour
             returnButton[i].SetActive(false);
         }
 
-        YutState yutName = (YutState)Enum.Parse(typeof(YutState), name); // 버튼에 따라 달라짐
-        // GameObject yutObject = yutButton[(int)yutName].gameObject;
-
-        yutResultIndex.Remove(yutArray[(int)yutName]); // 추가된 리스트 삭제
-        currentIndex += yutArray[(int)yutName]; // 현재 인덱스 리스트 삭제한 값과 같도록 변경
+        currentIndex += yutArray[name]; // 현재 인덱스 리스트 삭제한 값과 같도록 변경
+        yutResultIndex.Remove(name); // 추가된 리스트 삭제
         TurnPosition(playerArray, currentIndex); // 현재 위치 배열 변경
 
         PositionOut();
@@ -154,14 +151,16 @@ public class PlayingYut : MonoBehaviour
     public void PositionIn()
     { // Button Position in
         // Character Button click 시 불러옴, list 최소 1개 이상
-        YutState yutType = YutState.Backdo; // 초기화
+        // YutState yutType = YutState.Backdo; // 초기화
+        int yutType = 0;
         for (int i = 0; i < yutResultIndex.Count; i++)
         {
-            resultIndex = currentIndex + yutResultIndex[i]; // 버튼 배치할 위치
-            if (yutResultIndex[i] != -1)
-            {
-                yutType = (YutState)(yutResultIndex[i] - 1);
+            resultIndex = currentIndex + yutArray[yutResultIndex[i]]; // 버튼 배치할 위치, 도 개 걸 윷 모 빽도
+            if (yutArray[yutResultIndex[i]] != -1)
+            { // 빽도가 아닐 때
+                yutType = yutResultIndex[i];
             }
+
             if (resultIndex >= playerArray.Length)
             { // Goal
                 goalButton.SetActive(true);
@@ -170,7 +169,7 @@ public class PlayingYut : MonoBehaviour
             else if (playerArray.Length > resultIndex)
             { // not Goal
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[resultIndex].transform.position);
-                yutButton[(int)yutType].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
+                yutButton[yutType].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
             }
         }
     }
@@ -207,12 +206,14 @@ public class PlayingYut : MonoBehaviour
             { // pos1 -> pos3, 5
                 playerArray = pos3;
                 currentIndex = 5;
-            } else if (num == 10)
+            }
+            else if (num == 10)
             { // pos1 -> pos2, 10
                 playerArray = pos2;
                 currentIndex = 10;
             }
-        } else if (pos == pos3)
+        }
+        else if (pos == pos3)
         {
             if (num == 8)
             { // pos3 -> pos4, 8(22 위치)
@@ -226,18 +227,19 @@ public class PlayingYut : MonoBehaviour
     {
         PlayerMovement SelectPlayer = GameManager.instance.players[GameManager.instance.playerNum].GetComponent<PlayerMovement>();
         SelectPlayer.PlayerMove();
-       
+
     }
     private int ConvertToInt(string yut)
     {
         int a = 0;
-        switch (yut) {
+        switch (yut)
+        {
             case "Backdo":
                 a = -1;
                 break;
             case "Do":
                 a = 1;
-               
+
                 break;
             case "Gae":
                 a = 2;

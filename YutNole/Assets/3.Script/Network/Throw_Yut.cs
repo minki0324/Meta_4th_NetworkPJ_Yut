@@ -63,7 +63,11 @@ public class Throw_Yut : NetworkBehaviour
                 index = 5;
                 break;
         }
-        playingYut.yutResultIndex.Add(index);
+        //내턴이 아닐때 && 낙이 나왔을때 && 판에 내말이없는경우 빽도가 나올때(추가)
+        if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index && !trigger_.Equals("Nack"))
+        {
+            playingYut.yutResultIndex.Add(index);
+        }
         Debug.Log("Count: " + playingYut.yutResultIndex.Count);
     }
     #endregion
