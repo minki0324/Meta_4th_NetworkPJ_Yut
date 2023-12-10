@@ -80,6 +80,27 @@ public class PlayerMovement : MonoBehaviour
         currentIndex = targetIndex;
         playerArray = playingYut.playerArray;
 
+        foreach (PlayerState player in GameManager.instance.tempPlayers)
+        {
+            if (player.gameObject == gameObject) continue;
+            if (Vector2.Distance(player.transform.position, gameObject.transform.position) < 0.01f)
+            {
+                if (player.tag == gameObject.tag)
+                {
+                    //업기
+                    Debug.Log("업");
+                }
+                else
+                {
+                    //잡기
+                    Debug.Log("잡");
+                }
+
+
+            }
+
+        }
+
         if (playingYut.yutResultIndex.Count == 0 && !GameManager.instance.hasChance)
         {
             //움직일 카운트가 남으면 다시진행
