@@ -87,8 +87,7 @@ public class Throw_Yut : NetworkBehaviour
     [Command(requiresAuthority = false)] // 실질적인 윷놀이 결과값을 만들어내고 리스트에 저장 및 클라이언트들에게 뿌리는 RPC 메소드 호출
     private void CMDYut_Throwing(int playPlayer)
     {
-        //string[] triggers = { "Backdo", "Do", "Do", "Do", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
-        string[] triggers = { "Backdo", "Backdo", "Do", "Do" };
+        string[] triggers = { "Backdo", "Do", "Do", "Do", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
         trigger_ = triggers[Random.Range(0, triggers.Length)];
         // Result_Yut 클래스의 Set_Result 메소드 호출
         if (!(trigger_.Equals("Backdo") && playPlayer == 0))
