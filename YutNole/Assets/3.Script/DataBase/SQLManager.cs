@@ -62,6 +62,8 @@ public class SQLManager : MonoBehaviour
 
     public string ServerIP = string.Empty;
 
+    public bool isLogined = false;
+
     private void Awake()
     {
         if(instance == null)

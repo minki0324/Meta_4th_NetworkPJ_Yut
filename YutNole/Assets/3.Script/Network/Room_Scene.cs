@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+//using Mirror.Examples.NetworkRoom;
 
 public class Room_Scene : NetworkBehaviour
 {
@@ -10,11 +11,23 @@ public class Room_Scene : NetworkBehaviour
     [SerializeField] private Room_Player P2_Component;
     [SerializeField] private Room_Manager manager;
 
-    [SyncVar]
-    public bool isPlayer1 = false;
+
+
+    //[SyncVar]
+    private string P1_name;
+
+   //[SyncVar]
+    private string P2_name;
+
 
     public bool isReady = false;
+    [SyncVar(hook = nameof(ReadyChange))]
+    private string Ready = string.Empty;
+
+
+    //[SyncVar]
     public bool isReady_P1;
+    //[SyncVar]
     public bool isReady_P2;
 
     [SerializeField]
@@ -38,21 +51,46 @@ public class Room_Scene : NetworkBehaviour
     [SerializeField]
     private Button Ready_Btn;
 
+    private int previous_count = 0;
+
     #region Unity Callback
     private void Start()
     {
+
         manager = FindObjectOfType<Room_Manager>();
 
         isReady_P1 = false;
         isReady_P2 = false;
+
+        Player1_Ready.gameObject.SetActive(false);
+        Player2_Ready.gameObject.SetActive(false);
+
+        if (isServer)
+        {
+            P1_name = string.Empty;
+            P2_name = string.Empty;
+        }
+
     }
 
     private void Update()
     {
         Find_Player();
-        GetPlayerName();
+
+        if(isClient)
+        {
+
+            GetPlayerName();
+
+        }
+        Debug.Log("P1  Name : " + P1_name);
+        Debug.Log("P2  Name : " + P2_name);
+
+
+
     }
     #endregion
+    
 
     private void Find_Player()
     {
@@ -69,94 +107,244 @@ public class Room_Scene : NetworkBehaviour
         {
             P1_Component = manager.roomSlots[0].GetComponent<Room_Player>();
         }
-       
+
     }
 
-    private void GetPlayerName()
+
+
+    #region Client
+    [Client]
+    public void GetPlayerName()
     {
+        Debug.Log("Client");
+        SQLManager.instance.isLogined = false;
         if (manager.roomSlots.Count == 1)
         {
             if (P1_Component.isLocalPlayer)
             {
-                Player1_Text.text = SQLManager.instance.info.User_name;
-            }
-            else
-            {
-                return;
+                P1_name = SQLManager.instance.info.User_name;
+                Player1_Text.text = P1_name;
+                CMD_GetPlayerName(P1_name);
             }
         }
         else if (manager.roomSlots.Count == 2)
         {
             if (P1_Component.isLocalPlayer)
             {
-                Player1_Text.text = SQLManager.instance.info.User_name;
+                P1_name = SQLManager.instance.info.User_name;
+                Player1_Text.text = P1_name;
+                CMD_GetPlayerName(P1_name);
             }
             else if (P2_Component.isLocalPlayer)
             {
-                Player2_Text.text = SQLManager.instance.info.User_name;
+                P2_name = SQLManager.instance.info.User_name;
+                Player2_Text.text = P2_name;
+                CMD_GetPlayerName(P2_name);
             }
         }
-        else return;
+
+
+
+
+
+        //string name = SQLManager.instance.info.User_name;
+        //CMD_GetPlayerName(name);
+
+
+
+    }
+    #endregion
+
+
+    #region Command
+
+    [Command(requiresAuthority = false)]
+    private void CMD_GetPlayerName(string name)
+    {
+        Debug.Log("Command");
+        Rpc_GetPlayerName(name);
+    }
+    #endregion
+
+    #region ClientRPC
+    [ClientRpc]
+    private void Rpc_GetPlayerName(string name)
+    {
+        Debug.Log("ClientRPC");
+
+        StartCoroutine(Set_Name_Co(name));
+    }
+    #endregion
+
+    private IEnumerator Set_Name_Co(string name)
+    {
+        yield return null; 
+       
+        if (manager.roomSlots.Count == 1)
+        {
+            if (P1_Component.isLocalPlayer)
+            {
+
+                Player1_Text.text = name;
+            }
+        
+        }
+        else if (manager.roomSlots.Count == 2)
+        {
+            if (P1_Component.isLocalPlayer)
+            {
+                Player1_Text.text = name;
+            }
+            else if (P2_Component.isLocalPlayer)
+            {
+                Player2_Text.text = name;
+            }
+        }
+
     }
 
 
 
 
-    [Command]       //클라이언트가 서버로 RPC를 요청하는 함수, 호출하는 부분은 클라이언트지만 함수가 실행되는 부분은 서버
-    public void Cmd_OnReadyBtn_Click()
+
+
+    
+    //READY 버튼-----------------------------------------------------------------------------
+    private void ReadyChange(string _old, string _new)
     {
-        if (manager.roomSlots.Count == 1)    //룸에 들어온 인원이 1명인 경우
+        Ready = _new;
+    }
+
+
+    [Client]
+    public void Ready_IsClicked()
+    {
+
+        #region 눌림/안눌림 버튼 색상 변화 -> 동기화 되지 말아야하는 부분
+        Debug.Log("Button Client");
+
+        if (manager.roomSlots.Count == 1)
         {
-            if (P1_Component.isLocalPlayer)  //p1컴포넌트가 로컬인경우 버튼이 눌리면 on 아니면 off
+            if (P1_Component.isLocalPlayer)
             {
-                if (P1_Component.readyToBegin)
+                if (isReady)
                 {
-                    P1_Component.CmdChangeReadyState(false);
-                    isReady_P1 = false;
+                    isReady = false;
+                    Player1_Ready.gameObject.SetActive(false);
+                    Ready_Btn.GetComponent<Image>().color = Color.black;
                 }
                 else
                 {
-                    P1_Component.CmdChangeReadyState(true);
-                    isReady_P1 = true;
+                    isReady = true;
+                    Player1_Ready.gameObject.SetActive(true);
+                    Ready_Btn.GetComponent<Image>().color = Color.white;
                 }
             }
             else
             {
                 return;
             }
+
+
         }
         else if (manager.roomSlots.Count == 2)   //룸에 들어온 인원이 2명인 경우
         {
-            if (P1_Component.isLocalPlayer)     //p1컴포넌트가 로컬인경우
+            if (P1_Component.isLocalPlayer)
             {
-                if (P1_Component.readyToBegin)
+                if (isReady)
                 {
-                    P1_Component.CmdChangeReadyState(false);
-                    isReady_P1 = false;
+                    isReady = false;
+                    Player1_Ready.gameObject.SetActive(false);
+                    Ready_Btn.GetComponent<Image>().color = Color.black;
                 }
                 else
                 {
-                    P1_Component.CmdChangeReadyState(true);
-                    isReady_P1 = true;
+                    isReady = true;
+                    Player1_Ready.gameObject.SetActive(true);
+                    Ready_Btn.GetComponent<Image>().color = Color.white;
                 }
             }
-            else if (P2_Component.isLocalPlayer)    //p2컴포넌트가 로컬인경우
+            else if (P2_Component.isLocalPlayer)
             {
-                if (P2_Component.readyToBegin)
+                if (isReady)
                 {
-                    P2_Component.CmdChangeReadyState(false);
-                    isReady_P2 = false;
+                    isReady = false;
+                    Player2_Ready.gameObject.SetActive(false);
+                    Ready_Btn.GetComponent<Image>().color = Color.black;
                 }
                 else
                 {
-                    P2_Component.CmdChangeReadyState(true);
-                    isReady_P2 = true;
+                    isReady = true;
+                    Player2_Ready.gameObject.SetActive(true);
+                    Ready_Btn.GetComponent<Image>().color = Color.white;
                 }
+            }
+
+        }
+        else
+        {
+            return;
+        }
+
+        #endregion 
+
+        Cmd_OnReadyBtn_Click();
+
+    }
+
+
+    [Command(requiresAuthority = false)]
+    public void Cmd_OnReadyBtn_Click()
+    {
+        Debug.Log("Button Command");
+        if (manager.roomSlots.Count == 1)    //룸에 들어온 인원이 1명인 경우
+        {
+
+            if (P1_Component.readyToBegin)
+            {
+                P1_Component.CmdChangeReadyState(false);
+                Player1_Ready.gameObject.SetActive(false);
+                isReady_P1 = false;
             }
             else
             {
-                return;
+                P1_Component.CmdChangeReadyState(true);
+                Player1_Ready.gameObject.SetActive(true);
+                isReady_P1 = true;
             }
+
+
+        }
+        else if (manager.roomSlots.Count == 2)   //룸에 들어온 인원이 2명인 경우
+        {
+
+            if (P1_Component.readyToBegin)
+            {
+                P1_Component.CmdChangeReadyState(false);
+                Player1_Ready.gameObject.SetActive(false);
+                isReady_P1 = false;
+            }
+            else
+            {
+                P1_Component.CmdChangeReadyState(true);
+                Player1_Ready.gameObject.SetActive(true);
+                isReady_P1 = true;
+            }
+
+
+            if (P2_Component.readyToBegin)
+            {
+                P2_Component.CmdChangeReadyState(false);
+                Player2_Ready.gameObject.SetActive(false);
+                isReady_P2 = false;
+            }
+            else
+            {
+                P2_Component.CmdChangeReadyState(true);
+                Player2_Ready.gameObject.SetActive(true);
+                isReady_P2 = true;
+            }
+
 
             Rpc_ReadyClicked();
         }
@@ -164,13 +352,16 @@ public class Room_Scene : NetworkBehaviour
 
 
 
+
     [ClientRpc]     //서버의 오브젝트에서 호출되어서 클라이언트의 오브젝트에서 수행
 
     public void Rpc_ReadyClicked()
     {
+        Debug.Log("Button RPC");
         if (isReady_P1)
         {
             Player1_Ready.text = "READY";
+
         }
         else
         {
@@ -180,40 +371,28 @@ public class Room_Scene : NetworkBehaviour
         if (isReady_P2)
         {
             Player2_Ready.text = "READY";
+
         }
         else
         {
             Player2_Ready.text = string.Empty;
         }
 
-        Rpc_StartCheck();
+
 
     }
 
-    [ClientRpc]
-    public void Rpc_StartCheck()
-    {
-        if (isReady_P1 && isReady_P2)
-        {
-            //게임시작  
-        }
-    }
 
 
-    [Client]
-    public void Ready_IsClicked()
-    {
-        Debug.Log("zggg");
-        if (isReady)
-        {
-            isReady = false;
-            Ready_Btn.GetComponent<Image>().color = Color.black;
-        }
-        else
-        {
-            isReady = true;
-            Ready_Btn.GetComponent<Image>().color = Color.white;
-        }
-    }
+
+    //public void StartCheck()
+    //{
+    //    if (isReady_P1 && isReady_P2)
+    //    {
+    //        //게임시작  
+    //    }
+    //}
+
+
 
 }
