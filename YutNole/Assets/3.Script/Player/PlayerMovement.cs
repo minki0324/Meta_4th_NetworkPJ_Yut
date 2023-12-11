@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private PlayingYut playingYut;
     private PlayerState playerstate;
-    private Animator ani;
     public Transform[] playerArray; // player가 해당하는 pos array
     public int currentIndex = 0; // player 현재 index, 버튼 클릭 후 이동할 때마다 바뀜
     public int targetIndex = 0; // 버튼 클릭 시 이동할 index
@@ -24,11 +23,11 @@ public class PlayerMovement : MonoBehaviour
         playerArray = playingYut.pos1;
         playingYut.playerArray = playerArray;
         playerstate = GetComponent<PlayerState>();
-        ani = transform.GetChild(0).GetComponent<Animator>();
     }
 
     public void PlayerMove(int index)
     { // 도 개 걸 윷 모 빽도 버튼 event
+        currentIndex = playerstate.currentIndex;
         transform.position = playerArray[currentIndex].position; // 플레이어가 위치할 포지션
         targetIndex = index; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
 
@@ -118,7 +117,6 @@ public class PlayerMovement : MonoBehaviour
                     Server_Manager.instance.Catch(playerstate, player);
                     GameManager.instance.hasChance = true;
                     //todo 잡았을때 애니메이션 넣기
-                    ani.SetTrigger("isCatch");
                     //잡기
                 }
 
