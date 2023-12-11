@@ -51,32 +51,6 @@ public class Server_Manager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdCatch(PlayerState me, PlayerState target)
     {
-        //if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
-        //{
-        //    //보이는모습만 위치초기화됨. -> playerState에서 StartPos일때 데이터상 초기화함
-        //    target.transform.position = target.startPos.position;
-        //    target.currentIndex = 0;
-        //    target.currentArray = playingYut.pos1;
-
-        if (target != null)
-        {
-            Debug.Log(target);
-        }
-
-        //}
-        //else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
-        //{
-        ////    target.transform.position = target.startPos.position;
-        //if(target != null) { 
-        //target.transform.position = target.startPos.position;
-        //target.currentIndex = 0;
-        //target.currentArray = playingYut.pos1;
-        //}
-        //else
-        //{
-        //    Debug.Log("널");
-        //}
-        me.GetComponent<NetworkAnimator>().SetTrigger("isCatch");
         RPCCatch(me, target);
 
     }
@@ -96,7 +70,7 @@ public class Server_Manager : NetworkBehaviour
     [ClientRpc]
     public void RPCCatch(PlayerState me, PlayerState target)
     {
-
+        me.GetComponent<NetworkAnimator>().SetTrigger("isCatch");
         target.transform.position = target.startPos.position;
         if (target != null)
         {
