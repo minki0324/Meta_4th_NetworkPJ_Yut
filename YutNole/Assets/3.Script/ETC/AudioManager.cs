@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        /*StartCoroutine(Intro_BGM());*/
+        StartCoroutine(Intro_BGM());
     }
 
     private void Update()
