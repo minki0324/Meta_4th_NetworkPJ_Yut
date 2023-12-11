@@ -8,6 +8,8 @@ TagManager:
   - Player2
   - CharBtn
   - ReturnBtn
+  - GoalPos1
+  - GoalPos2
   layers:
   - Default
   - TransparentFX
