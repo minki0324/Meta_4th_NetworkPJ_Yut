@@ -8,20 +8,20 @@ public class PlayerMovement : MonoBehaviour
     private PlayingYut playingYut;
     private PlayerState playerState;
     private Throw_Yut throw_Yut;
-    public Transform[] playerArray; // player°¡ ÇØ´çÇÏ´Â pos array
-    public int currentIndex = 0; // player ÇöÀç index, ¹öÆ° Å¬¸¯ ÈÄ ÀÌµ¿ÇÒ ¶§¸¶´Ù ¹Ù²ñ
-    public int targetIndex = 0; // ¹öÆ° Å¬¸¯ ½Ã ÀÌµ¿ÇÒ index
-    public Transform targetPos; // ¹öÆ° Å¬¸¯ ½Ã ÀÌµ¿ÇÒ À§Ä¡
+    public Transform[] playerArray; // playerê°€ í•´ë‹¹í•˜ëŠ” pos array
+    public int currentIndex = 0; // player í˜„ì¬ index, ë²„íŠ¼ í´ë¦­ í›„ ì´ë™í•  ë•Œë§ˆë‹¤ ë°”ë€œ
+    public int targetIndex = 0; // ë²„íŠ¼ í´ë¦­ ì‹œ ì´ë™í•  index
+    public Transform targetPos; // ë²„íŠ¼ í´ë¦­ ì‹œ ì´ë™í•  ìœ„ì¹˜
 
     public float speed = 4f;
-    private int moveIndex = 0; // ÀÌµ¿ ÀÎµ¦½º
+    private int moveIndex = 0; // ì´ë™ ì¸ë±ìŠ¤
     public bool isBackdo = false;
     public bool isGoal = false;
 
     private void Awake()
     {
         playingYut = FindObjectOfType<PlayingYut>();
-        // UI Player ¼±ÅÃÇßÀ» ¶§·Î ³ªÁß¿¡ ÀÌµ¿
+        // UI Player ì„ íƒí–ˆì„ ë•Œë¡œ ë‚˜ì¤‘ì— ì´ë™
         playerArray = playingYut.pos1;
         playingYut.playerArray = playerArray;
         playerState = GetComponent<PlayerState>();
@@ -29,9 +29,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void PlayerMove(int index)
-    { // µµ °³ °É À· ¸ğ »ªµµ ¹öÆ° event
-        transform.position = playerArray[currentIndex].position; // ÇÃ·¹ÀÌ¾î°¡ À§Ä¡ÇÒ Æ÷Áö¼Ç
-        targetIndex = index; // ¹öÆ°À» ´­·¶À» ¶§ ÀÌµ¿ÇÒ ÇÃ·¹ÀÌ¾î Å¸°Ù ÀÎµ¦½º
+    { // ë„ ê°œ ê±¸ ìœ· ëª¨ ë¹½ë„ ë²„íŠ¼ event
+        currentIndex = playerstate.currentIndex;
+        transform.position = playerArray[currentIndex].position; // í”Œë ˆì´ì–´ê°€ ìœ„ì¹˜í•  í¬ì§€ì…˜
+        targetIndex = index; // ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì´ë™í•  í”Œë ˆì´ì–´ íƒ€ê²Ÿ ì¸ë±ìŠ¤
 
         if (targetIndex - currentIndex == -1)
         { // Backdo
@@ -44,19 +45,19 @@ public class PlayerMovement : MonoBehaviour
             moveIndex = playerArray.Length - 1;
         }
         else
-        { // °ñÀÎ, »ªµµ ÀÌ¿Ü
+        { // ê³¨ì¸, ë¹½ë„ ì´ì™¸
             moveIndex = targetIndex;
         }
 
         StartCoroutine(Move_Co());
         
-        //¸¸¾à µµÂøÇÑ Àå¼Ò¿¡ ÀûÆÀÀÌ ÀÖ´Ù¸é?
-        //hasChance =true Áà¾ßÇÔ
-        //¾ø´Ù¸é? else
+        //ë§Œì•½ ë„ì°©í•œ ì¥ì†Œì— ì íŒ€ì´ ìˆë‹¤ë©´?
+        //hasChance =true ì¤˜ì•¼í•¨
+        //ì—†ë‹¤ë©´? else
         //if(Yutindex.count > 0) 
         // playingYut.PlayingYutPlus();
-        //else turn Á¾·á 
-        //ÅÏÁ¾·á Á¶°Ç : Ä«¿îÆ® 0 , ´øÁú±âÈ¸ X
+        //else turn ì¢…ë£Œ 
+        //í„´ì¢…ë£Œ ì¡°ê±´ : ì¹´ìš´íŠ¸ 0 , ë˜ì§ˆê¸°íšŒ X
     }
 
     private IEnumerator Move_Co()
@@ -88,28 +89,36 @@ public class PlayerMovement : MonoBehaviour
         foreach (PlayerState player in GameManager.instance.tempPlayers)
         {
             if (player.gameObject == gameObject) continue;
+            if (!player.gameObject.activeSelf) continue;
             if (Vector2.Distance(player.transform.position, gameObject.transform.position) < 0.01f)
             {
                 if (player.tag == gameObject.tag)
                 {
-                    //¾÷±â
-                    Debug.Log("¾÷");
+                    
+                    //ì—…ê¸°
+                    Debug.Log("ì—…");
                     //player.transform.SetParent(gameObject.transform);
-                    //todo.. ³»ÀÏÀÇ¹ÎÁØ¾Æ... ¾÷±â ÇØÁà.
-                    //List<PlayerState> list // ¾÷Àº ¸»ÀÇ ¸®½ºÆ®
-                    //¾÷Àº¾Ö¸¦ ¸®½ºÆ®¿¡ ³Ö¾î
-                    //ÀâÇûÀ»¶§ ¸®½ºÆ®¿¡ÀÖ´Â¾Öµµ ÃÊ±âÈ­ÇØÁà
-                    //°ñÀÎÇßÀ»´ëµµ ¸®½ºÆ®¿¡ÀÖ´Â ¼ö¸¸Å­ +1 ÇØÁÖ°í À§Ä¡µµ ÃÊ±âÈ­ÇØÁà
-                    //ÇöÀç 2¸¶¸® // ÇÑ¸¶¸®´õ¾÷Èû    1  (2)  (3)
-                     
+                    //todo.. ë‚´ì¼ì˜ë¯¼ì¤€ì•„... ì—…ê¸° í•´ì¤˜.
+                    //List<PlayerState> list // ì—…ì€ ë§ì˜ ë¦¬ìŠ¤íŠ¸
+                    //ì—…ì€ì• ë¥¼ ë¦¬ìŠ¤íŠ¸ì— ë„£ì–´     ì™„ë£Œ
+                    //ì—…íŒì• ëŠ” Activefalse;
+                    //ì¡í˜”ì„ë•Œ ë¦¬ìŠ¤íŠ¸ì—ìˆëŠ”ì• ë„ ì´ˆê¸°í™”í•´ì¤˜  í•´ì¤˜ì•¼í•¨
+                    //ê³¨ì¸í–ˆì„ëŒ€ë„ ë¦¬ìŠ¤íŠ¸ì—ìˆëŠ” ìˆ˜ë§Œí¼ +1 í•´ì£¼ê³  ìœ„ì¹˜ë„ ì´ˆê¸°í™”í•´ì¤˜
+                    //í˜„ì¬ 2ë§ˆë¦¬ // í•œë§ˆë¦¬ë”ì—…í˜    1  (2)  (3)
+                    //player.carryPlayer.Add(playerstate);
+                    //gameObject.SetActive(false);
+                    Server_Manager.instance.Carry(playerstate , player);
+                    Debug.Log(player.carryPlayer.Count);
+                    //player.CarryNumSetting();
+
                 }
                 else
                 {
-                    Debug.Log("Àâ");
-                    Server_Manager.instance.Catch(player);
+                    Debug.Log("ì¡");
+                    Server_Manager.instance.Catch(playerstate, player);
                     GameManager.instance.hasChance = true;
-                    //todo Àâ¾ÒÀ»¶§ ¾Ö´Ï¸ŞÀÌ¼Ç ³Ö±â
-                    //Àâ±â
+                    //todo ì¡ì•˜ì„ë•Œ ì• ë‹ˆë©”ì´ì…˜ ë„£ê¸°
+                    //ì¡ê¸°
                 }
             }
         }

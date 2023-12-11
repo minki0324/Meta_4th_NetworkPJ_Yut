@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using System;
 
 public class PlayerState : NetworkBehaviour
 {
-    private PlayingYut playingYut;
+    public PlayingYut playingYut;
 
     // Player의 위치
     public int playerNum = 0; // 플레이어의 처음 위치
@@ -14,6 +15,7 @@ public class PlayerState : NetworkBehaviour
     public List<PlayerState> carryPlayer = new List<PlayerState>();
     public Transform currentPositon;
     public Transform[] currentArray; // 자신이 현재 위치한 배열
+    public bool isWaiting;
     public int currentIndex = 0; // 현재 위치한 인덱스
 
     // Player NumImage
@@ -34,6 +36,44 @@ public class PlayerState : NetworkBehaviour
     private void Update()
     {
         currentPositon = currentArray[currentIndex];
+    
+
+    }
+
+    public void CarryNumSetting()
+    {
+        switch (carryPlayer.Count) {
+            case 1:
+                for (int i = 0; i < numImage.Length; i++)
+                {
+                    numImage[i].SetActive(false);
+                }
+                numImage[0].SetActive(true);
+                break;
+            case 2:
+                for (int i = 0; i < numImage.Length; i++)
+                {
+                    numImage[i].SetActive(false);
+                }
+                numImage[1].SetActive(true);
+                break;
+            case 3:
+                for (int i = 0; i < numImage.Length; i++)
+                {
+                    numImage[i].SetActive(false);
+                }
+                numImage[2].SetActive(true);
+                break;
+            default:
+                for (int i = 0; i < numImage.Length; i++)
+                {
+                    numImage[i].SetActive(false);
+                }
+              
+                break;
+        }
+
+
     }
 
     private void SetUp()
@@ -45,7 +85,7 @@ public class PlayerState : NetworkBehaviour
     #endregion
     #region SyncVar
     public bool isGoal = false; // 골인 했는지 아닌지
-    [SyncVar (hook = nameof(StartPosTrans))]
+    //[SyncVar (hook = nameof(StartPosTrans))]
     public Transform startPos;
     #endregion
     #region Client

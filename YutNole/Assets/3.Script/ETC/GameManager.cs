@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -59,6 +60,12 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         tempPlayers = FindObjectsOfType<PlayerState>();
+        tempPlayers = tempPlayers.OrderBy(player => player.gameObject.CompareTag("Player2") ? 0 : 1).ToArray();
+        for (int i = 0; i < tempPlayers.Length; i++)
+        {
+            tempPlayers[i].startPos = startPos[7-i];
+        }
+        
         int index = 0;
         foreach (PlayerState player in tempPlayers)
         {
@@ -67,7 +74,7 @@ public class GameManager : MonoBehaviour
                 if (player.gameObject.CompareTag("Player1"))
                 {
                     players[3 - index] = player;
-                    players[3 - index].startPos = startPos[3 - index];
+                    //players[3 - index].startPos = startPos[3 - index];
                     index++;
                 }
             }
@@ -76,7 +83,7 @@ public class GameManager : MonoBehaviour
                 if (player.gameObject.CompareTag("Player2"))
                 {
                     players[3 - index] = player;
-                    players[3 - index].startPos = startPos[7 - index];
+                    //players[3 - index].startPos = startPos[7 - index];
                     index++;
                 }
             }
