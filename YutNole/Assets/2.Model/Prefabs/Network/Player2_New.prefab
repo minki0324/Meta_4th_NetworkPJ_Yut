@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2581047283
+  _assetId: 319877732
   serverOnly: 0
   visible: 0
   hasSpawned: 0
@@ -159,13 +159,18 @@ MonoBehaviour:
   syncInterval: 0
   playerNum: 0
   isPlaying: 0
-  isGoal: 0
+  carryPlayer: []
+  currentPositon: {fileID: 0}
   currentArray: []
+  isWaiting: 0
   currentIndex: 0
+  carrynum: []
+  numImage:
+  - {fileID: 160705362447747832}
+  - {fileID: 160705362447747833}
+  - {fileID: 160705362447747835}
+  isGoal: 0
   startPos: {fileID: 0}
-  characterButton: {fileID: 0}
-  returnButton: {fileID: 0}
-  numImage: []
 --- !u!1 &160705362447747832
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +241,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 15a328ff9d3613d489cb4a46b6abb7f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -318,7 +323,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 960813460223ce743a050fadfce107a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -502,7 +507,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 2ebde4edfee5946448ad4883eb48b10a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -529,7 +534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &160705362447747786
 Transform:
   m_ObjectHideFlags: 0

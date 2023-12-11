@@ -25,14 +25,18 @@ public class Server_Manager : NetworkBehaviour
     }
 
     [Client]
-    public void Catch(PlayerState target)
+    public void Catch(PlayerState me, PlayerState target)
     {
-        CmdCatch(target);
+        if (target != null){
+            Debug.Log(target);
+        }
+        
+        CmdCatch(me ,target);
     }
     [Client]
-    public void Together()
+    public void Carry(PlayerState me, PlayerState target)
     {
-
+        CmdCarry(me, target);
     }
 
 
@@ -48,54 +52,116 @@ public class Server_Manager : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    public void CmdCatch( PlayerState target)
+    public void CmdCatch(PlayerState me, PlayerState target)
     {
+        //if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
+        //{
+        //    //보이는모습만 위치초기화됨. -> playerState에서 StartPos일때 데이터상 초기화함
+        //    target.transform.position = target.startPos.position;
+        //    target.currentIndex = 0;
+        //    target.currentArray = playingYut.pos1;
 
-        RPCCatch(target);
-        if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
+        if (target != null)
         {
-           
-            target.currentIndex = 0;
-            target.currentArray = playingYut.pos1;
+            Debug.Log(target);
+        }
 
-        }
-        else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
-        {
-         
-            target.currentIndex = 0;
-            target.currentArray = playingYut.pos1;
-        }
+        //}
+        //else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
+        //{
+        ////    target.transform.position = target.startPos.position;
+        //if(target != null) { 
+        //target.transform.position = target.startPos.position;
+        //target.currentIndex = 0;
+        //target.currentArray = playingYut.pos1;
+        //}
+        //else
+        //{
+        //    Debug.Log("널");
+        //}
+        me.GetComponent<NetworkAnimator>().SetTrigger("isCatch");
+        RPCCatch(me,target);
 
     }
-    
+
+    [Command(requiresAuthority = false)]
+    public void CmdCarry(PlayerState me, PlayerState target)
+    {
+
+        RPCCarry(me, target);
+
+
+    }
+
     #endregion
 
     #region ClientRPC
     [ClientRpc]
-    public void RPCCatch( PlayerState target)
+    public void RPCCatch(PlayerState me ,PlayerState target)
     {
-        if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
+        
+        //if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
+        //{
+        //    //보이는모습만 위치초기화됨. -> playerState에서 StartPos일때 데이터상 초기화함
+        target.transform.position = target.startPos.position;
+        if (target != null)
         {
-            target.transform.position = target.startPos.position;
-            for (int i = 0; i < target.carryPlayer.Count; i++)
+            //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ잡힌말 초기화
+            target.currentIndex = 0;
+            target.currentArray = target.playingYut.pos1;
+            target.currentPositon =target.currentArray[0];
+            //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+            //잡힌 말이 만약 업고있는 말이 있다면?  count = 업힌말 갯수
+            if (target.carryPlayer.Count > 0)
             {
-                target.carryPlayer[i].transform.position = target.startPos.position;
+                //업힌말들 초기화해주고 Active 켜주기
+                for (int i = 0; i < target.carryPlayer.Count; i++)
+                {
+                    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ초기화
+                    target.carryPlayer[i].currentIndex = 0;
+                    target.carryPlayer[i].currentArray = target.carryPlayer[i].playingYut.pos1;
+                    target.carryPlayer[i].currentPositon = target.currentArray[0];
+                    target.carryPlayer[i].transform.position = target.carryPlayer[i].startPos.position;
+                    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+                    target.carryPlayer[i].gameObject.SetActive(true); // false 됬던거 true
+                }
+                //말 초기화해줬으면 업힌말들 담았던 리스트 초기화
+                target.carryPlayer.Clear();
+                // 업힌말 표기하는 숫자 오브젝트도 초기화
+                target.CarryNumSetting();
             }
-           
-            //target.currentIndex = 0;
-            //target.currentArray = playingYut.pos1;
+            Debug.Log(target);
+        }
 
-        }
-        else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
-        {
-            target.transform.position = target.startPos.position;
-            //target.currentIndex = 0;
-            //target.currentArray = playingYut.pos1;
-        }
+
+        //}
+        //else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
+        //{
+        //    target.transform.position = target.startPos.position;
+
+        //}
+
+
 
     }
     #endregion
+    [ClientRpc]
+    public void RPCCarry(PlayerState me , PlayerState target)
+    {
+        //업힌말이있는 말 = me //안업힌말 = target
+        if (me.carryPlayer.Count > 0)
+        {
+            for (int i = 0; i < me.carryPlayer.Count; i++)
+            {
+                target.carryPlayer.Add(me.carryPlayer[i]);
 
+            }
+            me.carryPlayer.Clear();
+        }
+        me.gameObject.SetActive(false);
+        target.carryPlayer.Add(me);
+        target.CarryNumSetting();
+    }
 
 
     #region Unity Callback

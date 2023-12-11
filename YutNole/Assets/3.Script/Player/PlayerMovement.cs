@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public int currentIndex = 0; // player 현재 index, 버튼 클릭 후 이동할 때마다 바뀜
     public int targetIndex = 0; // 버튼 클릭 시 이동할 index
     public Transform targetPos; // 버튼 클릭 시 이동할 위치
-
+  
     public float speed = 2f;
     private int moveIndex = 0; // 이동 인덱스
     public bool isBackdo = false;
@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerMove(int index)
     { // 도 개 걸 윷 모 빽도 버튼 event
+        currentIndex = playerstate.currentIndex;
         transform.position = playerArray[currentIndex].position; // 플레이어가 위치할 포지션
         targetIndex = index; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
 
@@ -87,25 +88,33 @@ public class PlayerMovement : MonoBehaviour
         foreach (PlayerState player in GameManager.instance.tempPlayers)
         {
             if (player.gameObject == gameObject) continue;
+            if (!player.gameObject.activeSelf) continue;
             if (Vector2.Distance(player.transform.position, gameObject.transform.position) < 0.01f)
             {
                 if (player.tag == gameObject.tag)
                 {
+                    
                     //업기
                     Debug.Log("업");
                     //player.transform.SetParent(gameObject.transform);
                     //todo.. 내일의민준아... 업기 해줘.
                     //List<PlayerState> list // 업은 말의 리스트
-                    //업은애를 리스트에 넣어
-                    //잡혔을때 리스트에있는애도 초기화해줘
+                    //업은애를 리스트에 넣어     완료
+                    //업힌애는 Activefalse;
+                    //잡혔을때 리스트에있는애도 초기화해줘  해줘야함
                     //골인했을대도 리스트에있는 수만큼 +1 해주고 위치도 초기화해줘
                     //현재 2마리 // 한마리더업힘    1  (2)  (3)
-                     
+                    //player.carryPlayer.Add(playerstate);
+                    //gameObject.SetActive(false);
+                    Server_Manager.instance.Carry(playerstate , player);
+                    Debug.Log(player.carryPlayer.Count);
+                    //player.CarryNumSetting();
+
                 }
                 else
                 {
                     Debug.Log("잡");
-                    Server_Manager.instance.Catch( player);
+                    Server_Manager.instance.Catch(playerstate, player);
                     GameManager.instance.hasChance = true;
                     //todo 잡았을때 애니메이션 넣기
                     //잡기
