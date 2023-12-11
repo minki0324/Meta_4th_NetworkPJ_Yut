@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Player_Control player_Control;
     private PlayingYut playingYut;
     private PlayerState playerState;
     private Throw_Yut throw_Yut;
@@ -26,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         playingYut.playerArray = playerArray;
         playerState = GetComponent<PlayerState>();
         throw_Yut = FindObjectOfType<Throw_Yut>();
+        player_Control = FindObjectOfType<Player_Control>();
     }
 
     public void PlayerMove(int index)
@@ -106,12 +108,21 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        // playingYut.OnDeleteThisIndex.Invoke(playingYut.removeIndex);
+        
+        if (player_Control == null)
+        {
+            player_Control = FindObjectOfType<Player_Control>();
+        }
+
         if (playerState.isGoal)
         {
             gameObject.transform.position = playerState.startPos.transform.position;
             playingYut.goalButton.SetActive(false);
             throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
+            for (int i = 0; i < playerState.carryPlayer.Count + 1; i++)
+            { // player Carry한 만큼
+                player_Control.Goal_CountUp();
+            }
             playerState.GoalInClick();
         }
 
