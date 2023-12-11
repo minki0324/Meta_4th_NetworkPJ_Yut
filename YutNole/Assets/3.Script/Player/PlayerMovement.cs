@@ -117,7 +117,11 @@ public class PlayerMovement : MonoBehaviour
         if (playerState.isGoal)
         {
             gameObject.transform.position = playerState.startPos.transform.position;
-            playingYut.goalButton.SetActive(false);
+            if (playingYut.goalButton.activeSelf)
+            {
+                playingYut.goalButton.SetActive(false);
+            }
+
             throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
             for (int i = 0; i < playerState.carryPlayer.Count + 1; i++)
             { // player Carry한 만큼

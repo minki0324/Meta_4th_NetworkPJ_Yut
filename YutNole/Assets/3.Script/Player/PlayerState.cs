@@ -18,26 +18,21 @@ public class PlayerState : NetworkBehaviour
     public bool isWaiting;
     public int currentIndex = 0; // 현재 위치한 인덱스
 
+    public bool isGoal = false; // 골인 했는지 아닌지
+    public Transform startPos;
+
     // Player NumImage
     public GameObject[] numImage; // numberImage GameObject 참조해주기
-
-    public override void OnStartLocalPlayer()
-    {
-        base.OnStartLocalPlayer();
-    }
 
     #region Unity Callback
     private void Start()
     {
         SetUp();
-        playingYut.goalButton.GetComponent<Button>().onClick.AddListener(GoalInClick); // 골인 버튼을 눌렀을 때
     }
 
     private void Update()
     {
         currentPositon = currentArray[currentIndex];
-    
-
     }
 
     public void CarryNumSetting()
@@ -69,11 +64,8 @@ public class PlayerState : NetworkBehaviour
                 {
                     numImage[i].SetActive(false);
                 }
-              
                 break;
         }
-
-
     }
 
     private void SetUp()
@@ -84,15 +76,11 @@ public class PlayerState : NetworkBehaviour
 
     #endregion
     #region SyncVar
-    public bool isGoal = false; // 골인 했는지 아닌지
-    //[SyncVar (hook = nameof(StartPosTrans))]
-    public Transform startPos;
     #endregion
     #region Client
     [Client]
     public void GoalInClick()
     {
-        Debug.Log("클라");
         GoalIn_Command();
     }
     #endregion
@@ -100,44 +88,49 @@ public class PlayerState : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void GoalIn_Command()
     {
-        Debug.Log("커맨");
         isGoal = true;
         GoalIn_RPC();
+        GoalInPlayerReset(this);
     }
     #endregion
     #region ClientRpc
     [ClientRpc]
     public void GoalIn_RPC()
     {
-        Debug.Log("RPC");
-        startPos.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        for (int i = 0; i < numImage.Length; i++)
+        {
+            this.numImage[i].SetActive(false);
+        }
+
+        this.startPos.GetComponent<SpriteRenderer>().enabled = true;
+        if (this.carryPlayer.Count != 0)
+        {
+            for (int i = 0; i < this.carryPlayer.Count; i++)
+            {
+                this.carryPlayer[i].startPos.GetComponent<SpriteRenderer>().enabled = true;
+            }
+        }
+    }
+    [ClientRpc]
+    private void GoalInPlayerReset(PlayerState player)
+    {
+        if (player.carryPlayer.Count > 0)
+        {
+            //업힌말들 초기화해주고 Active 켜주기
+            for (int i = 0; i < player.carryPlayer.Count; i++)
+            {
+                //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ초기화
+                player.carryPlayer[i].transform.position = player.carryPlayer[i].startPos.position;
+                //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+                player.carryPlayer[i].gameObject.SetActive(true); // false 됬던거 true
+            }
+            //말 초기화해줬으면 업힌말들 담았던 리스트 초기화
+            player.carryPlayer.Clear();
+            // 업힌말 표기하는 숫자 오브젝트도 초기화
+            player.CarryNumSetting();
+        }
     }
     #endregion
     #region Hook Method, 다른 클라이언트도 알아야 함
-    private void StartPosTrans(Transform _old, Transform _new)
-    {
-        startPos = _new;
-    }
-    private void PlayerPosTrans(Transform _old, Transform _new)
-    {
-        currentPositon = _new;
-    }
-    private void CurrentArrayTrans(Transform[] _old, Transform[] _new)
-    {
-        currentArray = _new;
-    }
-    private void CurrentIndexTrans(int _old, int _new)
-    {
-        currentIndex = _new;
-    }
-    private void GoalTrans(bool _old, bool _new)
-    {
-        isGoal = _new;
-    }
-
-    private void StartTrans(Transform _old, Transform _new)
-    {
-        startPos = _new;
-    }
     #endregion
 }

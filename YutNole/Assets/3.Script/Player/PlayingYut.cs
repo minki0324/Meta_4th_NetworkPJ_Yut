@@ -123,6 +123,10 @@ public class PlayingYut : MonoBehaviour
         goalResultList.Remove(removeIndex);
         yutResultIndex.Remove(removeIndex); // 추가된 리스트 삭제
         player[GameManager.instance.playerNum].isGoal = true;
+        for (int i = 0; i < player[GameManager.instance.playerNum].carryPlayer.Count; i++)
+        {
+            player[GameManager.instance.playerNum].carryPlayer[i].isGoal = true;
+        }
         goalButtonClick = true;
         isGoalIn = true;
 
