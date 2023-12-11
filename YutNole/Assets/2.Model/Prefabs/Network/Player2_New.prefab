@@ -54,7 +54,7 @@ MonoBehaviour:
   currentIndex: 0
   targetIndex: 0
   targetPos: {fileID: 0}
-  speed: 2
+  speed: 4
   isBackdo: 0
   isGoal: 0
 --- !u!114 &160705362447747447
@@ -157,6 +157,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  playingYut: {fileID: 0}
   playerNum: 0
   isPlaying: 0
   carryPlayer: []
@@ -164,7 +165,6 @@ MonoBehaviour:
   currentArray: []
   isWaiting: 0
   currentIndex: 0
-  carrynum: []
   numImage:
   - {fileID: 160705362447747832}
   - {fileID: 160705362447747833}

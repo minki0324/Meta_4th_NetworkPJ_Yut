@@ -30,14 +30,6 @@ public class ButtonPositionSetter : MonoBehaviour
         }
         SetUp(buttonName);
     }
-   /* private void OnEnable()
-    {
-        SetUp(buttonName);
-    }*/
-    private void OnDisable()
-    {
-        Debug.Log("²¨Áü");
-    }
 
     public void SetUp(string buttonName)
     { // Button »ý±æ ¶§ Setup ÇØÁÖ±â

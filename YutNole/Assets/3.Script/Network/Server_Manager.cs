@@ -13,7 +13,7 @@ public class Server_Manager : NetworkBehaviour
     #endregion
 
     #region SyncVar
-    [SyncVar(hook = nameof(OnTurn_Finish))] 
+    [SyncVar(hook = nameof(OnTurn_Finish))]
     public int Turn_Index = 2;
     #endregion
 
@@ -27,11 +27,7 @@ public class Server_Manager : NetworkBehaviour
     [Client]
     public void Catch(PlayerState me, PlayerState target)
     {
-        if (target != null){
-            Debug.Log(target);
-        }
-        
-        CmdCatch(me ,target);
+        CmdCatch(me, target);
     }
     [Client]
     public void Carry(PlayerState me, PlayerState target)
@@ -47,7 +43,6 @@ public class Server_Manager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CMD_Turn_Changer()
     {
-        Debug.Log("Goal In");
         int next_Index = (Turn_Index % 2) + 1;
         OnTurn_Finish(Turn_Index, next_Index);
     }
@@ -81,7 +76,7 @@ public class Server_Manager : NetworkBehaviour
         //    Debug.Log("널");
         //}
         me.GetComponent<NetworkAnimator>().SetTrigger("isCatch");
-        RPCCatch(me,target);
+        RPCCatch(me, target);
 
     }
 
@@ -98,19 +93,16 @@ public class Server_Manager : NetworkBehaviour
 
     #region ClientRPC
     [ClientRpc]
-    public void RPCCatch(PlayerState me ,PlayerState target)
+    public void RPCCatch(PlayerState me, PlayerState target)
     {
-        
-        //if (GM.instance.Player_Num == Player_Num.P1 && target.gameObject.CompareTag("Player1"))
-        //{
-        //    //보이는모습만 위치초기화됨. -> playerState에서 StartPos일때 데이터상 초기화함
+
         target.transform.position = target.startPos.position;
         if (target != null)
         {
             //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ잡힌말 초기화
             target.currentIndex = 0;
             target.currentArray = target.playingYut.pos1;
-            target.currentPositon =target.currentArray[0];
+            target.currentPositon = target.currentArray[0];
             //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
             //잡힌 말이 만약 업고있는 말이 있다면?  count = 업힌말 갯수
             if (target.carryPlayer.Count > 0)
@@ -131,23 +123,11 @@ public class Server_Manager : NetworkBehaviour
                 // 업힌말 표기하는 숫자 오브젝트도 초기화
                 target.CarryNumSetting();
             }
-            Debug.Log(target);
         }
-
-
-        //}
-        //else if (GM.instance.Player_Num == Player_Num.P2 && target.gameObject.CompareTag("Player2"))
-        //{
-        //    target.transform.position = target.startPos.position;
-
-        //}
-
-
-
     }
     #endregion
     [ClientRpc]
-    public void RPCCarry(PlayerState me , PlayerState target)
+    public void RPCCarry(PlayerState me, PlayerState target)
     {
         //업힌말이있는 말 = me //안업힌말 = target
         if (me.carryPlayer.Count > 0)
@@ -168,7 +148,7 @@ public class Server_Manager : NetworkBehaviour
     #region Unity Callback
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
@@ -187,7 +167,7 @@ public class Server_Manager : NetworkBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             CMD_Turn_Changer();
         }
@@ -202,5 +182,5 @@ public class Server_Manager : NetworkBehaviour
     #endregion
 
 
-   
+
 }
