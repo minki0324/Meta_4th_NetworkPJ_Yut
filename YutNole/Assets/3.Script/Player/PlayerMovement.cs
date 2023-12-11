@@ -69,11 +69,16 @@ public class PlayerMovement : MonoBehaviour
             if (isBackdo)
             {
                 targetPos = playerArray[i - 1];
+            }else if (playerState.isGoal)
+            {
+                targetPos = playerArray[0];
             }
             else
             {
                 targetPos = playerArray[i];
             }
+            Debug.Log(transform.position);
+            Debug.Log(targetPos.position);
             while (transform.position != targetPos.position)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
@@ -116,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerState.isGoal)
         {
+            Debug.Log("골 이프문");
             gameObject.transform.position = playerState.startPos.transform.position;
             playingYut.goalButton.SetActive(false);
             throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove

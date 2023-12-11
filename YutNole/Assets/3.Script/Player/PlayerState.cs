@@ -13,6 +13,7 @@ public class PlayerState : NetworkBehaviour
     public int playerNum = 0; // 플레이어의 처음 위치
     public bool isPlaying = false; // 대기 상태가 아닌 판에 나와있는지
     public List<PlayerState> carryPlayer = new List<PlayerState>();
+    public Animator ani;
     public Transform currentPositon;
     public Transform[] currentArray; // 자신이 현재 위치한 배열
     public bool isWaiting;
@@ -29,8 +30,11 @@ public class PlayerState : NetworkBehaviour
     #region Unity Callback
     private void Start()
     {
+
         SetUp();
         playingYut.goalButton.GetComponent<Button>().onClick.AddListener(GoalInClick); // 골인 버튼을 눌렀을 때
+        ani = transform.GetChild(2).GetComponent<Animator>();
+
     }
 
     private void Update()
