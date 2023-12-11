@@ -106,14 +106,14 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        // playingYut.OnDeleteThisIndex.Invoke(playingYut.removeIndex);
+
         if (playerState.isGoal)
         {
             gameObject.transform.position = playerState.startPos.transform.position;
             playingYut.goalButton.SetActive(false);
             throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
         }
-
+       
         GameManager.instance.PlayerTurnChange();
     }
 }
