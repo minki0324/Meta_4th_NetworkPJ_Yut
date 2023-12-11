@@ -44,8 +44,6 @@ public class PlayerState : NetworkBehaviour
 
     #endregion
     #region SyncVar
-    
-    [SyncVar (hook = nameof(GoalTrans))]
     public bool isGoal = false; // 골인 했는지 아닌지
     [SyncVar (hook = nameof(StartPosTrans))]
     public Transform startPos;
@@ -76,22 +74,22 @@ public class PlayerState : NetworkBehaviour
     }
     #endregion
     #region Hook Method, 다른 클라이언트도 알아야 함
-        private void StartPosTrans(Transform _old, Transform _new)
-        {
-            startPos = _new;
-        }    
-        private void PlayerPosTrans(Transform _old, Transform _new)
-        {
-            currentPositon = _new;
-        }
-        private void CurrentArrayTrans(Transform[] _old, Transform[] _new)
-        {
-            currentArray = _new;
-        }
-        private void CurrentIndexTrans(int _old, int _new)
-        {
-            currentIndex = _new;
-        }
+    private void StartPosTrans(Transform _old, Transform _new)
+    {
+        startPos = _new;
+    }
+    private void PlayerPosTrans(Transform _old, Transform _new)
+    {
+        currentPositon = _new;
+    }
+    private void CurrentArrayTrans(Transform[] _old, Transform[] _new)
+    {
+        currentArray = _new;
+    }
+    private void CurrentIndexTrans(int _old, int _new)
+    {
+        currentIndex = _new;
+    }
     private void GoalTrans(bool _old, bool _new)
     {
         isGoal = _new;

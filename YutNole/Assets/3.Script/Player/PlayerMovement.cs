@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     private PlayingYut playingYut;
-    private PlayerState playerstate;
+    private PlayerState playerState;
+    private Throw_Yut throw_Yut;
     public Transform[] playerArray; // player가 해당하는 pos array
     public int currentIndex = 0; // player 현재 index, 버튼 클릭 후 이동할 때마다 바뀜
     public int targetIndex = 0; // 버튼 클릭 시 이동할 index
     public Transform targetPos; // 버튼 클릭 시 이동할 위치
 
-    public float speed = 2f;
+    public float speed = 4f;
     private int moveIndex = 0; // 이동 인덱스
     public bool isBackdo = false;
     public bool isGoal = false;
@@ -22,7 +24,8 @@ public class PlayerMovement : MonoBehaviour
         // UI Player 선택했을 때로 나중에 이동
         playerArray = playingYut.pos1;
         playingYut.playerArray = playerArray;
-        playerstate = GetComponent<PlayerState>();
+        playerState = GetComponent<PlayerState>();
+        throw_Yut = FindObjectOfType<Throw_Yut>();
     }
 
     public void PlayerMove(int index)
@@ -58,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Move_Co()
     {
-        GameManager.instance.isMoving = true;
         for (int i = currentIndex; i <= moveIndex; i++)
         {
             if (isBackdo)
@@ -77,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        GameManager.instance.isMoving = false;
         isBackdo = false;
         currentIndex = targetIndex;
         playerArray = playingYut.playerArray;
@@ -105,36 +106,21 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     Debug.Log("잡");
-                    Server_Manager.instance.Catch( player);
+                    Server_Manager.instance.Catch(player);
                     GameManager.instance.hasChance = true;
                     //todo 잡았을때 애니메이션 넣기
                     //잡기
                 }
-
-
             }
-
         }
-
-        if (playingYut.yutResultIndex.Count == 0 && !GameManager.instance.hasChance)
+        // playingYut.OnDeleteThisIndex.Invoke(playingYut.removeIndex);
+        if (playerState.isGoal)
         {
-            //움직일 카운트가 남으면 다시진행
-            Server_Manager.instance.CMD_Turn_Changer();
-            playingYut.yutResultIndex.Clear();
-            GameManager.instance.hasChance = true;
-
-        }
-        else if (playingYut.yutResultIndex.Count > 0)
-        {
-            playingYut.PlayingYutPlus();
+            gameObject.transform.position = playerState.startPos.transform.position;
+            playingYut.goalButton.SetActive(false);
+            throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
         }
 
-        //if (GameManager.instance.hasChance)
-        //{ // 윷, 모, 캐치
-        //    for (int i = 0; i < 4; i++)
-        //    {
-        //        playingYut.characterButton[i].SetActive(true);
-        //    }
-        //}
+        GameManager.instance.PlayerTurnChange();
     }
 }

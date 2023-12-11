@@ -14,6 +14,8 @@ public class Throw_Yut : NetworkBehaviour
     [SerializeField] private NetworkAnimator Yut_ani;
     [SerializeField] private Result_Yut result;
 
+    public int throw_removeIndex = -1;
+
     #region Unity Callback
     private void Start()
     {
@@ -23,7 +25,32 @@ public class Throw_Yut : NetworkBehaviour
             int index = i;
             playingYut.yutButton[i].gameObject.GetComponent<Button>().onClick.AddListener(() => Yut_Btn_Click(index));
         }
+        /*playingYut.goalButton.gameObject.GetComponent<Button>().onClick.AddListener(() => {
+            Debug.Log("(throw_removeIndex) 들어왓어요");
+            Yut_Btn_Click(throw_removeIndex);
+        });*/
+
+        // playingYut.OnDeleteThisIndex += OnDeleteThisIndex;
     }
+
+    private void Update()
+    {
+        
+    }
+
+   /* public void GoalInButtonPlus()
+    {
+        // 클릭 이벤트에 등록된 모든 리스너를 가져옵니다.
+        UnityEngine.Events.UnityEventBase buttonClickEvent = playingYut.goalButton.GetComponent<Button>().onClick;
+        for (int i = 0; i < buttonClickEvent.GetPersistentEventCount(); i++)
+        {
+            // 리스너 확인
+            Debug.Log("Listener Count: " + buttonClickEvent.GetPersistentMethodName(i));
+        }
+        Debug.Log(buttonClickEvent.GetPersistentEventCount());
+        int index = playingYut.removeIndex;
+        playingYut.goalButton.GetComponent<Button>().onClick.AddListener(() => Yut_Btn_Click(index));
+    }*/
     #endregion
 
     #region SyncVar
@@ -44,60 +71,6 @@ public class Throw_Yut : NetworkBehaviour
     public void Yut_Btn_Click(int name)
     {
         CMDYut_Button_Click(name);
-    }
-
-    [Client]
-    public void ThrowYutResult(string trigger_)
-    {
-        int index = 0;
-        playingYut.yutResult = trigger_;
-        switch (trigger_)
-        {
-            case "Do":
-                index = 0;
-                break;
-            case "Gae":
-                index = 1;
-                break;
-            case "Geol":
-                index = 2;
-                break;
-            case "Yut":
-                index = 3;
-                GameManager.instance.hasChance = true;
-                break;
-            case "Mo":
-                index = 4;
-                GameManager.instance.hasChance = true;
-                break;
-            case "Backdo":
-                index = 5;
-                break;
-        }
-        // 낙이 아닐 때 || (판에 내말이 없으면서 && 빽도가 나올때)
-        // 내턴이 아닐 때
-        int zeroPlayer = 0; // 판에 말이 0개일 때
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (GameManager.instance.players[i].currentIndex != 0)
-            {
-                zeroPlayer++;
-            }
-        }
-
-        if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index)
-        {
-            if (trigger_.Equals("Backdo") && zeroPlayer == 0)
-            {
-                GameManager.instance.hasChance = true;
-                Server_Manager.instance.CMD_Turn_Changer();
-            }
-            else
-            {
-                Addlist(index);
-            }
-        }
     }
 
     private void Addlist(int index)
@@ -152,6 +125,60 @@ public class Throw_Yut : NetworkBehaviour
                 break;
         }
         result.Set_Result(yutTrigger, false);
+    }
+
+    // [Command(requiresAuthority = false)]
+    [Client]
+    public void ThrowYutResult(string trigger_)
+    {
+        int index = 0;
+        playingYut.yutResult = trigger_;
+        switch (trigger_)
+        {
+            case "Do":
+                index = 0;
+                break;
+            case "Gae":
+                index = 1;
+                break;
+            case "Geol":
+                index = 2;
+                break;
+            case "Yut":
+                index = 3;
+                GameManager.instance.hasChance = true;
+                break;
+            case "Mo":
+                index = 4;
+                GameManager.instance.hasChance = true;
+                break;
+            case "Backdo":
+                index = 5;
+                break;
+        }
+        // 낙이 아닐 때 || (판에 내말이 없으면서 && 빽도가 나올때)
+        // 내턴이 아닐 때
+        int zeroPlayer = 0; // 판에 말이 0개일 때
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (GameManager.instance.players[i].currentIndex == 0)
+            { // 골인하면 currentIndex != 0
+                zeroPlayer++;
+            }
+        }
+
+        if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index)
+        { // 내턴일 때
+            if (trigger_.Equals("Backdo") && zeroPlayer == 4)
+            {
+                Server_Manager.instance.CMD_Turn_Changer();
+            }
+            else
+            {
+                Addlist(index);
+            }
+        }
     }
     #endregion
 
