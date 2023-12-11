@@ -67,6 +67,8 @@ public class Server_Manager : NetworkBehaviour
     public void RPCCatch(PlayerState me, PlayerState target)
     {
         me.GetComponent<NetworkAnimator>().SetTrigger("isCatch");
+        me.ani.SetTrigger("isCatch");
+        AudioManager.instance.PlaySFX("Catch");
         target.transform.position = target.startPos.position;
         if (target != null)
         {

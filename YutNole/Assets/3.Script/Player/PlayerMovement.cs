@@ -69,12 +69,14 @@ public class PlayerMovement : MonoBehaviour
             if (isBackdo)
             {
                 targetPos = playerArray[i - 1];
+            }else if (playerState.isGoal)
+            {
+                targetPos = playerArray[0];
             }
             else
             {
                 targetPos = playerArray[i];
             }
-
             while (transform.position != targetPos.position)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
@@ -127,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerState.isGoal)
         {
+            Debug.Log("골 이프문");
             gameObject.transform.position = playerState.startPos.transform.position;
             playerState.isPlaying = false; // 골인 시 판에서 빠짐
             if (playingYut.goalButton.activeSelf)
