@@ -112,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
             gameObject.transform.position = playerState.startPos.transform.position;
             playingYut.goalButton.SetActive(false);
             throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
+            playerState.GoalInClick();
         }
 
         GameManager.instance.PlayerTurnChange();

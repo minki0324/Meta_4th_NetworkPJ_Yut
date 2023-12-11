@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 89273778}
   m_Layer: 0
   m_Name: StartPos1
-  m_TagString: Untagged
+  m_TagString: GoalPos1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 223213026}
   m_Layer: 0
   m_Name: StartPos2
-  m_TagString: Untagged
+  m_TagString: GoalPos2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1870,8 +1870,12 @@ MonoBehaviour:
   resultIndex: 0
   yutResultIndex: 
   yutArray: 0100000002000000030000000400000005000000ffffffff
+  goalButtonClick: 0
   yutResult: 
   goalButton: {fileID: 1729690937}
+  goalResultList: 
+  removeIndex: 0
+  isGoalIn: 0
 --- !u!4 &700210849
 Transform:
   m_ObjectHideFlags: 0
