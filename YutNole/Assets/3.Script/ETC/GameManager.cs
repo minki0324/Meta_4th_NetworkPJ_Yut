@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
     public bool isLose = false;
     public int playerNum; // 어떤 player가 선택되었는지 저장하는 변수, CharacterButton
 
-    public bool[] playingPlayer = { false, false, false, false }; // player 0, 1, 2, 3 판에 올라갔다면 true, 잡혔을 때, 골인했을 때는 false로 바꿔줌
-
     private void Awake()
     {
         if (instance == null)
@@ -104,5 +102,19 @@ public class GameManager : MonoBehaviour
         { // 리스트가 남아있으면 캐릭터 버튼 다시 활성화
             playingYut.PlayingYutPlus();
         }
+    }
+
+    public int PlayingCount()
+    { // 판에 있는 말의 개수
+        int zeroPlayer = 0;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].isPlaying)
+            { // 말 판에 나가있는 플레이어 말의 개수
+                zeroPlayer++;
+            }
+        }
+        Debug.Log(zeroPlayer);
+        return zeroPlayer;
     }
 }

@@ -167,12 +167,12 @@ MonoBehaviour:
   currentArray: []
   isWaiting: 0
   currentIndex: 0
+  isGoal: 0
+  startPos: {fileID: 0}
   numImage:
   - {fileID: 160705362447747832}
   - {fileID: 160705362447747833}
   - {fileID: 160705362447747835}
-  isGoal: 0
-  startPos: {fileID: 0}
 --- !u!1 &160705362447747832
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +243,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 15a328ff9d3613d489cb4a46b6abb7f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -325,7 +325,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 960813460223ce743a050fadfce107a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -509,7 +509,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: 2ebde4edfee5946448ad4883eb48b10a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

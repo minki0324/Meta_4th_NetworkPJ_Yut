@@ -73,17 +73,18 @@ public class PlayingYut : MonoBehaviour
         }
         else
         {
-            if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
-            { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
+            int playPlayer = GameManager.instance.PlayingCount();
+            if (!(playPlayer == 0 && yutResult.Equals("Backdo")))
+            { // 판에 말이 하나도 없으면서, 빽도가 아닐 때
                 for (int i = 0; i < 4; i++)
                 {
                     if (player[i].isGoal) continue;
                     if (!player[i].gameObject.activeSelf) continue;
+                    if (player[i].currentIndex == 0 && yutResult.Equals("Backdo")) continue;
                     characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
                 }
             }
         }
-        // Nack일 때, 인덱스 0일 때 빽도일 때
     }
 
     public void YutButtonClick(int name)
@@ -96,7 +97,6 @@ public class PlayingYut : MonoBehaviour
 
         currentIndex += yutArray[name]; // 현재 인덱스 리스트 삭제한 값과 같도록 변경
         yutResultIndex.Remove(name); // 추가된 리스트 삭제
-
         TurnPosition(playerArray, currentIndex); // 현재 위치 배열 변경
 
         PositionOut();
@@ -105,6 +105,8 @@ public class PlayingYut : MonoBehaviour
         {
             goalButton.SetActive(false);
         }
+
+        MoveButton();
     }
     #region Goal Button
     public void GoalButtonClick()
@@ -123,6 +125,10 @@ public class PlayingYut : MonoBehaviour
         goalResultList.Remove(removeIndex);
         yutResultIndex.Remove(removeIndex); // 추가된 리스트 삭제
         player[GameManager.instance.playerNum].isGoal = true;
+        for (int i = 0; i < player[GameManager.instance.playerNum].carryPlayer.Count; i++)
+        {
+            player[GameManager.instance.playerNum].carryPlayer[i].isGoal = true;
+        }
         goalButtonClick = true;
         isGoalIn = true;
 
@@ -138,10 +144,10 @@ public class PlayingYut : MonoBehaviour
         }
     }
 
-    // public Action<int> OnDeleteThisIndex;
     public void PositionIn()
     { // Button Position in
         // Character Button click 시 불러옴, list 최소 1개 이상
+        
         for (int i = 0; i < yutResultIndex.Count; i++)
         {
             resultIndex = currentIndex + yutArray[yutResultIndex[i]]; // 버튼 배치할 위치, 도 개 걸 윷 모 빽도
@@ -166,23 +172,13 @@ public class PlayingYut : MonoBehaviour
         if (goalResultList.Count > 0)
         { // Goal에 도달할 버튼 개수가 여러개라면
             removeIndex = goalResultList[0];
-            //removeIndex = goalResultList[0];
             for (int i = 0; i < goalResultList.Count - 1; i++)
             {
                 if (goalResultList[i] < goalResultList[i + 1])
                 {
                     removeIndex = goalResultList[i];
-                    //removeIndex = goalResultList[i];
                 }
             }
-
-            // OnDeleteThisIndex.Invoke(removeIndex);
-
-            /*if (throw_Yut == null)
-            {
-                throw_Yut = FindObjectOfType<Throw_Yut>();
-            }
-            throw_Yut.GoalInButtonPlus();*/
         }
     }
     #endregion
@@ -212,6 +208,7 @@ public class PlayingYut : MonoBehaviour
         {
             if (player[i].isGoal) continue;
             if (!player[i].gameObject.activeSelf) continue;
+            if (player[i].currentIndex == 0 && yutResult.Equals("Backdo")) continue;
             characterButton[i].SetActive(true);
             returnButton[i].SetActive(false);
         }

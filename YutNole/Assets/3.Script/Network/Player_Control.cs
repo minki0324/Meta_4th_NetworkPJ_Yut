@@ -30,7 +30,7 @@ public class Player_Control : NetworkBehaviour
     private void CMD_Count()
     {
         GoalCount++;
-
+        Debug.Log("GoalCount : " + GoalCount);
 
         if(GoalCount == 4)
         {
@@ -48,7 +48,6 @@ public class Player_Control : NetworkBehaviour
                     RPC_CountCal(lose);
                 }
             }
-
         }
     }
     #endregion

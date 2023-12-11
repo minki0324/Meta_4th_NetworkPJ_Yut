@@ -52,16 +52,12 @@ public class Server_Manager : NetworkBehaviour
     public void CmdCatch(PlayerState me, PlayerState target)
     {
         RPCCatch(me, target);
-
     }
 
     [Command(requiresAuthority = false)]
     public void CmdCarry(PlayerState me, PlayerState target)
     {
-
         RPCCarry(me, target);
-
-
     }
 
     #endregion
@@ -80,6 +76,7 @@ public class Server_Manager : NetworkBehaviour
             target.currentIndex = 0;
             target.currentArray = target.playingYut.pos1;
             target.currentPositon = target.currentArray[0];
+            target.isPlaying = false; // 잡혔을 시 판에서 빠짐
             //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
             //잡힌 말이 만약 업고있는 말이 있다면?  count = 업힌말 갯수
             if (target.carryPlayer.Count > 0)
@@ -92,8 +89,9 @@ public class Server_Manager : NetworkBehaviour
                     target.carryPlayer[i].currentArray = target.carryPlayer[i].playingYut.pos1;
                     target.carryPlayer[i].currentPositon = target.currentArray[0];
                     target.carryPlayer[i].transform.position = target.carryPlayer[i].startPos.position;
+                    target.carryPlayer[i].isPlaying = false; // 잡혔을 시 판에서 빠짐
                     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-                    target.carryPlayer[i].gameObject.SetActive(true); // false 됬던거 true
+                    target.carryPlayer[i].gameObject.SetActive(true); // false 되던거 true
                 }
                 //말 초기화해줬으면 업힌말들 담았던 리스트 초기화
                 target.carryPlayer.Clear();
