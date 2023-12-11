@@ -63,7 +63,8 @@ public class Throw_Yut : NetworkBehaviour
     public void Btn_Click()
     {
         GameManager.instance.hasChance = false;
-        CMDYut_Throwing();
+        int playPlayer = GameManager.instance.PlayingCount();
+        CMDYut_Throwing(playPlayer);
     }
 
 
@@ -84,14 +85,13 @@ public class Throw_Yut : NetworkBehaviour
 
     #region Command
     [Command(requiresAuthority = false)] // 실질적인 윷놀이 결과값을 만들어내고 리스트에 저장 및 클라이언트들에게 뿌리는 RPC 메소드 호출
-    private void CMDYut_Throwing()
+    private void CMDYut_Throwing(int playPlayer)
     {
         //string[] triggers = { "Backdo", "Do", "Do", "Do", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
         string[] triggers = { "Backdo", "Backdo", "Do", "Do" };
         trigger_ = triggers[Random.Range(0, triggers.Length)];
         // Result_Yut 클래스의 Set_Result 메소드 호출
-        int zeroPlayer = 0; // 판에 말이 0개일 때
-        if (!(trigger_.Equals("Backdo") && zeroPlayer == 0))
+        if (!(trigger_.Equals("Backdo") && playPlayer == 0))
         {
             GameManager.instance.hasChance = true;
             result.Set_Result(trigger_, true);
@@ -158,19 +158,10 @@ public class Throw_Yut : NetworkBehaviour
         }
         // 낙이 아닐 때 || (판에 내말이 없으면서 && 빽도가 나올때)
         // 내턴이 아닐 때
-        int zeroPlayer = 0; // 판에 존재하는 말의 개수
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (GameManager.instance.players[i].currentIndex != 0)
-            { // 골인하면 currentIndex != 0
-                zeroPlayer++;
-            }
-        }
-
+        int playPlayer = GameManager.instance.PlayingCount();
         if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index)
         { // 내턴일 때
-            if (trigger_.Equals("Backdo") && zeroPlayer == 0)
+            if (trigger_.Equals("Backdo") && playPlayer == 0)
             {
                 GameManager.instance.PlayerTurnChange();
             }

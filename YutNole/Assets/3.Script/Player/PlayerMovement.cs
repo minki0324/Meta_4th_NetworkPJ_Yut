@@ -31,12 +31,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerMove(int index)
     { // 도 개 걸 윷 모 빽도 버튼 event
+        GameManager.instance.players[GameManager.instance.playerNum].isPlaying = true; // 판 위에 올라감
         currentIndex = playerState.currentIndex;
+        playerArray = playerState.currentArray;
         transform.position = playerArray[currentIndex].position; // 플레이어가 위치할 포지션
         targetIndex = index; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
-
-        Debug.Log("CurrentIndex : " + currentIndex);
-
 
         if (targetIndex - currentIndex == -1)
         { // Backdo
@@ -50,14 +49,6 @@ public class PlayerMovement : MonoBehaviour
         else
         { // 골인, 빽도 이외
             moveIndex = targetIndex;
-        }
-
-        if (currentIndex == 1 && playingYut.yutResult.Equals("Backdo"))
-        {
-            playerArray = playerState.currentArray;
-            currentIndex = playerState.currentArray.Length;
-            targetIndex = playerArray.Length;
-            moveIndex = targetIndex + 1;
         }
 
         StartCoroutine(Move_Co());
@@ -77,19 +68,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isBackdo)
             {
-                if (currentIndex == 21)
-                {
-                    targetPos = playerArray[playerArray.Length - 1];
-                }
-                else
-                {
-                    targetPos = playerArray[i - 1];
-                }
+                targetPos = playerArray[i - 1];
             }
             else
             {
                 targetPos = playerArray[i];
             }
+
             while (transform.position != targetPos.position)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
@@ -98,9 +83,19 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        isBackdo = false;
         currentIndex = targetIndex;
         playerArray = playingYut.playerArray;
+
+        if (isBackdo && playerState.currentArray == playingYut.pos1 && playerState.currentIndex == 1)
+        { // player가 빽도로 골인 지점에 돌아왔을 때
+            currentIndex = playingYut.pos4.Length - 1;
+            playerArray = playingYut.pos4;
+        }
+
+        isBackdo = false;
+        playingYut.currentIndex = currentIndex;
+        playingYut.playerArray = playerArray;
+
         playingYut.player[GameManager.instance.playerNum].currentIndex = currentIndex;
         playingYut.player[GameManager.instance.playerNum].currentArray = playerArray;
 
@@ -133,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         if (playerState.isGoal)
         {
             gameObject.transform.position = playerState.startPos.transform.position;
+            playerState.isPlaying = false; // 골인 시 판에서 빠짐
             if (playingYut.goalButton.activeSelf)
             {
                 playingYut.goalButton.SetActive(false);
