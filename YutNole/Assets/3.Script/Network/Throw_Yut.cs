@@ -160,6 +160,7 @@ public class Throw_Yut : NetworkBehaviour
     private void RPCYut_Throwing(string trigger)
     {
         Yut_ani.animator.SetTrigger(trigger);
+        StartCoroutine(PlaySfx(trigger));
         ThrowYutResult(trigger);
     }
     #endregion
@@ -169,4 +170,9 @@ public class Throw_Yut : NetworkBehaviour
         trigger_ = _new;
     }
     #endregion
+    private IEnumerator PlaySfx(string trigger)
+    {
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.instance.PlaySFX(trigger);
+    }
 }
