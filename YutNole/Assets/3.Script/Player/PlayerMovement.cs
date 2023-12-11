@@ -125,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
             }
             playerState.GoalInClick();
         }
-
+       
         GameManager.instance.PlayerTurnChange();
     }
 }

@@ -97,11 +97,10 @@ public class GameManager : MonoBehaviour
         {
             // 카운트가 없고, 찬스가 없을 때 턴 넘겨주고 비워줌
             Server_Manager.instance.CMD_Turn_Changer();
-            Debug.Log("PlayerTYurn Change");
             playingYut.yutResultIndex.Clear();
             hasChance = true;
         }
-        else
+        else if(playingYut.yutResultIndex.Count > 0)
         { // 리스트가 남아있으면 캐릭터 버튼 다시 활성화
             playingYut.PlayingYutPlus();
         }

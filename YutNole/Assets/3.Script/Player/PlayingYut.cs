@@ -66,6 +66,7 @@ public class PlayingYut : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 if (player[i].isGoal) continue;
+                if (!player[i].gameObject.activeSelf) continue;
                 characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
             }
             goalButtonClick = false;
@@ -77,6 +78,7 @@ public class PlayingYut : MonoBehaviour
                 for (int i = 0; i < 4; i++)
                 {
                     if (player[i].isGoal) continue;
+                    if (!player[i].gameObject.activeSelf) continue;
                     characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
                 }
             }
@@ -208,6 +210,8 @@ public class PlayingYut : MonoBehaviour
         PositionOut();
         for (int i = 0; i < 4; i++)
         {
+            if (player[i].isGoal) continue;
+            if (!player[i].gameObject.activeSelf) continue;
             characterButton[i].SetActive(true);
             returnButton[i].SetActive(false);
         }

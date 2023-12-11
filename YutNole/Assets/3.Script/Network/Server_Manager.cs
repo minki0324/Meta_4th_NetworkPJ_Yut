@@ -126,6 +126,8 @@ public class Server_Manager : NetworkBehaviour
             }
             me.carryPlayer.Clear();
         }
+
+        me.playingYut.characterButton[GameManager.instance.playerNum].SetActive(false);
         me.gameObject.SetActive(false);
         target.carryPlayer.Add(me);
         target.CarryNumSetting();
