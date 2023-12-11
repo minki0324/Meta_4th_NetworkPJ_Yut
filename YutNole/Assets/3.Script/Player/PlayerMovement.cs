@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 4f;
     private int moveIndex = 0; // 이동 인덱스
     public bool isBackdo = false;
-    public bool isGoal = false;
 
     private void Awake()
     {
@@ -36,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
         transform.position = playerArray[currentIndex].position; // 플레이어가 위치할 포지션
         targetIndex = index; // 버튼을 눌렀을 때 이동할 플레이어 타겟 인덱스
 
+        Debug.Log("CurrentIndex : " + currentIndex);
+
+
         if (targetIndex - currentIndex == -1)
         { // Backdo
             isBackdo = true;
@@ -43,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (targetIndex >= playerArray.Length)
         { // Goal 
-            isGoal = true;
             moveIndex = playerArray.Length - 1;
         }
         else
@@ -51,8 +52,16 @@ public class PlayerMovement : MonoBehaviour
             moveIndex = targetIndex;
         }
 
+        if (currentIndex == 1 && playingYut.yutResult.Equals("Backdo"))
+        {
+            playerArray = playerState.currentArray;
+            currentIndex = playerState.currentArray.Length;
+            targetIndex = playerArray.Length;
+            moveIndex = targetIndex + 1;
+        }
+
         StartCoroutine(Move_Co());
-        
+
         //만약 도착한 장소에 적팀이 있다면?
         //hasChance =true 줘야함
         //없다면? else
@@ -68,7 +77,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isBackdo)
             {
-                targetPos = playerArray[i - 1];
+                if (currentIndex == 21)
+                {
+                    targetPos = playerArray[playerArray.Length - 1];
+                }
+                else
+                {
+                    targetPos = playerArray[i - 1];
+                }
             }
             else
             {

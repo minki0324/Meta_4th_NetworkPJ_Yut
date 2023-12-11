@@ -52,16 +52,12 @@ public class Server_Manager : NetworkBehaviour
     public void CmdCatch(PlayerState me, PlayerState target)
     {
         RPCCatch(me, target);
-
     }
 
     [Command(requiresAuthority = false)]
     public void CmdCarry(PlayerState me, PlayerState target)
     {
-
         RPCCarry(me, target);
-
-
     }
 
     #endregion
@@ -91,7 +87,7 @@ public class Server_Manager : NetworkBehaviour
                     target.carryPlayer[i].currentPositon = target.currentArray[0];
                     target.carryPlayer[i].transform.position = target.carryPlayer[i].startPos.position;
                     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-                    target.carryPlayer[i].gameObject.SetActive(true); // false 됬던거 true
+                    target.carryPlayer[i].gameObject.SetActive(true); // false 되던거 true
                 }
                 //말 초기화해줬으면 업힌말들 담았던 리스트 초기화
                 target.carryPlayer.Clear();

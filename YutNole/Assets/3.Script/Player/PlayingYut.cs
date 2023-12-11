@@ -73,8 +73,16 @@ public class PlayingYut : MonoBehaviour
         }
         else
         {
-            if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
-            { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
+            int zeroPlayer = 0; // 판에 존재하는 말의 개수
+            for (int i = 0; i < player.Length; i++)
+            {
+                if (player[i].currentIndex != 0)
+                {
+                    zeroPlayer++;
+                }
+            }
+            if (!(yutResult.Equals("Backdo") && zeroPlayer == 0))
+            { // 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
                 for (int i = 0; i < 4; i++)
                 {
                     if (player[i].isGoal) continue;
@@ -142,15 +150,15 @@ public class PlayingYut : MonoBehaviour
         }
     }
 
-    // public Action<int> OnDeleteThisIndex;
     public void PositionIn()
     { // Button Position in
         // Character Button click 시 불러옴, list 최소 1개 이상
+        
         for (int i = 0; i < yutResultIndex.Count; i++)
         {
             resultIndex = currentIndex + yutArray[yutResultIndex[i]]; // 버튼 배치할 위치, 도 개 걸 윷 모 빽도
 
-            if (resultIndex >= playerArray.Length)
+            if (resultIndex >= playerArray.Length || resultIndex == -1)
             { // Goal
                 goalResultList.Add(yutResultIndex[i]);
                 if (goalButton.activeSelf) continue;
