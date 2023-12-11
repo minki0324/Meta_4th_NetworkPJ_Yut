@@ -30,6 +30,8 @@ public class Player_Control : NetworkBehaviour
     private void CMD_Count()
     {
         GoalCount++;
+
+
         if(GoalCount == 4)
         {
             Server_Manager.instance.Turn_Index = 4;

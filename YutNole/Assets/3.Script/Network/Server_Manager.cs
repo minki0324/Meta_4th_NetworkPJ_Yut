@@ -106,14 +106,13 @@ public class Server_Manager : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            if((int)GM.instance.Player_Num == Turn_Index)
+            if((int)GM.instance.Player_Num != Turn_Index)
             {
                 AudioManager.instance.PlaySFX("YourTurn");
             }
         }
     }
 
-    #endregion
     [ClientRpc]
     public void RPCCarry(PlayerState me, PlayerState target)
     {
@@ -133,7 +132,7 @@ public class Server_Manager : NetworkBehaviour
         target.carryPlayer.Add(me);
         target.CarryNumSetting();
     }
-
+    #endregion
 
     #region Unity Callback
     private void Awake()
