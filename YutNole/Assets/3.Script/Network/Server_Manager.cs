@@ -45,6 +45,7 @@ public class Server_Manager : NetworkBehaviour
     {
         int next_Index = (Turn_Index % 2) + 1;
         OnTurn_Finish(Turn_Index, next_Index);
+        RPC_Sfx();
     }
 
     [Command(requiresAuthority = false)]
@@ -125,6 +126,19 @@ public class Server_Manager : NetworkBehaviour
             }
         }
     }
+
+    [ClientRpc]
+    private void RPC_Sfx()
+    {
+        if (isLocalPlayer)
+        {
+            if((int)GM.instance.Player_Num == Turn_Index)
+            {
+                AudioManager.instance.PlaySFX("YourTurn");
+            }
+        }
+    }
+
     #endregion
     [ClientRpc]
     public void RPCCarry(PlayerState me, PlayerState target)

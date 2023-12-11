@@ -19,7 +19,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource bgmPlayer = null;
     [SerializeField] private AudioSource[] sfxPlayer = null;
 
-    private int bgmCount = 0;
+    private int bgmCount = 1;
+    public bool isStart = false;
     #region Unity Callback
     private void Awake()
     {
@@ -33,18 +34,30 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        StartCoroutine(Intro_BGM());
     }
 
     private void Update()
     {
-        if (bgmCount == 2)
+        if (bgmCount == 2 && isStart)
         {
             bgmCount = 0;
         }
         if (bgmPlayer.isPlaying) return;
-        PlayBGM(bgm[bgmCount].name);
+        if(isStart)
+        {
+            PlayBGM(bgm[bgmCount].name);
+        }
     }
     #endregion
+
+    public IEnumerator Intro_BGM()
+    {
+        bgmPlayer.clip = bgm[3].clip;
+        bgmPlayer.Play();
+
+        yield return new WaitForSeconds(10f);
+    }
 
     public void PlayBGM(string p_bgmName)
     {

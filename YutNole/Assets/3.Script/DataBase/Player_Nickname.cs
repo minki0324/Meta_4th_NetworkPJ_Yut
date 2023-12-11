@@ -43,8 +43,7 @@ public class Player_Nickname : NetworkBehaviour
 
     private IEnumerator Set_Name_Co(string name)
     {
-        yield return new WaitForSeconds(1f);
-        /*GameObject[] text = GameObject.FindGameObjectsWithTag("Nickname");*/
+        yield return new WaitForSeconds(0.5f);
 
         if(GM.instance.Player_Num == Player_Num.P1)
         {
