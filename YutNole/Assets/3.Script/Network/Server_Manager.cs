@@ -47,6 +47,7 @@ public class Server_Manager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CMD_Turn_Changer()
     {
+        Debug.Log("Goal In");
         int next_Index = (Turn_Index % 2) + 1;
         OnTurn_Finish(Turn_Index, next_Index);
     }

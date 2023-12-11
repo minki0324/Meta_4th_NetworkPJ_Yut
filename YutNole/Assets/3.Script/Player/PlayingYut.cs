@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
 public class PlayingYut : MonoBehaviour
 {
@@ -29,14 +30,21 @@ public class PlayingYut : MonoBehaviour
     public List<int> yutResultIndex = new List<int>(); // 버튼이 이동할 위치를 저장
 
     public int[] yutArray = { 1, 2, 3, 4, 5, -1 }; // 도 개 걸 윷 모 빽도
+    public bool goalButtonClick = false;
 
     // 윷 결과 가져오기
     public string yutResult;
     public GameObject goalButton; // goal button, resultIndex보다 클 때 SetActive(true)
+    private Throw_Yut throw_Yut;
+
+    [SerializeField] private List<int> goalResultList = new List<int>();
+    public int removeIndex = 0;
+    public bool isGoalIn = false;
 
     private void Start()
     {
         player = GameManager.instance.players;
+        throw_Yut = FindObjectOfType<Throw_Yut>();
     }
 
     public void SetButtons()
@@ -53,12 +61,24 @@ public class PlayingYut : MonoBehaviour
 
     public void PlayingYutPlus()
     { // 윷 던지기 버튼 event
-        if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
-        { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
+        if (goalButtonClick)
+        {
             for (int i = 0; i < 4; i++)
             {
-                if (player[GameManager.instance.playerNum].isGoal) continue;
+                if (player[i].isGoal) continue;
                 characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
+            }
+            goalButtonClick = false;
+        }
+        else
+        {
+            if (!yutResult.Equals("Nack") && !(yutResult.Equals("Backdo") && currentIndex == 0))
+            { // 낙이거나 현재 인덱스가 0이면서 빽도일 경우 앞으로 가지 않음
+                for (int i = 0; i < 4; i++)
+                {
+                    if (player[i].isGoal) continue;
+                    characterButton[i].SetActive(true); // 플레이어 선택 버튼, 골인한 플레이어 오브젝트의 버튼은 활성화 X
+                }
             }
         }
         // Nack일 때, 인덱스 0일 때 빽도일 때
@@ -86,7 +106,7 @@ public class PlayingYut : MonoBehaviour
     }
     #region Goal Button
     public void GoalButtonClick()
-    { // Goal Button Event ... Error 있음
+    { // Goal Button Event...
         // Goal Count++
         resultIndex = playerArray.Length - 1;
 
@@ -98,9 +118,13 @@ public class PlayingYut : MonoBehaviour
             returnButton[i].SetActive(false);
         }
 
+        goalResultList.Remove(removeIndex);
+        yutResultIndex.Remove(removeIndex); // 추가된 리스트 삭제
         player[GameManager.instance.playerNum].isGoal = true;
-        player[GameManager.instance.playerNum].gameObject.transform.position = player[GameManager.instance.playerNum].startPos.transform.position;
-        goalButton.SetActive(false);
+        goalButtonClick = true;
+        isGoalIn = true;
+
+        MoveButton();
     }
     #endregion
     #region ButtonPosition
@@ -112,6 +136,7 @@ public class PlayingYut : MonoBehaviour
         }
     }
 
+    // public Action<int> OnDeleteThisIndex;
     public void PositionIn()
     { // Button Position in
         // Character Button click 시 불러옴, list 최소 1개 이상
@@ -121,14 +146,41 @@ public class PlayingYut : MonoBehaviour
 
             if (resultIndex >= playerArray.Length)
             { // Goal
+                goalResultList.Add(yutResultIndex[i]);
+                if (goalButton.activeSelf) continue;
                 goalButton.SetActive(true);
-                continue;
             }
             else if (playerArray.Length > resultIndex)
             { // not Goal
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[resultIndex].transform.position);
                 yutButton[yutResultIndex[i]].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
             }
+        }
+        if (throw_Yut == null)
+        {
+            throw_Yut = FindObjectOfType<Throw_Yut>();
+        }
+
+        if (goalResultList.Count > 0)
+        { // Goal에 도달할 버튼 개수가 여러개라면
+            removeIndex = goalResultList[0];
+            //removeIndex = goalResultList[0];
+            for (int i = 0; i < goalResultList.Count - 1; i++)
+            {
+                if (goalResultList[i] < goalResultList[i + 1])
+                {
+                    removeIndex = goalResultList[i];
+                    //removeIndex = goalResultList[i];
+                }
+            }
+
+            // OnDeleteThisIndex.Invoke(removeIndex);
+
+            /*if (throw_Yut == null)
+            {
+                throw_Yut = FindObjectOfType<Throw_Yut>();
+            }
+            throw_Yut.GoalInButtonPlus();*/
         }
     }
     #endregion
