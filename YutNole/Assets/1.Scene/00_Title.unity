@@ -477,7 +477,7 @@ MonoBehaviour:
   - {fileID: 572095544}
   - {fileID: 572095544}
   - {fileID: 572095544}
-  isStart: 0
+  isStart: 1
 --- !u!4 &178020488
 Transform:
   m_ObjectHideFlags: 0

@@ -92,13 +92,15 @@ public class PlayerState : NetworkBehaviour
     [Client]
     public void GoalInClick()
     {
+        Debug.Log("클라");
         GoalIn_Command();
     }
     #endregion
     #region Command
     [Command(requiresAuthority = false)]
     private void GoalIn_Command()
-    { 
+    {
+        Debug.Log("커맨");
         isGoal = true;
         GoalIn_RPC();
     }
@@ -107,10 +109,8 @@ public class PlayerState : NetworkBehaviour
     [ClientRpc]
     public void GoalIn_RPC()
     {
-        if (isLocalPlayer)
-        {
-            startPos.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        }
+        Debug.Log("RPC");
+        startPos.gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
     #endregion
     #region Hook Method, 다른 클라이언트도 알아야 함

@@ -19,8 +19,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource bgmPlayer = null;
     [SerializeField] private AudioSource[] sfxPlayer = null;
 
-    private int bgmCount = 1;
-    public bool isStart = false;
+    private int bgmCount = 0;
+    public bool isStart = true;
     #region Unity Callback
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        StartCoroutine(Intro_BGM());
+        /*StartCoroutine(Intro_BGM());*/
     }
 
     private void Update()
@@ -61,7 +61,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBGM(string p_bgmName)
     {
-        for(int i = 0; i < bgm.Length; i++)
+        for(int i = 0; i < bgm.Length-1; i++)
         {
             if(p_bgmName == bgm[i].name)
             {

@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 89273778}
   m_Layer: 0
   m_Name: StartPos1
-  m_TagString: Untagged
+  m_TagString: GoalPos1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 223213026}
   m_Layer: 0
   m_Name: StartPos2
-  m_TagString: Untagged
+  m_TagString: GoalPos2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

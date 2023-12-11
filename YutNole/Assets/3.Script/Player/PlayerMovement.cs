@@ -123,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
             { // player Carry한 만큼
                 player_Control.Goal_CountUp();
             }
+            playerState.GoalInClick();
         }
 
         GameManager.instance.PlayerTurnChange();
