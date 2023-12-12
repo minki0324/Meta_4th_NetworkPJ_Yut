@@ -82,6 +82,11 @@ public class Player_Control : NetworkBehaviour
             
             Yut_Btn.interactable = false;
         }
+
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            Goal_CountUp();
+        }
     }
     #endregion
     #region Hook Method
