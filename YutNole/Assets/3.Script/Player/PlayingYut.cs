@@ -160,6 +160,7 @@ public class PlayingYut : MonoBehaviour
             }
             else if (playerArray.Length > resultIndex)
             { // not Goal
+                if(GameManager.instance.PlayingCount() == 0 && yutResultIndex[i] == 5) continue;
                 Vector3 screen = Camera.main.WorldToScreenPoint(playerArray[resultIndex].transform.position);
                 yutButton[yutResultIndex[i]].transform.position = screen; // 나온 윷에 맞는 버튼 포지션 설정
             }

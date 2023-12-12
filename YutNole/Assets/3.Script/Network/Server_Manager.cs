@@ -57,6 +57,20 @@ public class Server_Manager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdCarry(PlayerState me, PlayerState target)
     {
+        if (me.carryPlayer.Count > 0)
+        {
+            for (int i = 0; i < me.carryPlayer.Count; i++)
+            {
+                target.carryPlayer.Add(me.carryPlayer[i]);
+
+            }
+            me.carryPlayer.Clear();
+        }
+
+        me.playingYut.characterButton[GameManager.instance.playerNum].SetActive(false);
+        me.gameObject.SetActive(false);
+        target.carryPlayer.Add(me);
+        target.CarryNumSetting();
         RPCCarry(me, target);
     }
 

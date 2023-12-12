@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         else if (targetIndex >= playerArray.Length)
         { // Goal 
             moveIndex = playerArray.Length - 1;
+         
         }
         else
         { // 골인, 빽도 이외
@@ -90,10 +91,10 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("isbackdo : " + isBackdo);
         Debug.Log("2번째 트루 ? : " + (playerArray == playingYut.pos2));
         Debug.Log("currentindex : " + currentIndex);
-        if (isBackdo && playerState.currentArray == playingYut.pos1 && playerState.currentIndex == 1)
+        if (isBackdo && playerArray == playingYut.pos1 && currentIndex == 1)
         { // player가 빽도로 골인 지점에 돌아왔을 때
-            currentIndex = playingYut.pos4.Length - 1;
-            playerArray = playingYut.pos4;
+            targetIndex = playingYut.pos4.Length - 1;
+            pos = playingYut.pos4;
         }
         else if(isBackdo && playerArray == playingYut.pos3 && currentIndex == 5)
         {
@@ -118,6 +119,11 @@ public class PlayerMovement : MonoBehaviour
         playingYut.player[GameManager.instance.playerNum].currentIndex = currentIndex;
         playingYut.player[GameManager.instance.playerNum].currentArray = playerArray;
         isBackdo = false;
+        if(playerArray.Length <= currentIndex)
+        {
+            playerState.isGoal = true;
+        }
+
         if (!playerState.isGoal)
         {
             foreach (PlayerState player in GameManager.instance.tempPlayers)

@@ -33,7 +33,6 @@ public class PlayerState : NetworkBehaviour
     {
 
         SetUp();
-        playingYut.goalButton.GetComponent<Button>().onClick.AddListener(() => GoalInClick(this)); // 골인 버튼을 눌렀을 때
         ani = transform.GetChild(2).GetComponent<Animator>();
     }
 
@@ -90,10 +89,19 @@ public class PlayerState : NetworkBehaviour
     }
     #endregion
     #region Command
-    [Command]
+    [Command (requiresAuthority = false)]
     private void GoalIn_Command(PlayerState player)
     {
        player.isGoal = true;
+        if (player.carryPlayer.Count > 0)
+        {
+            for (int i = 0; i < player.carryPlayer.Count; i++)
+            {
+                player.carryPlayer[i].isGoal = true;
+
+            }
+        }
+
         GoalIn_RPC(player);
         GoalInPlayerReset(player);
     }
@@ -102,22 +110,47 @@ public class PlayerState : NetworkBehaviour
     [ClientRpc]
     public void GoalIn_RPC(PlayerState player)
     {
-        for (int i = 0; i < numImage.Length; i++)
-        {
-            player.numImage[i].SetActive(false);
-        }
-
-        if(isGoal)
-        {
-            player.startPos.GetComponent<SpriteRenderer>().enabled = true;
-        }
-        if (player.carryPlayer.Count != 0)
+        player.isGoal = true;
+        if (player.carryPlayer.Count > 0)
         {
             for (int i = 0; i < player.carryPlayer.Count; i++)
             {
-                player.carryPlayer[i].startPos.GetComponent<SpriteRenderer>().enabled = true;
+                player.carryPlayer[i].isGoal = true;
+
             }
         }
+        PlayerState[] players = GameManager.instance.tempPlayers;
+        foreach (PlayerState item in players)
+        {
+            if (item.isGoal)
+            {
+                for (int i = 0; i < item.numImage.Length; i++)
+                {
+                    item.numImage[i].SetActive(false);
+
+                }
+                item.startPos.GetComponent<SpriteRenderer>().enabled = true;
+            }
+
+        }
+
+
+        //if (isGoal)
+        //{
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        Debug.Log("골액자 키세요");
+        //        startPos.GetComponent<SpriteRenderer>().enabled = true;
+
+        //    }
+        //}
+        //if (player.carryPlayer.Count != 0)
+        //{
+        //    for (int i = 0; i < player.carryPlayer.Count; i++)
+        //    {
+        //        player.carryPlayer[i].startPos.GetComponent<SpriteRenderer>().enabled = true;
+        //    }
+        //}
     }
     [ClientRpc]
     private void GoalInPlayerReset(PlayerState player)
