@@ -14,6 +14,8 @@ public class Throw_Yut : NetworkBehaviour
     [SerializeField] private NetworkAnimator Yut_ani;
     [SerializeField] private Result_Yut result;
 
+    public int throw_removeIndex = -1;
+
     #region Unity Callback
     private void Start()
     {
@@ -23,7 +25,32 @@ public class Throw_Yut : NetworkBehaviour
             int index = i;
             playingYut.yutButton[i].gameObject.GetComponent<Button>().onClick.AddListener(() => Yut_Btn_Click(index));
         }
+        /*playingYut.goalButton.gameObject.GetComponent<Button>().onClick.AddListener(() => {
+            Debug.Log("(throw_removeIndex) 들어왓어요");
+            Yut_Btn_Click(throw_removeIndex);
+        });*/
+
+        // playingYut.OnDeleteThisIndex += OnDeleteThisIndex;
     }
+
+    private void Update()
+    {
+        
+    }
+
+   /* public void GoalInButtonPlus()
+    {
+        // 클릭 이벤트에 등록된 모든 리스너를 가져옵니다.
+        UnityEngine.Events.UnityEventBase buttonClickEvent = playingYut.goalButton.GetComponent<Button>().onClick;
+        for (int i = 0; i < buttonClickEvent.GetPersistentEventCount(); i++)
+        {
+            // 리스너 확인
+            Debug.Log("Listener Count: " + buttonClickEvent.GetPersistentMethodName(i));
+        }
+        Debug.Log(buttonClickEvent.GetPersistentEventCount());
+        int index = playingYut.removeIndex;
+        playingYut.goalButton.GetComponent<Button>().onClick.AddListener(() => Yut_Btn_Click(index));
+    }*/
     #endregion
 
     #region SyncVar
@@ -36,8 +63,8 @@ public class Throw_Yut : NetworkBehaviour
     public void Btn_Click()
     {
         GameManager.instance.hasChance = false;
-        CMDYut_Throwing();
-        //Server_Manager.instance.CMD_Turn_Changer();
+        int playPlayer = GameManager.instance.PlayingCount();
+        CMDYut_Throwing(playPlayer);
     }
 
 
@@ -47,54 +74,8 @@ public class Throw_Yut : NetworkBehaviour
         CMDYut_Button_Click(name);
     }
 
-    public void ThrowYutResult(string trigger_)
-    {
-        int index = 0;
-        playingYut.yutResult = trigger_;
-        switch (trigger_)
-        {
-            case "Do":
-                index = 0;
-                break;
-            case "Gae":
-                index = 1;
-                break;
-            case "Geol":
-                index = 2;
-                break;
-            case "Yut":
-                index = 3;
-                GameManager.instance.hasChance = true;
-                break;
-            case "Mo":
-                index = 4;
-                GameManager.instance.hasChance = true;
-                break;
-            case "Backdo":
-                index = 5;
-                break;
-        }
-        //내턴이 아닐때 && 낙이 나왔을때 && 판에 내말이없는경우 빽도가 나올때(추가)
-        if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index && !trigger_.Equals("Nack"))
-        {
-            Addlist(index);
-        }
-       /* else if(playingYut.yutResultIndex.Count == 0 )
-        {
-            Server_Manager.instance.CMD_Turn_Changer();
-            playingYut.yutResultIndex.Clear();
-            GameManager.instance.hasChance = true;
-        }*/
-
-       
-
-
-
-    }
-
     private void Addlist(int index)
     {
-
         playingYut.yutResultIndex.Add(index);
         playingYut.PlayingYutPlus();
     }
@@ -104,12 +85,17 @@ public class Throw_Yut : NetworkBehaviour
 
     #region Command
     [Command(requiresAuthority = false)] // 실질적인 윷놀이 결과값을 만들어내고 리스트에 저장 및 클라이언트들에게 뿌리는 RPC 메소드 호출
-    private void CMDYut_Throwing()
+    private void CMDYut_Throwing(int playPlayer)
     {
-        string[] triggers = { "Mo", "Mo", "Mo", "Mo", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
+        string[] triggers = { "Backdo", "Do", "Do", "Do", "Gae", "Gae", "Gae", "Gae", "Gae", "Gae", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };
+        /*string[] triggers = { "Mo", "Mo", "Mo", "Mo", "Yut", "Yut", "Yut", "Yut", "Yut", "Mo", "Geol", "Geol", "Geol", "Geol", "Yut", "Mo" };*/
         trigger_ = triggers[Random.Range(0, triggers.Length)];
         // Result_Yut 클래스의 Set_Result 메소드 호출
-        result.Set_Result(trigger_, true);
+        if (!(trigger_.Equals("Backdo") && playPlayer == 0))
+        {
+            GameManager.instance.hasChance = true;
+            result.Set_Result(trigger_, true);
+        }
         RPCYut_Throwing(trigger_);
     }
 
@@ -140,6 +126,51 @@ public class Throw_Yut : NetworkBehaviour
         }
         result.Set_Result(yutTrigger, false);
     }
+
+    // [Command(requiresAuthority = false)]
+    [Client]
+    public void ThrowYutResult(string trigger_)
+    {
+        int index = 0;
+        playingYut.yutResult = trigger_;
+        switch (trigger_)
+        {
+            case "Do":
+                index = 0;
+                break;
+            case "Gae":
+                index = 1;
+                break;
+            case "Geol":
+                index = 2;
+                break;
+            case "Yut":
+                index = 3;
+                GameManager.instance.hasChance = true;
+                break;
+            case "Mo":
+                index = 4;
+                GameManager.instance.hasChance = true;
+                break;
+            case "Backdo":
+                index = 5;
+                break;
+        }
+        // 낙이 아닐 때 || (판에 내말이 없으면서 && 빽도가 나올때)
+        // 내턴이 아닐 때
+        int playPlayer = GameManager.instance.PlayingCount();
+        if ((int)GM.instance.Player_Num == Server_Manager.instance.Turn_Index)
+        { // 내턴일 때
+            if (trigger_.Equals("Backdo") && playPlayer == 0)
+            {
+                    GameManager.instance.PlayerTurnChange();
+            }
+            else
+            {
+                Addlist(index);
+            }
+        }
+    }
     #endregion
 
     #region ClientRPC
@@ -147,7 +178,7 @@ public class Throw_Yut : NetworkBehaviour
     private void RPCYut_Throwing(string trigger)
     {
         Yut_ani.animator.SetTrigger(trigger);
-
+        StartCoroutine(PlaySfx(trigger));
         ThrowYutResult(trigger);
     }
     #endregion
@@ -157,4 +188,9 @@ public class Throw_Yut : NetworkBehaviour
         trigger_ = _new;
     }
     #endregion
+    private IEnumerator PlaySfx(string trigger)
+    {
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.instance.PlaySFX(trigger);
+    }
 }

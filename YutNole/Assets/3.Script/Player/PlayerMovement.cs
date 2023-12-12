@@ -1,33 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Player_Control player_Control;
     private PlayingYut playingYut;
+    private PlayerState playerState;
+    private Throw_Yut throw_Yut;
+    public Transform[] playerArray; // playerê°€ í•´ë‹¹í•˜ëŠ” pos array
+    public int currentIndex = 0; // player í˜„ì¬ index, ë²„íŠ¼ í´ë¦­ í›„ ì´ë™í•  ë•Œë§ˆë‹¤ ë°”ë€œ
+    public int targetIndex = 0; // ë²„íŠ¼ í´ë¦­ ì‹œ ì´ë™í•  index
+    public Transform targetPos; // ë²„íŠ¼ í´ë¦­ ì‹œ ì´ë™í•  ìœ„ì¹˜
 
-    public Transform[] playerArray; // player°¡ ÇØ´çÇÏ´Â pos array
-    public int currentIndex = 0; // player ÇöÀç index, ¹öÆ° Å¬¸¯ ÈÄ ÀÌµ¿ÇÒ ¶§¸¶´Ù ¹Ù²ñ
-    public int targetIndex = 0; // ¹öÆ° Å¬¸¯ ½Ã ÀÌµ¿ÇÒ index
-    public Transform targetPos; // ¹öÆ° Å¬¸¯ ½Ã ÀÌµ¿ÇÒ À§Ä¡
-
-    public float speed = 2f;
-    private int moveIndex = 0; // ÀÌµ¿ ÀÎµ¦½º
+    public float speed = 4f;
+    private int moveIndex = 0; // ì´ë™ ì¸ë±ìŠ¤
     public bool isBackdo = false;
-    public bool isGoal = false;
 
     private void Awake()
     {
         playingYut = FindObjectOfType<PlayingYut>();
-        // UI Player ¼±ÅÃÇßÀ» ¶§·Î ³ªÁß¿¡ ÀÌµ¿
+        // UI Player ì„ íƒí–ˆì„ ë•Œë¡œ ë‚˜ì¤‘ì— ì´ë™
         playerArray = playingYut.pos1;
         playingYut.playerArray = playerArray;
+        playerState = GetComponent<PlayerState>();
+        throw_Yut = FindObjectOfType<Throw_Yut>();
+        player_Control = FindObjectOfType<Player_Control>();
     }
 
-    public void PlayerMove()
-    { // µµ °³ °É À· ¸ğ »ªµµ ¹öÆ° event
-        transform.position = playerArray[currentIndex].position; // ÇÃ·¹ÀÌ¾î°¡ À§Ä¡ÇÒ Æ÷Áö¼Ç
-        targetIndex = playingYut.currentIndex; // ¹öÆ°À» ´­·¶À» ¶§ ÀÌµ¿ÇÒ ÇÃ·¹ÀÌ¾î Å¸°Ù ÀÎµ¦½º
+    public void PlayerMove(int index)
+    { // ë„ ê°œ ê±¸ ìœ· ëª¨ ë¹½ë„ ë²„íŠ¼ event
+        GameManager.instance.players[GameManager.instance.playerNum].isPlaying = true; // íŒ ìœ„ì— ì˜¬ë¼ê°
+        currentIndex = playerState.currentIndex;
+        playerArray = playerState.currentArray;
+        transform.position = playerArray[currentIndex].position; // í”Œë ˆì´ì–´ê°€ ìœ„ì¹˜í•  í¬ì§€ì…˜
+        targetIndex = index; // ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì´ë™í•  í”Œë ˆì´ì–´ íƒ€ê²Ÿ ì¸ë±ìŠ¤
 
         if (targetIndex - currentIndex == -1)
         { // Backdo
@@ -36,33 +44,35 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (targetIndex >= playerArray.Length)
         { // Goal 
-            isGoal = true;
             moveIndex = playerArray.Length - 1;
+         
         }
         else
-        { // °ñÀÎ, »ªµµ ÀÌ¿Ü
+        { // ê³¨ì¸, ë¹½ë„ ì´ì™¸
             moveIndex = targetIndex;
         }
 
         StartCoroutine(Move_Co());
-        
-        //¸¸¾à µµÂøÇÑ Àå¼Ò¿¡ ÀûÆÀÀÌ ÀÖ´Ù¸é?
-        //hasChance =true Áà¾ßÇÔ
-        //¾ø´Ù¸é? else
+
+        //ë§Œì•½ ë„ì°©í•œ ì¥ì†Œì— ì íŒ€ì´ ìˆë‹¤ë©´?
+        //hasChance =true ì¤˜ì•¼í•¨
+        //ì—†ë‹¤ë©´? else
         //if(Yutindex.count > 0) 
         // playingYut.PlayingYutPlus();
-        //else turn Á¾·á 
-        //ÅÏÁ¾·á Á¶°Ç : Ä«¿îÆ® 0 , ´øÁú±âÈ¸ X
+        //else turn ì¢…ë£Œ 
+        //í„´ì¢…ë£Œ ì¡°ê±´ : ì¹´ìš´íŠ¸ 0 , ë˜ì§ˆê¸°íšŒ X
     }
 
     private IEnumerator Move_Co()
     {
-        GameManager.instance.isMoving = true;
         for (int i = currentIndex; i <= moveIndex; i++)
         {
             if (isBackdo)
             {
                 targetPos = playerArray[i - 1];
+            }else if (playerState.isGoal)
+            {
+                targetPos = playerArray[0];
             }
             else
             {
@@ -73,32 +83,93 @@ public class PlayerMovement : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, targetPos.position, Time.deltaTime * speed);
                 yield return null;
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
-        GameManager.instance.isMoving = false;
-        isBackdo = false;
+        
+        Transform[] pos = playingYut.playerArray;
+
+        Debug.Log("isbackdo : " + isBackdo);
+        Debug.Log("2ë²ˆì§¸ íŠ¸ë£¨ ? : " + (playerArray == playingYut.pos2));
+        Debug.Log("currentindex : " + currentIndex);
+        if (isBackdo && playerArray == playingYut.pos1 && currentIndex == 1)
+        { // playerê°€ ë¹½ë„ë¡œ ê³¨ì¸ ì§€ì ì— ëŒì•„ì™”ì„ ë•Œ
+            targetIndex = playingYut.pos4.Length - 1;
+            pos = playingYut.pos4;
+        }
+        else if(isBackdo && playerArray == playingYut.pos3 && currentIndex == 5)
+        {
+            Debug.Log("ë“¤ì–´ì˜´ ?");
+            pos = playingYut.pos1;
+        }
+        else if (isBackdo && playerArray == playingYut.pos2 && currentIndex == 10)
+        {
+            pos = playingYut.pos1;
+        }
+        else if (isBackdo && playerArray == playingYut.pos4 && currentIndex == 8)
+        {
+            pos = playingYut.pos3;
+        }
+
         currentIndex = targetIndex;
-        playerArray = playingYut.playerArray;
+        playerArray = pos;
 
-        if (playingYut.yutResultIndex.Count == 0 && !GameManager.instance.hasChance)
-        {
-            //¿òÁ÷ÀÏ Ä«¿îÆ®°¡ ³²À¸¸é ´Ù½ÃÁøÇà
-            Server_Manager.instance.CMD_Turn_Changer();
-            playingYut.yutResultIndex.Clear();
-            GameManager.instance.hasChance = true;
+        playingYut.currentIndex = currentIndex;
+        playingYut.playerArray = playerArray;
 
-        }
-        else if (playingYut.yutResultIndex.Count > 0)
+        playingYut.player[GameManager.instance.playerNum].currentIndex = currentIndex;
+        playingYut.player[GameManager.instance.playerNum].currentArray = playerArray;
+        isBackdo = false;
+        if(playerArray.Length <= currentIndex)
         {
-            playingYut.PlayingYutPlus();
+            playerState.isGoal = true;
         }
 
-        //if (GameManager.instance.hasChance)
-        //{ // À·, ¸ğ, Ä³Ä¡
-        //    for (int i = 0; i < 4; i++)
-        //    {
-        //        playingYut.characterButton[i].SetActive(true);
-        //    }
-        //}
+        if (!playerState.isGoal)
+        {
+            foreach (PlayerState player in GameManager.instance.tempPlayers)
+            {
+                if (player.gameObject == gameObject) continue;
+                if (!player.gameObject.activeSelf) continue;
+                if (Vector2.Distance(player.transform.position, gameObject.transform.position) < 0.01f)
+                {
+                    if (player.tag == gameObject.tag)
+                    {
+                        Debug.Log("ì—…");
+                        Server_Manager.instance.Carry(playerState, player);
+                        Debug.Log(player.carryPlayer.Count);
+                    }
+                    else
+                    {
+                        Debug.Log("ì¡");
+                        Server_Manager.instance.Catch(playerState, player);
+                        GameManager.instance.hasChance = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("ê³¨ ì´í”„ë¬¸");
+            player_Control.Goal_CountUp(); //ë³¸ì¸ ê³¨ì¸ì¹´ìš´íŠ¸
+            gameObject.transform.position = playerState.startPos.transform.position;
+            playerState.isPlaying = false; // ê³¨ì¸ ì‹œ íŒì—ì„œ ë¹ ì§
+            if (playingYut.goalButton.activeSelf)
+            {
+                playingYut.goalButton.SetActive(false);
+            }           
+            for (int i = 0; i < playerState.carryPlayer.Count; i++) //ì—…ì€ì• ë“¤ ê³¨ì¸ ì¹´ìš´íŠ¸
+            { // player Carryí•œ ë§Œí¼
+                Debug.Log("ì—…ì€ì• ë“¤ì¹´ìš´íŠ¸" + i);
+                player_Control.Goal_CountUp();
+            }
+            playerState.GoalInClick(playerState);
+        }
+        if (player_Control == null)
+        {
+            player_Control = FindObjectOfType<Player_Control>();
+        }
+
+        throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
+        GameManager.instance.PlayerTurnChange();
     }
 }

@@ -11,7 +11,6 @@ public class ButtonPositionSetter : MonoBehaviour
     private string buttonName;
     private Vector3 targetPos;
     private Vector3 returnButtonPos = new Vector3(0.25f, -0.45f, 0); // Return Button
-    private bool gameStart = false;
 
     private void Awake()
     {
@@ -30,15 +29,6 @@ public class ButtonPositionSetter : MonoBehaviour
             gameObject.SetActive(false);
         }
         SetUp(buttonName);
-    }
-   /* private void OnEnable()
-    {
-        SetUp(buttonName);
-    }*/
-    private void OnDisable()
-    {
-        Debug.Log("²¨Áü");
-        gameStart = true;
     }
 
     public void SetUp(string buttonName)

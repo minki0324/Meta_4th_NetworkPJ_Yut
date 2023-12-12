@@ -11,11 +11,14 @@ public class LoginControll : MonoBehaviour
     public InputField pass_i;
     public InputField nickName;
     [SerializeField] private Text Log;
+    [SerializeField] private GameObject Panel;
     public void Login_btn()
     {
         if(id_i.text.Equals(string.Empty) || pass_i.text.Equals(string.Empty))
         {
-            Log.text = "아이디 비밀번호를 입력하세요.";  
+            Panel.gameObject.SetActive(true);
+            Log.text = "아이디 비밀번호를 입력하세요.";
+            StartCoroutine(Set_False());
             return;
         }
 
@@ -28,7 +31,9 @@ public class LoginControll : MonoBehaviour
         else
         {
             //로그인 실패
+            Panel.gameObject.SetActive(true);
             Log.text = "아이디 비밀번호를 확인해 주세요..";
+            StartCoroutine(Set_False());
         }
     }
 
@@ -36,12 +41,16 @@ public class LoginControll : MonoBehaviour
     {
         if (id_i.text.Equals(string.Empty) || pass_i.text.Equals(string.Empty) )
         {
+            Panel.gameObject.SetActive(true);
             Log.text = "아이디 비밀번호를 입력하세요.";
+            StartCoroutine(Set_False());
             return;
         }
         if (nickName.text.Equals(string.Empty))
         {
+            Panel.gameObject.SetActive(true);
             Log.text = "닉네임을 입력 해주세요";
+            StartCoroutine(Set_False());
             return;
         }
 
@@ -52,12 +61,21 @@ public class LoginControll : MonoBehaviour
         }
         else
         {
+            Panel.gameObject.SetActive(true);
             Log.text = "아이디 혹은 닉네임이 이미 존재합니다";
+            StartCoroutine(Set_False());
         }
         
     }
     public void OpenJoinUI()
     {
         JoinUI.SetActive(true);
+    }
+
+    private IEnumerator Set_False()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        Panel.SetActive(false);
     }
 }

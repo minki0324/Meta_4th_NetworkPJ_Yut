@@ -67,3 +67,5 @@ MonoBehaviour:
   showRoomGUI: 1
   readyToBegin: 0
   index: 0
+  P1_Component: {fileID: 0}
+  P2_Component: {fileID: 0}
