@@ -162,7 +162,7 @@ public class Throw_Yut : NetworkBehaviour
         { // 내턴일 때
             if (trigger_.Equals("Backdo") && playPlayer == 0)
             {
-                GameManager.instance.PlayerTurnChange();
+                    GameManager.instance.PlayerTurnChange();
             }
             else
             {

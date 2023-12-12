@@ -84,22 +84,40 @@ public class PlayerMovement : MonoBehaviour
             }
             yield return new WaitForSeconds(0.1f);
         }
+        
+        Transform[] pos = playingYut.playerArray;
 
-        currentIndex = targetIndex;
-        playerArray = playingYut.playerArray;
-
+        Debug.Log("isbackdo : " + isBackdo);
+        Debug.Log("2번째 트루 ? : " + (playerArray == playingYut.pos2));
+        Debug.Log("currentindex : " + currentIndex);
         if (isBackdo && playerState.currentArray == playingYut.pos1 && playerState.currentIndex == 1)
         { // player가 빽도로 골인 지점에 돌아왔을 때
             currentIndex = playingYut.pos4.Length - 1;
             playerArray = playingYut.pos4;
         }
+        else if(isBackdo && playerArray == playingYut.pos3 && currentIndex == 5)
+        {
+            Debug.Log("들어옴 ?");
+            pos = playingYut.pos1;
+        }
+        else if (isBackdo && playerArray == playingYut.pos2 && currentIndex == 10)
+        {
+            pos = playingYut.pos1;
+        }
+        else if (isBackdo && playerArray == playingYut.pos4 && currentIndex == 8)
+        {
+            pos = playingYut.pos3;
+        }
 
-        isBackdo = false;
+        currentIndex = targetIndex;
+        playerArray = pos;
+
         playingYut.currentIndex = currentIndex;
         playingYut.playerArray = playerArray;
 
         playingYut.player[GameManager.instance.playerNum].currentIndex = currentIndex;
         playingYut.player[GameManager.instance.playerNum].currentArray = playerArray;
+        isBackdo = false;
 
         foreach (PlayerState player in GameManager.instance.tempPlayers)
         {
@@ -138,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
-            for (int i = 0; i < playerState.carryPlayer.Count + 1; i++)
+            for (int i = 0; i < playerState.carryPlayer.Count; i++)
             { // player Carry한 만큼
                 player_Control.Goal_CountUp();
             }

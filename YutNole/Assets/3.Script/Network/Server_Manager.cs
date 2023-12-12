@@ -153,14 +153,6 @@ public class Server_Manager : NetworkBehaviour
     {
         GameStart();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            CMD_Turn_Changer();
-        }
-    }
     #endregion
 
     #region Hook Method

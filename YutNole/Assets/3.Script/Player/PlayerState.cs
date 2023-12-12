@@ -19,12 +19,15 @@ public class PlayerState : NetworkBehaviour
     public int currentIndex = 0; // 현재 위치한 인덱스
 
     public bool isPlaying = false; // 판에 나왔는지 아닌지
-    public bool isGoal = false; // 골인 했는지 아닌지
     public Transform startPos;
 
     // Player NumImage
     public GameObject[] numImage; // numberImage GameObject 참조해주기
 
+    #region SyncVar
+    [SyncVar(hook = nameof(SyncGoal))]
+    public bool isGoal = false; // 골인 했는지 아닌지
+    #endregion
     #region Unity Callback
     private void Start()
     {
@@ -79,8 +82,6 @@ public class PlayerState : NetworkBehaviour
     }
 
     #endregion
-    #region SyncVar
-    #endregion
     #region Client
     [Client]
     public void GoalInClick()
@@ -89,29 +90,32 @@ public class PlayerState : NetworkBehaviour
     }
     #endregion
     #region Command
-    [Command(requiresAuthority = false)]
+    [Command]
     private void GoalIn_Command()
     {
         isGoal = true;
-        GoalIn_RPC();
+        GoalIn_RPC(this);
         GoalInPlayerReset(this);
     }
     #endregion
     #region ClientRpc
     [ClientRpc]
-    public void GoalIn_RPC()
+    public void GoalIn_RPC(PlayerState player)
     {
         for (int i = 0; i < numImage.Length; i++)
         {
-            this.numImage[i].SetActive(false);
+            player.numImage[i].SetActive(false);
         }
 
-        this.startPos.GetComponent<SpriteRenderer>().enabled = true;
-        if (this.carryPlayer.Count != 0)
+        if(isGoal)
         {
-            for (int i = 0; i < this.carryPlayer.Count; i++)
+            player.startPos.GetComponent<SpriteRenderer>().enabled = true;
+        }
+        if (player.carryPlayer.Count != 0)
+        {
+            for (int i = 0; i < player.carryPlayer.Count; i++)
             {
-                this.carryPlayer[i].startPos.GetComponent<SpriteRenderer>().enabled = true;
+                player.carryPlayer[i].startPos.GetComponent<SpriteRenderer>().enabled = true;
             }
         }
     }
@@ -136,5 +140,9 @@ public class PlayerState : NetworkBehaviour
     }
     #endregion
     #region Hook Method, 다른 클라이언트도 알아야 함
+    private void SyncGoal(bool _old, bool _new)
+    {
+        isGoal = _new;
+    }
     #endregion
 }

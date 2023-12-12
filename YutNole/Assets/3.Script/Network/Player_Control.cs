@@ -39,7 +39,7 @@ public class Player_Control : NetworkBehaviour
             Player_Control[] players = FindObjectsOfType<Player_Control>();
             foreach (var player in players)
             {
-                if(player.GoalCount == 4)
+                if(player.GoalCount >= 4)
                 {
                     RPC_CountCal(win);
                 }
@@ -80,12 +80,6 @@ public class Player_Control : NetworkBehaviour
         {
             
             Yut_Btn.interactable = false;
-        }
-
-        if(Input.GetKeyDown(KeyCode.U))
-        {
-            Goal_CountUp();
-            Debug.Log(GoalCount);
         }
     }
     #endregion
