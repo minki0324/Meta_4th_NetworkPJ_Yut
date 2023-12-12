@@ -33,7 +33,7 @@ public class PlayerState : NetworkBehaviour
     {
 
         SetUp();
-        playingYut.goalButton.GetComponent<Button>().onClick.AddListener(GoalInClick); // 골인 버튼을 눌렀을 때
+        playingYut.goalButton.GetComponent<Button>().onClick.AddListener(() => GoalInClick(this)); // 골인 버튼을 눌렀을 때
         ani = transform.GetChild(2).GetComponent<Animator>();
     }
 
@@ -84,18 +84,18 @@ public class PlayerState : NetworkBehaviour
     #endregion
     #region Client
     [Client]
-    public void GoalInClick()
+    public void GoalInClick(PlayerState player)
     {
-        GoalIn_Command();
+        GoalIn_Command(player);
     }
     #endregion
     #region Command
     [Command]
-    private void GoalIn_Command()
+    private void GoalIn_Command(PlayerState player)
     {
-        isGoal = true;
-        GoalIn_RPC(this);
-        GoalInPlayerReset(this);
+       player.isGoal = true;
+        GoalIn_RPC(player);
+        GoalInPlayerReset(player);
     }
     #endregion
     #region ClientRpc

@@ -118,51 +118,52 @@ public class PlayerMovement : MonoBehaviour
         playingYut.player[GameManager.instance.playerNum].currentIndex = currentIndex;
         playingYut.player[GameManager.instance.playerNum].currentArray = playerArray;
         isBackdo = false;
-
-        foreach (PlayerState player in GameManager.instance.tempPlayers)
+        if (!playerState.isGoal)
         {
-            if (player.gameObject == gameObject) continue;
-            if (!player.gameObject.activeSelf) continue;
-            if (Vector2.Distance(player.transform.position, gameObject.transform.position) < 0.01f)
+            foreach (PlayerState player in GameManager.instance.tempPlayers)
             {
-                if (player.tag == gameObject.tag)
+                if (player.gameObject == gameObject) continue;
+                if (!player.gameObject.activeSelf) continue;
+                if (Vector2.Distance(player.transform.position, gameObject.transform.position) < 0.01f)
                 {
-                    Debug.Log("업");
-                    Server_Manager.instance.Carry(playerState , player);
-                    Debug.Log(player.carryPlayer.Count);
-                }
-                else
-                {
-                    Debug.Log("잡");
-                    Server_Manager.instance.Catch(playerState, player);
-                    GameManager.instance.hasChance = true;
+                    if (player.tag == gameObject.tag)
+                    {
+                        Debug.Log("업");
+                        Server_Manager.instance.Carry(playerState, player);
+                        Debug.Log(player.carryPlayer.Count);
+                    }
+                    else
+                    {
+                        Debug.Log("잡");
+                        Server_Manager.instance.Catch(playerState, player);
+                        GameManager.instance.hasChance = true;
+                    }
                 }
             }
         }
-        
-        if (player_Control == null)
-        {
-            player_Control = FindObjectOfType<Player_Control>();
-        }
-
-        if (playerState.isGoal)
+        else
         {
             Debug.Log("골 이프문");
+            player_Control.Goal_CountUp(); //본인 골인카운트
             gameObject.transform.position = playerState.startPos.transform.position;
             playerState.isPlaying = false; // 골인 시 판에서 빠짐
             if (playingYut.goalButton.activeSelf)
             {
                 playingYut.goalButton.SetActive(false);
-            }
-
-            throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
-            for (int i = 0; i < playerState.carryPlayer.Count; i++)
+            }           
+            for (int i = 0; i < playerState.carryPlayer.Count; i++) //업은애들 골인 카운트
             { // player Carry한 만큼
+                Debug.Log("업은애들카운트" + i);
                 player_Control.Goal_CountUp();
             }
-            playerState.GoalInClick();
+            playerState.GoalInClick(playerState);
         }
-       
+        if (player_Control == null)
+        {
+            player_Control = FindObjectOfType<Player_Control>();
+        }
+
+        throw_Yut.Yut_Btn_Click(playingYut.removeIndex); // result panel remove
         GameManager.instance.PlayerTurnChange();
     }
 }

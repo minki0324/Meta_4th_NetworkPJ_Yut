@@ -22,6 +22,7 @@ public class Player_Control : NetworkBehaviour
     [Client]
     public void Goal_CountUp()
     {
+        Debug.Log("골카운트클라이언트");
         CMD_Count();
     }
     #endregion
