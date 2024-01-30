@@ -1,4 +1,4 @@
-# Kidstopia
+# Network Yut-Nori
 > 4개의 윷가락을 던지고 그 결과에 따라 말을 이동시켜 승부를 겨루는 게임입니다.
 ## Project
 ### Unity 2D Network TeamProject
